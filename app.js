@@ -115,7 +115,7 @@ app.use((req, res, next) => {
 
 mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(result => {
-        const server = app.listen(3000);
+        const server = app.listen(process.env.PORT || 3000);
         const io = require('socket.io')(server);
         io.on('connection', socket => {
             console.log('Client connected');
