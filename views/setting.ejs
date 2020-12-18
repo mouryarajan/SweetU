@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+
+	<title>
+		<%= pageTitle %>
+	</title>
+
+	<!-- Main Styles -->
+	<link rel="stylesheet" href="/styles/style.min.css" />
+
+	<!-- Material Design Icon -->
+	<link rel="stylesheet" href="/fonts/material-design/css/materialdesignicons.css" />
+
+	<!-- mCustomScrollbar -->
+	<link rel="stylesheet" href="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.min.css" />
+
+	<!-- Waves Effect -->
+	<link rel="stylesheet" href="/plugin/waves/waves.min.css" />
+
+	<!-- Sweet Alert -->
+	<link rel="stylesheet" href="/plugin/sweet-alert/sweetalert.css" />
+
+	<!-- Data Tables -->
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" />
+	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css" />
+
+	<!-- Color Picker -->
+	<link rel="stylesheet" href="/color-switcher/color-switcher.min.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+	<%- include('includes/sidebar.ejs') %>
+	<!-- /.main-menu -->
+
+	<%- include('includes/header.ejs') %>
+		<!-- /.fixed-navbar -->
+<!-- /.fixed-navbar -->
+
+<div id="wrapper">
+	<div class="main-content">
+		<div class="row">
+			<div class="col-lg-12 col-xs-12">
+				<div class="box-content card white">
+					<h4 class="box-title">Settings For New User</h4>
+					<!-- /.box-title -->
+					<div class="card-content">
+                        <form method="POST" action="/settings" >
+						<div class="input-group margin-bottom-20">
+							<input type="text" value="<%= result.bonus_coin %>" name="inputCoin" class="form-control" placeholder="Coin..." />
+                            <div class="input-group-btn"><button type="submit" class="btn btn-violet no-border waves-effect waves-light"><i class="fa fa-search text-white"></i></button></div>
+						</div>
+						<div class="input-group margin-bottom-20">
+							<input type="text" value="<%= result.bonus_amount %>" name="inputWallet" class="form-control" placeholder="Wallet..." />
+							<div class="input-group-btn"><button type="submit" class="btn btn-success no-border waves-effect waves-light"><i class="fa fa-paper-plane text-white"></i></button></div>
+                            <!-- /.input-group-btn -->
+                        </div>
+                        </form>
+					</div>
+					<!-- /.card-content -->
+				</div>
+				<!-- /.box-content card white -->
+			</div>
+			<!-- /.col-lg-4 col-xs-12 -->
+        </div>
+        <%- include('includes/footer.ejs') %>
+	</div>
+	<!-- /.main-content -->
+</div><!--/#wrapper -->
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+		<script src="assets/script/html5shiv.min.js"></script>
+		<script src="assets/script/respond.min.js"></script>
+	<![endif]-->
+	<!-- 
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="/scripts/jquery.min.js"></script>
+	<script src="/scripts/modernizr.min.js"></script>
+	<script src="/plugin/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script src="/plugin/nprogress/nprogress.js"></script>
+	<script src="/plugin/sweet-alert/sweetalert.min.js"></script>
+	<script src="/plugin/waves/waves.min.js"></script>
+	<!-- Full Screen Plugin -->
+	<script src="/plugin/fullscreen/jquery.fullscreen-min.js"></script>
+
+	<script src="/scripts/main.min.js"></script>
+	<script src="/color-switcher/color-switcher.min.js"></script>
+</body>
+</html>

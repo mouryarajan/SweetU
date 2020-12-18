@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+
+	<title><%= pageTitle %></title>
+
+	<!-- Main Styles -->
+	<link rel="stylesheet" href="/styles/style.min.css" />
+	
+	<!-- Material Design Icon -->
+	<link rel="stylesheet" href="/fonts/material-design/css/materialdesignicons.css" />
+
+	<!-- mCustomScrollbar -->
+	<link rel="stylesheet" href="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.min.css" />
+
+	<!-- Waves Effect -->
+	<link rel="stylesheet" href="/plugin/waves/waves.min.css" />
+
+	<!-- Sweet Alert -->
+	<link rel="stylesheet" href="/plugin/sweet-alert/sweetalert.css" />
+	
+	<!-- Color Picker -->
+	<link rel="stylesheet" href="/color-switcher/color-switcher.min.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+
+<body>
+<%- include('includes/sidebar.ejs') %>
+
+<%- include('includes/header.ejs') %>
+
+<div id="wrapper">
+	<div class="main-content">
+		<div class="row small-spacing">
+			<div class="col-xs-12">
+				<div class="box-content">
+					<form data-toggle="validator" method="POST" enctype="multipart/form-data" action="<% if(editing){ %> /user-edit <% }else{ %>/add-user<% } %>">
+						
+						<input type="hidden" name="inputUserId" value="<% if (editing || error) { %><%= users._id %><% } %>" >
+                        <div class="form-group">
+							<label for="inputName" class="control-label">Name</label>
+							<div class="row">
+								<div class="form-group col-sm-12">
+									<input type="text" data-minlength="1" value="<% if (editing || error) { %><%= users.user_name %><% } %>" class="form-control"  name="inputName" id="inputFirstName" placeholder="Enter Name" required="" />
+									<div class="help-block">Enter Name</div>
+								</div>
+							</div>
+						</div>
+						<!-- <div class="form-group has-feedback">
+							<label for="inputMobileNumber" class="control-label">Phone Number</label>
+							<div class="input-group">
+								<span class="input-group-addon">+91</span>
+								<input type="text"  maxlength="10" value="<% if (editing || error) { %><%= users.user_mobileNumber %><% } %>" class="form-control" name="inputMobileNumber" id="inputMobileNumber" placeholder="00000-00000" required="" />
+							</div>
+							<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+							<div class="help-block with-errors">Enter Phone Number</div>
+						</div> -->
+						<div class="form-group">
+							<div class="row">
+								<div class="form-group col-sm-6">
+									<label for="inputEmail" class="control-label">Email</label>
+									<input type="text" data-minlength="1" value="<% if (editing || error) { %><%= users.user_emailId %><% } %>" class="form-control" name="inputEmail" id="inputEmail" placeholder="Enter Emailid" required="" />
+									<div class="help-block">Enter Email</div>
+								</div>
+								<div class="form-group col-sm-6">
+									<label for="inputAge" class="control-label">Age</label>
+									<input type="text" data-minlength="1" value="<% if (editing || error) { %><%= users.user_age %><% } %>" class="form-control" name="inputAge" id="inputAge" placeholder="Enter Age" required="" />
+									<div class="help-block">Enter Age</div>
+								</div>
+							</div>
+						</div>
+                        <div class="form-group">
+							<label for="inputAbout" class="control-label">About</label>
+							<input type="text" class="form-control" value="<% if (editing || error) { %><%= users.user_about %><% } %>" name="inputAbout" id="inputAbout" placeholder="About User" data-error="About User"/>
+							<div class="help-block with-errors">About User</div>
+						</div>
+						<div class="form-group">
+                            <div class="row">
+                                <div class="form-group col-sm-6">
+                                    <label for="inputGender" class="control-label">Gender</label>
+                                    <div class="radio">
+                                        <input type="radio" value="Male" name="inputGender" id="inputGenderMale" required=""/>
+                                        <label for="inputGenderMale">Male</label>
+                                    </div>
+                                    <div class="radio">
+                                        <input type="radio" value="Female" name="inputGender" id="inputGenderFemale" required=""/>
+                                        <label for="inputGenderFemale">Female</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label for="inputGenderPreference" class="control-label">Gender Preference</label>
+                                    <div class="radio">
+                                        <input type="radio" value="Male" name="inputGenderPreference" id="inputGenderPreferenceMale" required="" />
+                                        <label for="inputGenderPreferenceMale">Male</label>
+                                    </div>
+                                    <div class="radio">
+                                        <input type="radio" value="Female" name="inputGenderPreference" id="inputGenderPreferenceFemale" required="" />
+                                        <label for="inputGenderPreferenceFemale">Female</label>
+                                    </div>
+                                </div>
+                            </div>
+						</div>
+						<div class="form-group">
+                            <div class="row">
+                                <div class="form-group col-sm-6">
+                                    <label for="inputType" class="control-label">Type</label>
+                                    <div class="radio">
+                                        <input type="radio" value="Prime" name="inputType" id="inputTypePrime" required="" />
+                                        <label for="inputTypePrime">Prime</label>
+                                    </div>
+                                    <div class="radio">
+                                        <input type="radio" value="Normal" name="inputType" id="inputTypeNormal" required="" />
+                                        <label for="inputTypeNormal">Normal</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label for="inputStatus" class="control-label">Status</label>
+                                    <div class="radio">
+                                        <input type="radio" value="1" name="inputStatus" id="inputStatusAuthorised" required="" />
+                                        <label for="inputStatusAuthorised">Authorise</label>
+                                    </div>
+                                    <div class="radio">
+                                        <input type="radio" value="0" name="inputStatus" id="inputStatusUnauthorised" required="" />
+                                        <label for="inputStatusUnauthorised">Unauthorise</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+							<label for="inputImage" class="control-label">Image</label>
+							<input type="file" class="form-control" name="image" value="<% if (editing || error) { %><%= users.user_image %><% } %>" id="inputImage" placeholder="Image" data-error="Upload Image" required="" />
+							<div class="help-block with-errors">Upload Image</div>
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary waves-effect waves-light"><% if (editing){ %> Update User <% }else{ %> Submit <% } %></button>
+						</div>
+					</form>
+				</div>
+				<!-- /.box-content -->
+			</div>
+			<!-- /.col-xs-12 -->
+		</div>
+        <!-- /.row small-spacing -->		
+        <%- include('includes/footer.ejs') %>
+	</div>
+	<!-- /.main-content -->
+</div><!--/#wrapper -->
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+		<script src="assets/script/html5shiv.min.js"></script>
+		<script src="assets/script/respond.min.js"></script>
+	<![endif]-->
+	<!-- 
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="/scripts/jquery.min.js"></script>
+	<script src="/scripts/modernizr.min.js"></script>
+	<script src="/plugin/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script src="/plugin/nprogress/nprogress.js"></script>
+	<script src="/plugin/sweet-alert/sweetalert.min.js"></script>
+	<script src="/plugin/waves/waves.min.js"></script>
+	<!-- Full Screen Plugin -->
+	<script src="/plugin/fullscreen/jquery.fullscreen-min.js"></script>
+
+	<!-- Validator -->
+	<script src="/plugin/validator/validator.min.js"></script>
+
+	<script src="/scripts/main.min.js"></script>
+	<script src="/color-switcher/color-switcher.min.js"></script>
+</body>
+</html>

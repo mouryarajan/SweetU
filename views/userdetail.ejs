@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+
+	<title>Profile - Zeiss Template</title>
+
+	<!-- Main Styles -->
+	<link rel="stylesheet" href="/styles/style.min.css" />
+
+	<!-- Material Design Icon -->
+	<link rel="stylesheet" href="/fonts/material-design/css/materialdesignicons.css" />
+
+	<!-- mCustomScrollbar -->
+	<link rel="stylesheet" href="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.min.css" />
+
+	<!-- Waves Effect -->
+	<link rel="stylesheet" href="/plugin/waves/waves.min.css" />
+
+	<!-- Sweet Alert -->
+	<link rel="stylesheet" href="/plugin/sweet-alert/sweetalert.css" />
+
+	<!-- Color Picker -->
+	<link rel="stylesheet" href="/color-switcher/color-switcher.min.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+	<%- include('includes/header.ejs') %>
+	<%- include('includes/sidebar.ejs') %>
+
+	<div id="wrapper">
+		<div class="main-content">
+			<div class="row small-spacing">
+				<div class="col-md-3 col-xs-12">
+					<div class="box-content bordered primary margin-bottom-20">
+						<div class="profile-avatar">
+							<img style="height:500px; width:100%; object-fit: cover;" src="/<%= user.user_image %>"
+								alt="" />
+							<h3><strong><%= user.user_name %></strong></h3>
+							<h4><%= user.user_profession %></h4>
+							<p><%= user.user_about %></p>
+						</div>
+						<!-- .profile-avatar -->
+						<table class="table table-hover no-margin">
+							<tbody>
+								<tr>
+									<td>Status</td>
+									<td><span class="notice notice-danger">Active</span></td>
+								</tr>
+								<!-- <tr>
+								<td>User Rating</td>
+								<td><i class="fa fa-star text-warning"></i> <i class="fa fa-star text-warning"></i> <i class="fa fa-star text-warning"></i> <i class="fa fa-star text-warning"></i> <i class="fa fa-star text-warning"></i></td>
+							</tr> -->
+								<tr>
+									<td>Member Since</td>
+									<td><%= user.createdAt %></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- /.box-content bordered -->
+
+					<div class="box-content">
+						<h4 class="box-title"><i class="ico fa fa-users"></i>Friends</h4>
+						<ul class="profile-friends-list list-inline">
+							<li><a href="#" class="avatar"><img src="/images/avatar-1.jpg" alt="" /></a></li>
+							<li><a href="#" class="avatar"><img src="/images/avatar-2.jpg" alt="" /></a></li>
+							<li><a href="#" class="avatar"><img src="/images/avatar-3.jpg" alt="" /></a></li>
+							<li><a href="#" class="avatar"><img src="/images/avatar-4.jpg" alt="" /></a></li>
+							<li><a href="#" class="avatar"><img src="/images/avatar-5.jpg" alt="" /></a></li>
+						</ul>
+					</div>
+					<!-- /.box-content -->
+				</div>
+				<!-- /.col-md-3 col-xs-12 -->
+				<div class="col-md-9 col-xs-12">
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="box-content card">
+								<h4 class="box-title"><i class="fa fa-user ico"></i>About</h4>
+								<!-- /.box-title -->
+								<!-- /.dropdown js__dropdown -->
+								<div class="card-content">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="row">
+												<div class="col-xs-5"><label>Name:</label></div>
+												<!-- /.col-xs-5 -->
+												<div class="col-xs-7"><%= user.user_name %></div>
+												<!-- /.col-xs-7 -->
+											</div>
+											<!-- /.row -->
+										</div>
+										<div class="col-md-6">
+											<div class="row">
+												<div class="col-xs-5"><label>User Name:</label></div>
+												<!-- /.col-xs-5 -->
+												<div class="col-xs-7"><%= user.user_name %></div>
+												<!-- /.col-xs-7 -->
+											</div>
+											<!-- /.row -->
+										</div>
+										<!-- /.col-md-6 -->
+										<div class="col-md-6">
+											<div class="row">
+												<div class="col-xs-5"><label>Email:</label></div>
+												<!-- /.col-xs-5 -->
+												<div class="col-xs-7"><%= user.user_emailId %></div>
+												<!-- /.col-xs-7 -->
+											</div>
+											<!-- /.row -->
+										</div>
+										<div class="col-md-6">
+											<div class="row">
+												<div class="col-xs-5"><label>Country:</label></div>
+												<!-- /.col-xs-5 -->
+												<div class="col-xs-7"><%= user.user_country %></div>
+												<!-- /.col-xs-7 -->
+											</div>
+											<!-- /.row -->
+										</div>
+										<!-- /.col-md-6 -->
+										<div class="col-md-6">
+											<div class="row">
+												<div class="col-xs-5"><label>Age:</label></div>
+												<!-- /.col-xs-5 -->
+												<div class="col-xs-7"><%= user.user_age %></div>
+												<!-- /.col-xs-7 -->
+											</div>
+											<!-- /.row -->
+										</div>
+										<!-- /.col-md-6 -->
+										<div class="col-md-6">
+											<div class="row">
+												<div class="col-xs-5"><label>Interests:</label></div>
+												<!-- /.col-xs-5 -->
+												<div class="col-xs-7">Basketball, Web, Design, etc.</div>
+												<!-- /.col-xs-7 -->
+											</div>
+											<!-- /.row -->
+										</div>
+									</div>
+									<!-- /.row -->
+								</div>
+								<!-- /.card-content -->
+							</div>
+							<!-- /.box-content card -->
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6 col-xs-12">
+							<div class="box-content card">
+								<h4 class="box-title"><i class="fa fa-heart ico"></i> Favourite Users</h4>
+								<!-- /.box-title -->
+								<div class="card-content">
+									<ul class="notice-list">
+
+										<% if(fdata==null){%><div></div><%}else{ for(let log of fdata) {%>
+										<li>
+											<a href="/user-detail/<%= log.userId %>">
+												<span class="avatar"><img style="height: 100%;" src="/<%= log.userImage %>" alt="" /></span>
+												<span class="name"><%= log.userName %> </span>
+											</a>
+										</li>
+										<% } } %>
+									</ul>
+									<!-- /.notice-list -->
+									<!-- <div class="text-center margin-top-20"><a href="#" class="btn btn-default">See All Activities <i class="fa fa-angle-double-right"></i></a></div> -->
+								</div>
+								<!-- /.card-content -->
+							</div>
+							<!-- /.box-content card -->
+						</div>
+						<!-- /.col-md-6 -->
+						<div class="col-md-6 col-xs-12">
+							<div class="box-content card">
+								<h4 class="box-title"><i class="fa fa-ban ico"></i> Block Uers</h4>
+
+								<div class="card-content">
+									<ul class="notice-list">
+										<% if(bdata==null){%><div></div><%}else{ for(let log of bdata) {%>
+										<li>
+											<a href="/user-detail/<%= log.userId %>">
+												<span class="avatar"><img style="height: 100%;" src="/<%= log.userImage %>" alt="" /></span>
+												<span class="name"><%= log.userName %> </span>
+											</a>
+										</li>
+										<% } } %>
+									</ul>
+									<!-- /.notice-list -->
+									<!-- <div class="text-center margin-top-20"><a href="#" class="btn btn-default">See All Activities <i class="fa fa-angle-double-right"></i></a></div> -->
+								</div>
+								<!-- /.box-title -->
+							</div>
+							<!-- /.box-content card -->
+						</div>
+						<!-- /.col-md-6 -->
+					</div>
+
+					<div class="row">
+						<div class="col-md-6 col-xs-12">
+							<div class="box-content card">
+								<h4 class="box-title"><i class="fa fa-diamond ico"></i> Diamond Log</h4>
+								<!-- /.box-title -->
+								<div class="card-content">
+									<ul class="notice-list">
+										<% for(let log of user.user_coinLog.items) {%>
+										<li>
+											<a href="#">
+												<span class="avatar"><img src="/images/avatar-1.jpg" alt="" /></span>
+												<span class="name">Coins: <%= log.coinAmount %> .</span>
+												<span class="desc"><%= log.remark %></span>
+												<span class="time"><%= log.date %></span>
+											</a>
+										</li>
+										<% } %>
+									</ul>
+									<!-- /.notice-list -->
+									<!-- <div class="text-center margin-top-20"><a href="#" class="btn btn-default">See All Activities <i class="fa fa-angle-double-right"></i></a></div> -->
+								</div>
+								<!-- /.card-content -->
+							</div>
+							<!-- /.box-content card -->
+						</div>
+						<!-- /.col-md-6 -->
+						<div class="col-md-6 col-xs-12">
+							<div class="box-content card">
+								<h4 class="box-title"><i class="fa fa-rupee ico"></i> Wallet Log</h4>
+
+								<div class="card-content">
+									<ul class="notice-list">
+										<% for(let log of user.user_walletLog.items) {%>
+										<li>
+											<a href="#">
+												<span class="avatar"><img src="/images/avatar-1.jpg" alt="" /></span>
+												<span class="name">Amount: <%= log.walletAmount %> Rs.</span>
+												<span class="desc"><%= log.remark %></span>
+												<span class="time"><%= log.date %></span>
+											</a>
+										</li>
+										<% } %>
+									</ul>
+									<!-- /.notice-list -->
+									<!-- <div class="text-center margin-top-20"><a href="#" class="btn btn-default">See All Activities <i class="fa fa-angle-double-right"></i></a></div> -->
+								</div>
+								<!-- /.box-title -->
+							</div>
+							<!-- /.box-content card -->
+						</div>
+						<!-- /.col-md-6 -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.col-md-9 col-xs-12 -->
+			</div>
+			<!-- /.row small-spacing -->
+			<%- include('includes/footer.ejs') %>
+		</div>
+		<!-- /.main-content -->
+	</div>
+	<!--/#wrapper -->
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+		<script src="assets/script/html5shiv.min.js"></script>
+		<script src="assets/script/respond.min.js"></script>
+	<![endif]-->
+	<!-- 
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="/scripts/jquery.min.js"></script>
+	<script src="/scripts/modernizr.min.js"></script>
+	<script src="/plugin/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script src="/plugin/nprogress/nprogress.js"></script>
+	<script src="/plugin/sweet-alert/sweetalert.min.js"></script>
+	<script src="/plugin/waves/waves.min.js"></script>
+	<!-- Full Screen Plugin -->
+	<script src="/plugin/fullscreen/jquery.fullscreen-min.js"></script>
+
+	<script src="/scripts/main.min.js"></script>
+	<script src="/color-switcher/color-switcher.min.js"></script>
+</body>
+
+</html>

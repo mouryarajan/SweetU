@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title><%= pageTitle %>></title>
+
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="/styles/style.min.css" />
+
+    <!-- Material Design Icon -->
+    <link rel="stylesheet" href="/fonts/material-design/css/materialdesignicons.css" />
+
+    <!-- mCustomScrollbar -->
+    <link rel="stylesheet" href="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.min.css" />
+
+    <!-- Waves Effect -->
+    <link rel="stylesheet" href="/plugin/waves/waves.min.css" />
+
+    <!-- Sweet Alert -->
+    <link rel="stylesheet" href="/plugin/sweet-alert/sweetalert.css" />
+
+    <!-- Remodal -->
+    <link rel="stylesheet" href="/plugin/modal/remodal/remodal.css" />
+    <link rel="stylesheet" href="/plugin/modal/remodal/remodal-default-theme.css" />
+
+    <!-- Color Picker -->
+    <link rel="stylesheet" href="/color-switcher/color-switcher.min.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+    <%- include('includes/sidebar.ejs') %>
+    <!-- /.main-menu -->
+
+    <%- include('includes/header.ejs') %>
+
+    <div id="wrapper">
+        <div class="main-content">
+            <div class="row row-inline-block small-spacing">
+                <div class="col-xs-12">
+                    <div class="box-content">
+                        <!-- <h4 class="box-title">Remodal</h4> -->
+                        <!-- /.box-title -->
+                        <button type="button" data-remodal-target="remodal"
+                            class="btn btn-primary waves-effect waves-light">Add Purchase</button>
+                    </div>
+                    <!-- /.box-content -->
+                </div>
+                <div class="col-xs-12">
+                    <div class="box-content">
+                        <h4 class="box-title">Purchases</h4>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Coins</th>
+                                    <th>Amount</th>
+                                    <th>Comment</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">g</th>
+                                    <td>dfg</td>
+                                    <td>df</td>
+                                    <td>df</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-content -->
+                </div>
+                <!-- /.col-xs-12 -->
+            </div>
+            <!-- /.row row-inline-block small-spacing -->
+            <%- include('includes/footer.ejs') %>
+        </div>
+        <!-- /.main-content -->
+    </div>
+
+    <div class="remodal" data-remodal-id="remodal" role="dialog" aria-labelledby="modal1Title"
+        aria-describedby="modal1Desc">
+        <button data-remodal-action="close" class="remodal-close" aria-label="Close"></button>
+        <div class="remodal-content">
+            <h2 id="modal1Title">Add Videos</h2>
+            <p id="modal1Desc">
+            <div class="col-xs-12">
+                <div class="box-content card white">
+                    <div class="card-content">
+                        <form method="POST" action="/post-add" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="exampleinputVideo">Select Video</label>
+                                <input type="file" class="form-control" accept="video/*" name="image" id="image"
+                                    placeholder="Select Video">
+                            </div>
+                            <!-- <div class="form-group">
+                                <label for="exampleinputThumbnail">Input Thumbnail</label>
+                                <input type="file" class="form-control" accept="image/*" name="inputThumbnail" id="inputThumbnail"
+                                    placeholder="Select Thumbnail">
+                            </div> -->
+                            <div class="form-group">
+                                <label for="exampleinputTitle">Title</label>
+                                <input type="text" class="form-control" name="inputTitle" id="inputTitle"
+                                    placeholder="Enter Title">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleinputDescription">Description</label>
+                                <textarea type="text" class="form-control" name="inputDescription" id="inputDescription"></textarea>
+                            </div>
+                            <button type="submit" class="remodal-confirm">Upload</button>
+                            <button data-remodal-action="cancel" class="remodal-cancel">Cancel</button>
+                        </form>
+                    </div>
+                    <!-- /.card-content -->
+                </div>
+                <!-- /.box-content -->
+            </div>
+            </p>
+        </div>
+    </div>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+		<script src="assets/script/html5shiv.min.js"></script>
+		<script src="assets/script/respond.min.js"></script>
+	<![endif]-->
+    <!-- 
+	================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/scripts/jquery.min.js"></script>
+    <script src="/scripts/modernizr.min.js"></script>
+    <script src="/plugin/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="/plugin/nprogress/nprogress.js"></script>
+    <script src="/plugin/sweet-alert/sweetalert.min.js"></script>
+    <script src="/plugin/waves/waves.min.js"></script>
+    <!-- Full Screen Plugin -->
+    <script src="/plugin/fullscreen/jquery.fullscreen-min.js"></script>
+
+    <!-- Remodal -->
+    <script src="/plugin/modal/remodal/remodal.min.js"></script>
+
+    <script src="/scripts/main.min.js"></script>
+    <script src="/color-switcher/color-switcher.min.js"></script>
+    <script src="/js/purchase.js"></script>
+</body>
+
+</html>

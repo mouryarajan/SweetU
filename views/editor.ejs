@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>Profile - Zeiss Template</title>
+
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="/styles/style.min.css" />
+
+    <!-- Material Design Icon -->
+    <link rel="stylesheet" href="/fonts/material-design/css/materialdesignicons.css" />
+
+    <!-- mCustomScrollbar -->
+    <link rel="stylesheet" href="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.min.css" />
+
+    <!-- Waves Effect -->
+    <link rel="stylesheet" href="/plugin/waves/waves.min.css" />
+
+    <!-- Sweet Alert -->
+    <link rel="stylesheet" href="/plugin/sweet-alert/sweetalert.css" />
+
+    <!-- Color Picker -->
+    <link rel="stylesheet" href="/color-switcher/color-switcher.min.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+    <%- include('includes/header.ejs') %>
+    <%- include('includes/sidebar.ejs') %>
+
+    <div id="wrapper">
+        <div class="main-content">
+            <div id="editor">
+                <p>This is the editor content.</p>
+            </div>
+            <%- include('includes/footer.ejs') %>
+        </div>
+        <!-- /.main-content -->
+    </div>
+    <!--/#wrapper -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+		<script src="assets/script/html5shiv.min.js"></script>
+		<script src="assets/script/respond.min.js"></script>
+	<![endif]-->
+    <!-- 
+	================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    
+    <script src="/scripts/jquery.min.js"></script>
+    <script src="/scripts/modernizr.min.js"></script>
+    <script src="/plugin/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="/plugin/nprogress/nprogress.js"></script>
+    <script src="/plugin/sweet-alert/sweetalert.min.js"></script>
+    <script src="/plugin/waves/waves.min.js"></script>
+    <!-- Full Screen Plugin -->
+    <script src="/plugin/fullscreen/jquery.fullscreen-min.js"></script>
+
+    <script src="/scripts/main.min.js"></script>
+    <script src="/color-switcher/color-switcher.min.js"></script>
+    <script src="../node_modules/ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('editor');
+    </script>
+</body>
+
+</html>
