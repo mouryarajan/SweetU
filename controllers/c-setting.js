@@ -24,6 +24,3 @@ exports.postSetting = (req, res, next) => {
     .catch(err => {console.log(err)});
 }
 
-exports.getEditor = (req, res, next) =>{
-    res.render('editor',{pageTitle:'Editor'});
-}

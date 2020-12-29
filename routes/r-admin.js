@@ -8,4 +8,10 @@ const router = express.Router();
 
 router.get('/dashboard',isAdmin,dashboardController.getDashBoard);
 
+router.post('/add-editor', dashboardController.postEditor);
+router.get('/editor',dashboardController.getEditor);
+
+//API
+router.get('/api/policies', dashboardController.getPivacyAndPolicyAPI);
+
 module.exports = router;

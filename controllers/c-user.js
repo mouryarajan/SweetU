@@ -7,7 +7,17 @@ const fileHelper = require('../util/file');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const mime = require('mime');
+const jwt = require('jsonwebtoken');
 
+var nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'sweetu.karon@gmail.com',
+        pass: 'karon@rajantushar'
+    }
+});
 // const jwt = require('jsonweb~');
 
 exports.getUserList = (req, res, next) => {
@@ -22,6 +32,40 @@ exports.getUserList = (req, res, next) => {
             console.log(err);
         });
 };
+
+//Filter Users
+exports.postFilterUser = (req, res, next) => {
+    const sDate = req.body.inputStartDate;
+    const eDate = req.body.inputEndDate;
+    const gender = req.body.inputGender;
+    if (gender == "Both") {
+        User.find({
+            createdAt: {
+                $gte: new Date(new Date(sDate).setHours(00, 00, 00)),
+                $lt: new Date(new Date(eDate).setHours(23, 59, 59))
+            }
+        }).select('user_name').select('user_emailId').select('user_gender').select('user_isAuthorised').select('user_isBlock')
+            .then(result => {
+                res.render('userlist', {
+                    users: result,
+                    pageTitle: 'User List'
+                })
+            }).catch(err => { console.log(err) });
+    } else {
+        User.find({
+            createdAt: {
+                $gte: new Date(new Date(sDate).setHours(00, 00, 00)),
+                $lt: new Date(new Date(eDate).setHours(23, 59, 59))
+            }, user_gender: gender
+        }).select('user_name').select('user_emailId').select('user_gender').select('user_isAuthorised').select('user_isBlock')
+            .then(result => {
+                res.render('userlist', {
+                    users: result,
+                    pageTitle: 'User List'
+                })
+            }).catch(err => { console.log(err) });
+    }
+}
 
 exports.getAuthorisedUserList = (req, res, next) => {
     User.find({ user_isAuthorised: true })
@@ -47,27 +91,8 @@ exports.getAddUser = (req, res, next) => {
 exports.postAddUser = (req, res, next) => {
     settings.findOne({ _id: "5fbcc934e311361f6063a84d" })
         .then(result => {
-            const now = new Date();
-            const user_coinLog = {
-                items: [{
-                    transactionId: Math.floor(100000 + Math.random() * 900000),
-                    coinAmount: result.bonus_coin,
-                    remark: 'Bonus Coins For Registration',
-                    date: date.format(now, 'DD/MM/YYYY'),
-                    time: date.format(now, 'hh:mm A'),
-                }]
-            };
-            const user_walletLog = {
-                items: [{
-                    transactionId: Math.floor(100000 + Math.random() * 900000),
-                    walletAmount: result.bonus_amount,
-                    remark: 'Bonus Amount For Registration',
-                    date: date.format(now, 'DD/MM/YYYY'),
-                    time: date.format(now, 'hh:mm A'),
-                }]
-            };
-            const user_coin = 50;
-            const user_wallet = 50;
+            const user_coin = result.bonus_coin;
+            const user_wallet = result.bonus_amount;
             const user_name = req.body.inputName;
             const user_emailId = req.body.inputEmail;
             const user_gender = req.body.inputGender;
@@ -112,8 +137,6 @@ exports.postAddUser = (req, res, next) => {
                 user_image: images,
                 user_coin: user_coin,
                 user_wallet: user_wallet,
-                user_coinLog: user_coinLog,
-                user_walletLog: user_walletLog,
                 google_id: null,
                 user_country: user_country,
                 user_countryCode: user_countryCode,
@@ -221,6 +244,7 @@ exports.authoriseUser = (req, res, next) => {
         .catch(err => { console.log(err) });
 }
 
+
 //Unblock User
 exports.unblockUser = (req, res, next) => {
     const uId = req.params.inputUserId;
@@ -252,147 +276,21 @@ exports.unauthoriseUser = (req, res, next) => {
         .catch(err => { console.log(err) });
 }
 
-function isEmptyObject(obj) {
-    return !Object.keys(obj).length;
-}
+// function isEmptyObject(obj) {
+//     return !Object.keys(obj).length;
+// }
 
 exports.getUser = (req, res, next) => {
     const uId = req.params.inputUserId.toString();
     //console.log(uId);
     User.findById(uId)
         .then(user => {
-            //console.log('Get User Called');
-            const data = user.user_favrateLog.items;
-            const bdata = user.user_blockLog.items;
-            const f = isEmptyObject(data);
-            const b = isEmptyObject(bdata);
-            //console.log(bdata);
-            if (f && b) {
-                //console.log("hello");
-                res.render('userdetail', {
-                    pageTitle: 'User Detail',
-                    user: user,
-                    fdata: null,
-                    bdata: null
-                });
-            } else if (f === false && b === true) {
-                //console.log("hello");
-                var x = 0;
-                var y = 0;
-                let arr = [];
-                for (let n of data) {
-                    x++;
-                }
-                for (let n of data) {
-                    //console.log(n.favouriteUserId);
-                    User.findOne({ _id: n.favouriteUserId })
-                        .then(s => {
-                            y++;
-                            arr.push({
-                                userId: n.favouriteUserId,
-                                userName: s.user_name,
-                                userImage: s.user_image,
-                            });
-                            if (y >= x) {
-                                //console.log(arr);
-                                res.render('userdetail', {
-                                    pageTitle: 'User Detail',
-                                    user: user,
-                                    fdata: arr,
-                                    bdata: null
-                                });
-                            }
-                        })
-                        .catch(err => { console.log(err); });
-                }
-            } else if (f == true && b == false) {
-                var x = 0;
-                var y = 0;
-                let arr = [];
-                for (let n of bdata) {
-                    x++;
-                }
-                for (let n of bdata) {
-                    //console.log(n.favouriteUserId);
-                    User.findOne({ _id: n.blockUserId })
-                        .then(s => {
-                            y++;
-                            console.log(s);
-                            arr.push({
-                                userId: n.blockUserId,
-                                userName: s.user_name,
-                                userImage: s.user_image,
-                            });
-                            if (y >= x) {
-                                //console.log(arr);
-                                res.render('userdetail', {
-                                    pageTitle: 'User Detail',
-                                    user: user,
-                                    fdata: null,
-                                    bdata: arr
-                                });
-                            }
-                        })
-                        .catch(err => { console.log(err); });
-                }
-            } else {
-                var x = 0;
-                var y = 0;
-                let arr = [];
-                for (let n of data) {
-                    x++;
-                }
-                for (let n of data) {
-                    //console.log(n.favouriteUserId);
-                    User.findOne({ _id: n.favouriteUserId })
-                        .then(s => {
-                            y++;
-                            arr.push({
-                                userId: n.favouriteUserId,
-                                userName: s.user_name,
-                                userImage: s.user_image,
-                            });
-                            if (y >= x) {
-                                //console.log(arr);
-                                var a = 0;
-                                var c = 0;
-                                let arrr = [];
-                                for (let n of bdata) {
-                                    a++;
-                                }
-                                for (let n of bdata) {
-                                    //console.log(n.favouriteUserId);
-                                    User.findOne({ _id: n.blockUserId })
-                                        .then(s => {
-                                            c++;
-                                            arrr.push({
-                                                userId: n.blockUserId,
-                                                userName: s.user_name,
-                                                userImage: s.user_image,
-                                            });
-                                            if (c >= a) {
-                                                //console.log(arr);
-                                                res.render('userdetail', {
-                                                    pageTitle: 'User Detail',
-                                                    user: user,
-                                                    fdata: arr,
-                                                    bdata: arrr
-                                                });
-                                            }
-                                        })
-                                        .catch(err => { console.log(err); });
-                                }
-                                // res.render('userdetail', {
-                                //     pageTitle: 'User Detail',
-                                //     user: user,
-                                //     fdata: arr,
-                                //     bdata: null
-                                // });
-                            }
-                        })
-                        .catch(err => { console.log(err); });
-                }
-            }
+            res.render('userdetail', {
+                pageTitle: 'User Detail',
+                user: user,
+                fdata: null,
+                bdata: null
+            });
         })
         .catch(err => console.log(err));
 }
@@ -435,13 +333,14 @@ exports.postAPIsLoginCheck = (req, res, next) => {
                     user_wallet: result.user_wallet,
                     google_id: result.google_id
                 };
-                // const token = jwt.sign({
-                //     userId: data.user_id,
-                //     user_emailId: data.user_emailId
-                // }, 'karonsupersecret');
+                const token = jwt.sign({
+                    userId: data.user_id,
+                    user_emailId: data.user_emailId
+                }, process.env.TOKEN_SECRET);
                 res.status(201).json({
                     status: true,
-                    data: data
+                    data: data,
+                    authToken: token
                 })
             } else {
                 res.status(201).json({
@@ -486,7 +385,9 @@ exports.postAPIsUserAdd = (req, res, next) => { //user login
     const inputUserImage = req.body.base64Image;
     const inputUserGenderPreference = req.body.inputUserGenderPreference;
     const googleId = req.body.inputGoogleId;
-    console.log(googleId);
+    const notificationTocken = req.body.inputNotificationTocken;
+    //console.log(notificationTocken);
+    //console.log(googleId);
     country.findOne({ _id: inputCountryId })
         .then(con => {
             if (con) {
@@ -511,30 +412,11 @@ exports.postAPIsUserAdd = (req, res, next) => { //user login
                     let type = decodeImg.type;
                     let extension = mime.extension(type);
                     let filename = Math.floor(100000 + Math.random() * 900000) + "image." + extension;
-                    let finalname = "images/" + filename;
-                    console.log(finalname);
+                    let finalname = filename;
+                    //console.log(finalname);
                     fs.writeFileSync("./images/" + filename, imageBuffer, 'utf8');
                     settings.findOne({ _id: "5fbcc934e311361f6063a84d" })
                         .then(result => {
-                            const now = new Date();
-                            const user_coinLog = {
-                                items: [{
-                                    transactionId: Math.floor(100000 + Math.random() * 900000),
-                                    coinAmount: result.bonus_coin,
-                                    remark: 'Bonus Coins For Registration',
-                                    date: date.format(now, 'DD/MM/YYYY'),
-                                    time: date.format(now, 'hh:mm A'),
-                                }]
-                            };
-                            const user_walletLog = {
-                                items: [{
-                                    transactionId: Math.floor(100000 + Math.random() * 900000),
-                                    walletAmount: result.bonus_amount,
-                                    remark: 'Bonus Amount For Registration',
-                                    date: date.format(now, 'DD/MM/YYYY'),
-                                    time: date.format(now, 'hh:mm A'),
-                                }]
-                            };
                             const user_coin = result.bonus_coin;
                             const user_wallet = result.bonus_amount;
                             const user_name = inputUserName;
@@ -565,16 +447,29 @@ exports.postAPIsUserAdd = (req, res, next) => { //user login
                                 user_type: user_type,
                                 user_coin: user_coin,
                                 user_wallet: user_wallet,
-                                user_coinLog: user_coinLog,
-                                user_walletLog: user_walletLog,
                                 is_Active: false,
-                                google_id: google_id
+                                google_id: google_id,
+                                notificationTocken: notificationTocken
                             });
 
                             user.save()
                                 .then(result => {
                                     if (result) {
                                         console.log("User Created");
+                                        var mailOptions = {
+                                            from: 'sweetu.karon@gmail.com',
+                                            to: user_emailId,
+                                            subject: 'Thanks for using Sweetu',
+                                            text: 'You are now member of sweet family'
+                                        };
+
+                                        transporter.sendMail(mailOptions, function (error, info) {
+                                            if (error) {
+                                                //console.log(error);
+                                            } else {
+                                                //console.log('Email sent: ' + info.response);
+                                            }
+                                        });
                                         let data = {
                                             user_isBlock: result.user_isBlock,
                                             user_id: result._id.toString(),
@@ -591,14 +486,14 @@ exports.postAPIsUserAdd = (req, res, next) => { //user login
                                             user_wallet: result.user_wallet,
                                             google_id: result.google_id
                                         };
-                                        // const token = jwt.sign({
-                                        //     userId: data.user_id,
-                                        //     user_emailId: data.user_emailId
-                                        // }, 'karonsupersecret');
-                                        //console.log(data);
+                                        const token = jwt.sign({
+                                            userId: data.user_id,
+                                            user_emailId: data.user_emailId
+                                        }, process.env.TOKEN_SECRET);
                                         res.json({
                                             status: true,
-                                            data: data
+                                            data: data,
+                                            authToken: token
                                         })
                                     } else {
                                         res.json({
@@ -616,25 +511,6 @@ exports.postAPIsUserAdd = (req, res, next) => { //user login
                 } else {
                     settings.findOne({ _id: "5fbcc934e311361f6063a84d" })
                         .then(result => {
-                            const now = new Date();
-                            const user_coinLog = {
-                                items: [{
-                                    transactionId: Math.floor(100000 + Math.random() * 900000),
-                                    coinAmount: result.bonus_coin,
-                                    remark: 'Bonus Coins For Registration',
-                                    date: date.format(now, 'DD/MM/YYYY'),
-                                    time: date.format(now, 'hh:mm A'),
-                                }]
-                            };
-                            const user_walletLog = {
-                                items: [{
-                                    transactionId: Math.floor(100000 + Math.random() * 900000),
-                                    walletAmount: result.bonus_amount,
-                                    remark: 'Bonus Amount For Registration',
-                                    date: date.format(now, 'DD/MM/YYYY'),
-                                    time: date.format(now, 'hh:mm A'),
-                                }]
-                            };
                             const user_coin = result.bonus_coin;
                             const user_wallet = result.bonus_amount;
                             const user_name = inputUserName;
@@ -665,16 +541,29 @@ exports.postAPIsUserAdd = (req, res, next) => { //user login
                                 user_type: user_type,
                                 user_coin: user_coin,
                                 user_wallet: user_wallet,
-                                user_coinLog: user_coinLog,
-                                user_walletLog: user_walletLog,
                                 is_Active: false,
-                                google_id: google_id
+                                google_id: google_id,
+                                notificationTocken: notificationTocken
                             });
                             //console.log(user);
                             user.save()
                                 .then(result => {
                                     if (result) {
                                         console.log("User Created");
+                                        var mailOptions = {
+                                            from: 'sweetu.karon@gmail.com',
+                                            to: user_emailId,
+                                            subject: 'Thanks for using Sweetu',
+                                            text: 'You are now member of sweet family'
+                                        };
+
+                                        transporter.sendMail(mailOptions, function (error, info) {
+                                            if (error) {
+                                                console.log(error);
+                                            } else {
+                                                console.log('Email sent: ' + info.response);
+                                            }
+                                        });
                                         let data = {
                                             user_isBlock: result.user_isBlock,
                                             user_id: result._id,
@@ -691,13 +580,15 @@ exports.postAPIsUserAdd = (req, res, next) => { //user login
                                             user_wallet: result.user_wallet,
                                             google_id: result.google_id
                                         };
-                                        // const token = jwt.sign({
-                                        //     userId: data.user_id,
-                                        //     user_emailId: data.user_emailId
-                                        // }, 'karonsupersecret');
+                                        const token = jwt.sign({
+                                            userId: data.user_id,
+                                            user_emailId: data.user_emailId
+                                        }, process.env.TOKEN_SECRET);
+                                        console.log(data);
                                         res.json({
                                             status: true,
-                                            data: data
+                                            data: data,
+                                            authToken: token
                                         })
                                     } else {
                                         res.json({
@@ -776,6 +667,10 @@ exports.postAPIsUserEdit = (req, res, next) => { //user update
             }
         })
 
+}
+
+function isEmptyObject(obj) {
+    return !Object.keys(obj).length;
 }
 
 //Image Upload
@@ -860,7 +755,7 @@ exports.postAPIsUserImage = (req, res, next) => {
 //Online User List
 exports.getAPIsOnlineUserList = (req, res, next) => { //user list
     const uId = req.body.inputUserId;
-    User.find({ is_Active: 'true', _id: { $nin: [uId] } }).select('user_name').select('user_image').select('user_country').select('user_countryCode')
+    User.find({ is_Active: 'true', _id: { $nin: [uId] } }).select('user_name').select('user_image').select('user_country').select('user_countryCode').sort({ user_coin: 'desc' })
         .then(result => {
             res.status(201).json(
                 result
@@ -870,120 +765,48 @@ exports.getAPIsOnlineUserList = (req, res, next) => { //user list
 }
 
 //Adding to coin log
-exports.postAPIsCoinLog = (req, res, next) => { // Add to Coin Log
+exports.postAPIsCoin = (req, res, next) => { // Add to Coin Log
     const uId = req.body.inputUserId;
-    const transactionId = req.body.inputTransactionId;
-    const coinAmount = req.body.inputCoinAmount;
-    const remark = req.body.inputRemark;
-    const now = new Date();
-    User.findOne({ _id: uId })
-        .then(result => {
-            const arr = result.user_coinLog.items;
-            arr.push({
-                transactionId: transactionId,
-                coinAmount: coinAmount,
-                remark: remark,
-                date: date.format(now, 'DD/MM/YYYY'),
-                time: date.format(now, 'hh:mm A'),
-            });
-            result.user_coinLog.items = arr;
-            result.save()
-                .then(dd => {
-                    res.status(201).json({
-                        message: "Transaction Added",
-                        Data: result.user_coinLog.items
-                    })
-                });
-        })
-        .catch(err => {
-            console.log(err);
-        });
-}
-
-//Purchase Coin
-exports.postPurchaseCoin = (req, res, next) => {
-    const uId = req.body.inputUserId;
-    const transactionId = "dsjhdfbjhzsdgvbfuydsf";
-    const coinAmount = Number(req.body.inputCoinAmount);
-    const remark = "Purchased Coin";
-    const now = new Date();
-    User.findOne({ _id: uId }).select('user_coinLog').select('user_coin')
-        .then(result => {
-            const arr = result.user_coinLog.items;
-            arr.push({
-                transactionId: transactionId,
-                coinAmount: coinAmount,
-                remark: remark,
-                date: date.format(now, 'DD/MM/YYYY'),
-                time: date.format(now, 'hh:mm A'),
-            });
-            result.user_coinLog.items = arr;
-            result.user_coin = result.user_coin + coinAmount;
-            result.save()
-                .then(dd => {
-                    res.status(201).json({
-                        message: "Transaction Added",
-                        status: true,
-                        Data: result.user_coinLog.items
-                    })
-                });
-        })
-}
-
-//Getting coin log
-exports.postAPIsGetCoinLog = (req, res, next) => {
-    const uId = req.body.inputUserId;
-    User.findOne({ _id: uId }).select('user_coinLog')
-        .then(result => {
-            const data = result.user_coinLog.items;
-            res.status(201).json({
-                data
+    const coin = req.body.inputCoin;
+    const status = req.body.inputStatus;
+    if (status == true) {
+        User.findOne({ _id: uId })
+            .then(result => {
+                if (result) {
+                    result.user_coin = result.user_coin + coin;
+                    result.save()
+                        .then(data => {
+                            if (data) {
+                                res.status(201).json({
+                                    status: true
+                                })
+                            }
+                        })
+                }
             })
-        })
-}
-
-//Adding Wallet Log
-exports.postAPIsWalletLog = (req, res, next) => { // Add to Coin Log
-    const uId = req.body.inputUserId;
-    const transactionId = req.body.inputTransactionId;
-    const walletAmount = req.body.inputWalletAmount;
-    const remark = req.body.inputRemark;
-    const now = new Date();
-    User.findOne({ _id: uId })
-        .then(result => {
-            const arr = result.user_walletLog.items;
-            arr.push({
-                transactionId: transactionId,
-                walletAmount: walletAmount,
-                remark: remark,
-                date: date.format(now, 'DD/MM/YYYY'),
-                time: date.format(now, 'hh:mm A'),
-            });
-            result.user_walletLog.items = arr;
-            result.save()
-                .then(dd => {
-                    res.status(201).json({
-                        message: "Transaction Added",
-                        data: result.user_walletLog.items
-                    })
-                });
-        })
-        .catch(err => {
-            console.log(err);
-        });
-}
-
-//Getting Wallet Log
-exports.postAPIsGetWalletLog = (req, res, next) => {
-    const uId = req.body.inputUserId;
-    User.findOne({ _id: uId }).select('user_walletLog')
-        .then(result => {
-            const data = result.user_walletLog.items;
-            res.status(201).json({
-                data
+    } else {
+        User.findOne({ _id: uId })
+            .then(result => {
+                if (result) {
+                    if (coin < result.user_coin) {
+                        result.user_coin = result.user_coin - coin;
+                        result.save()
+                            .then(data => {
+                                if (data) {
+                                    res.status(201).json({
+                                        status: true
+                                    })
+                                }
+                            })
+                    } else {
+                        res.status(201).json({
+                            status: true,
+                            message: "You don't have enough coins"
+                        })
+                    }
+                }
             })
-        })
-        .catch(err => { console.log(err) });
+    }
 }
 
 //Adding Favourite User

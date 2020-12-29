@@ -1,7 +1,7 @@
 const path = require("path");
 const express = require("express");
 const isAdmin = require('../middleware/is-admin');
-
+const verify = require('../middleware/verify-token');
 const userController = require('../controllers/c-user');
 
 const router = express.Router();
@@ -30,30 +30,29 @@ router.post('/add-user', isAdmin,userController.postAddUser);
 
 router.post('/user-edit', isAdmin,userController.postUserEdit);
 
+router.post('/filter-user', isAdmin, userController.postFilterUser);
+
 // API's Route's
 
-router.post('/api/add-user',userController.postAPIsUserAdd);
-router.post('/api/login-check',userController.postAPIsLoginCheck);
-router.post('/api/user-profile',userController.postAPIsUserProfile);
-router.post('/api/user-edit', userController.postAPIsUserEdit);
-router.post('/api/user-image', userController.postAPIsUserImage);
-router.post('/api/user-list',userController.getAPIsOnlineUserList);
-router.post('/api/add-coin-log', userController.postAPIsCoinLog);
-router.post('/api/purchase-coins', userController.postPurchaseCoin);
-router.post('/api/add-wallet-log', userController.postAPIsWalletLog);
-router.post('/api/get-coin-log',userController.postAPIsGetCoinLog);
-router.post('/api/get-wallet-log',userController.postAPIsGetWalletLog);
+router.post('/api/add-user', userController.postAPIsUserAdd);
+router.post('/api/login-check', userController.postAPIsLoginCheck);
+router.post('/api/user-profile',verify,userController.postAPIsUserProfile);
+router.post('/api/user-edit',verify, userController.postAPIsUserEdit);
+router.post('/api/user-image',verify, userController.postAPIsUserImage);
+router.post('/api/user-list', verify,userController.getAPIsOnlineUserList);
 
-router.post('/api/add-favourite',userController.postAPIsFavourite);
-router.post('/api/get-favourite',userController.postAPIsGetFavourite);
-router.post('/api/remove-favourite',userController.postAPIsRemoveFavourite);
-router.post('/api/add-block',userController.postAPIsBlock);
-router.post('/api/get-block',userController.postAPIsGetBlock);
-router.post('/api/remove-block',userController.postAPIsRemoveBlock);
+// router.post('/api/coin',userController.postAPIsCoin);
 
-router.post('/api/gender-preference',userController.postAPIsGenderPreference);
-router.post('/api/change-genderpreference',userController.postAPIsRandomUser);
+router.post('/api/add-favourite',verify,userController.postAPIsFavourite);
+router.post('/api/get-favourite',verify,userController.postAPIsGetFavourite);
+router.post('/api/remove-favourite',verify,userController.postAPIsRemoveFavourite);
+router.post('/api/add-block',verify,userController.postAPIsBlock);
+router.post('/api/get-block',verify,userController.postAPIsGetBlock);
+router.post('/api/remove-block',verify,userController.postAPIsRemoveBlock);
 
-router.post('/api/update-status-online', userController.postAPIUpdateStatusOnline);
-router.post('/api/update-status-ofline', userController.postAPIUpdateStatusOfline);
+router.post('/api/gender-preference',verify,userController.postAPIsGenderPreference);
+router.post('/api/change-genderpreference',verify,userController.postAPIsRandomUser);
+
+router.post('/api/update-status-online', verify,userController.postAPIUpdateStatusOnline);
+router.post('/api/update-status-ofline', verify,userController.postAPIUpdateStatusOfline);
 module.exports = router;

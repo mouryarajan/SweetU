@@ -8,7 +8,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
 
-    <title>Profile - Zeiss Template</title>
+    <title>Wysiwig Editor - Zeiss Template</title>
 
     <!-- Main Styles -->
     <link rel="stylesheet" href="/styles/style.min.css" />
@@ -25,50 +25,127 @@
     <!-- Sweet Alert -->
     <link rel="stylesheet" href="/plugin/sweet-alert/sweetalert.css" />
 
+    <!-- TinyMCE -->
+    <link rel="stylesheet" href="/plugin/tinymce/skins/lightgray/skin.min.css" />
+    <!-- Must include this script FIRST -->
+    <script src="/plugin/tinymce/tinymce.min.js"></script>
+
     <!-- Color Picker -->
     <link rel="stylesheet" href="/color-switcher/color-switcher.min.css" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 
 <body>
-    <%- include('includes/header.ejs') %>
     <%- include('includes/sidebar.ejs') %>
-
-    <div id="wrapper">
-        <div class="main-content">
-            <div id="editor">
-                <p>This is the editor content.</p>
+        <!-- /.main-menu -->
+        <%- include('includes/header.ejs') %>
+            <div id="wrapper">
+                <div class="main-content">
+                    <div class="row small-spacing">
+                        <div class="col-xs-12">
+                            <div class="box-content">
+                                <h4 class="box-title">Privacy and Policy</h4>
+                                <!-- /.box-title -->
+                                <form method="POST" action="/add-editor">
+                                <div class="dropdown js__drop_down">
+                                    <button type="submit" style="border: none;
+                                    color: white;
+                                    padding: 6px 16px;
+                                    text-align: center;
+                                    text-decoration: bold;
+                                    display: inline-block;
+                                    font-size: 16px;
+                                    margin: 4px 2px;
+                                    cursor: pointer;
+                                    background-color: #4CAF50;">Submit</button>
+                                </div>
+                                <!-- /.dropdown js__dropdown -->
+                                <input type="hidden" value="<%= data._id %>" name="pid">
+                                <textarea id="tinymce" name="inputTextArea"><%= data.privacyAndPolicy %></textarea>
+                                </form>
+                            </div>
+                            <!-- /.box-content -->
+                        </div>
+                        <!-- /.col-xs-12 -->
+                    </div>
+                    <!-- /.row -->
+                    <%- include('includes/footer.ejs') %>
+                </div>
+                <!-- /.main-content -->
             </div>
-            <%- include('includes/footer.ejs') %>
-        </div>
-        <!-- /.main-content -->
-    </div>
-    <!--/#wrapper -->
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
+            <!--/#wrapper -->
+            <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+            <!--[if lt IE 9]>
 		<script src="assets/script/html5shiv.min.js"></script>
 		<script src="assets/script/respond.min.js"></script>
 	<![endif]-->
-    <!-- 
+            <!-- 
 	================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    
-    <script src="/scripts/jquery.min.js"></script>
-    <script src="/scripts/modernizr.min.js"></script>
-    <script src="/plugin/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script src="/plugin/nprogress/nprogress.js"></script>
-    <script src="/plugin/sweet-alert/sweetalert.min.js"></script>
-    <script src="/plugin/waves/waves.min.js"></script>
-    <!-- Full Screen Plugin -->
-    <script src="/plugin/fullscreen/jquery.fullscreen-min.js"></script>
+            <!-- Placed at the end of the document so the pages load faster -->
+            <script src="/scripts/jquery.min.js"></script>
+            <script src="/scripts/modernizr.min.js"></script>
+            <script src="/plugin/bootstrap/js/bootstrap.min.js"></script>
+            <script src="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+            <script src="/plugin/nprogress/nprogress.js"></script>
+            <script src="/plugin/sweet-alert/sweetalert.min.js"></script>
+            <script src="/plugin/waves/waves.min.js"></script>
+            <!-- Full Screen Plugin -->
+            <script src="/plugin/fullscreen/jquery.fullscreen-min.js"></script>
 
-    <script src="/scripts/main.min.js"></script>
-    <script src="/color-switcher/color-switcher.min.js"></script>
-    <script src="../node_modules/ckeditor/ckeditor.js"></script>
-    <script>
-        CKEDITOR.replace('editor');
-    </script>
+            <!-- TinyMCE -->
+            <!-- Plugin Files DON'T INCLUDES THESES FILES IF YOU USE IN THE HOST -->
+            <link rel="stylesheet" href="/plugin/tinymce/skins/lightgray/skin.min.css" />
+            <script src="/plugin/tinymce/plugins/advlist/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/anchor/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/autolink/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/autoresize/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/autosave/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/bbcode/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/charmap/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/code/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/codesample/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/colorpicker/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/contextmenu/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/directionality/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/emoticons/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/example/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/example_dependency/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/fullpage/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/fullscreen/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/hr/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/image/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/imagetools/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/importcss/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/insertdatetime/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/layer/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/legacyoutput/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/link/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/lists/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/media/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/nonbreaking/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/noneditable/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/pagebreak/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/paste/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/preview/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/print/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/save/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/searchreplace/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/spellchecker/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/tabfocus/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/table/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/template/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/textcolor/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/textpattern/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/visualblocks/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/visualchars/plugin.min.js"></script>
+            <script src="/plugin/tinymce/plugins/wordcount/plugin.min.js"></script>
+            <script src="/plugin/tinymce/themes/modern/theme.min.js"></script>
+            <!-- Plugin Files DON'T INCLUDES THESES FILES IF YOU USE IN THE HOST -->
+
+            <script src="/scripts/tinymce.init.min.js"></script>
+
+            <script src="/scripts/main.min.js"></script>
+            <script src="/color-switcher/color-switcher.min.js"></script>
 </body>
 
 </html>

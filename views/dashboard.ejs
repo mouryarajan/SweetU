@@ -50,27 +50,43 @@
 		<div class="row small-spacing">
 			<div class="col-sm-6 col-lg-3 col-xs-12">
 				<div class="box-content">
-					<h4 class="box-title text-orange">Site Traffic</h4>
-					<!-- /.box-title -->
-					<div class="dropdown js__drop_down">
-						<a href="#" class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
-						<ul class="sub-menu">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else there</a></li>
-							<li class="split"></li>
-							<li><a href="#">Separated link</a></li>
-						</ul>
-						<!-- /.sub-menu -->
-					</div>
+					<h4 class="box-title text-orange">Total Users</h4>
 					<!-- /.dropdown js__dropdown -->
 					<div class="content widget-stat">
-						<div id="traffic-sparkline-chart-3" class="left-content"></div>
+						<div class="left-content">
+							<h4 class="counter text-orange">Male: <%= totalMale %></h4>
+							<h4 class="counter text-orange">Female: <%= totalFemale %></h4>
+							<h4 class="counter text-info">&nbsp;</h4>
+						</div>
 						<!-- /#traffic-sparkline-chart-3 -->
 						<div class="right-content">
-							<h2 class="counter text-danger">12</h2>
+							<h2 class="counter text-orange"><%= total %></h2>
 							<!-- /.counter -->
-							<p class="text text-danger">Some text here</p>
+							<p class="text text-orange">Total Users</p>
+							<!-- /.text -->
+						</div>
+						<!-- .right-content -->
+					</div>
+					<!-- /.content widget-stat -->
+				</div>
+				<!-- /.box-content -->
+			</div>
+
+			<div class="col-sm-6 col-lg-3 col-xs-12">
+				<div class="box-content">
+					<h4 class="box-title text-success">Active Users</h4>
+					<!-- /.dropdown js__dropdown -->
+					<div class="content widget-stat">
+						<div class="left-content">
+							<h4 class="counter text-success">Male: <%= totalActiveMale %></h4>
+							<h4 class="counter text-success">Female: <%= totalActiveFemale %></h4>
+							<h4 class="counter text-info">&nbsp;</h4>
+						</div>
+						<!-- /#traffic-sparkline-chart-2 -->
+						<div class="right-content">
+							<h2 class="counter text-success"><%= totalActive %></h2>
+							<!-- /.counter -->
+							<p class="text text-success">Total Users</p>
 							<!-- /.text -->
 						</div>
 						<!-- .right-content -->
@@ -82,27 +98,19 @@
 			<!-- /.col-sm-6 col-lg-3 col-xs-12 -->
 			<div class="col-sm-6 col-lg-3 col-xs-12">
 				<div class="box-content">
-					<h4 class="box-title text-info">Site Traffic</h4>
-					<!-- /.box-title -->
-					<div class="dropdown js__drop_down">
-						<a href="#" class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
-						<ul class="sub-menu">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else there</a></li>
-							<li class="split"></li>
-							<li><a href="#">Separated link</a></li>
-						</ul>
-						<!-- /.sub-menu -->
-					</div>
+					<h4 class="box-title text-info">Matched User</h4>
 					<!-- /.dropdown js__dropdown -->
 					<div class="content widget-stat">
-						<div id="traffic-sparkline-chart-1" class="left-content margin-top-15"></div>
+						<div class="left-content ">
+							<h4 class="counter text-info">Male-Female: <%= totalActiveMale %></h4>
+							<h4 class="counter text-info">Male-Male: <%= totalActiveFemale %></h4>
+							<h4 class="counter text-info">Female-Female: <%= totalActiveFemale %></h4>
+						</div>
 						<!-- /#traffic-sparkline-chart-1 -->
 						<div class="right-content">
 							<h2 class="counter text-info">278</h2>
 							<!-- /.counter -->
-							<p class="text text-info">Some text here</p>
+							<p class="text text-info">Total Users</p>
 							<!-- /.text -->
 						</div>
 						<!-- .right-content -->
@@ -113,37 +121,7 @@
 			</div>
 			<!-- /.col-sm-6 col-lg-3 col-xs-12 -->
 
-			<div class="col-sm-6 col-lg-3 col-xs-12">
-				<div class="box-content">
-					<h4 class="box-title text-success">Site Traffic</h4>
-					<!-- /.box-title -->
-					<div class="dropdown js__drop_down">
-						<a href="#" class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
-						<ul class="sub-menu">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else there</a></li>
-							<li class="split"></li>
-							<li><a href="#">Separated link</a></li>
-						</ul>
-						<!-- /.sub-menu -->
-					</div>
-					<!-- /.dropdown js__dropdown -->
-					<div class="content widget-stat">
-						<div id="traffic-sparkline-chart-2" class="left-content margin-top-10"></div>
-						<!-- /#traffic-sparkline-chart-2 -->
-						<div class="right-content">
-							<h2 class="counter text-success">36%</h2>
-							<!-- /.counter -->
-							<p class="text text-success">Some text here</p>
-							<!-- /.text -->
-						</div>
-						<!-- .right-content -->
-					</div>
-					<!-- /.content widget-stat -->
-				</div>
-				<!-- /.box-content -->
-			</div>
+			
 			<!-- /.col-lg-4 col-xs-12 -->
 
 			<div class="col-sm-6 col-lg-3 col-xs-12">
@@ -166,7 +144,7 @@
 						<div id="traffic-sparkline-chart-3-custom" class="left-content"></div>
 						<!-- /#traffic-sparkline-chart-3 -->
 						<div class="right-content">
-							<h2 class="counter text-orange">849 <i class="fa fa-angle-double-up"></i></h2>
+							<h2 class="counter text-orange"><%=  %><i class="fa fa-angle-double-up"></i></h2>
 							<!-- /.counter -->
 							<p class="text text-orange">Some text here</p>
 							<!-- /.text -->
@@ -181,59 +159,19 @@
 		</div>
 		<!-- .row -->
 		<div class="row small-spacing">
-			<div class="col-lg-6 col-xs-12">
-				<div class="box-content">
-					<h4 class="box-title">Activity</h4>
-					<!-- /.box-title -->
-					<div class="dropdown js__drop_down">
-						<a href="#" class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
-						<ul class="sub-menu">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else there</a></li>
-							<li class="split"></li>
-							<li><a href="#">Separated link</a></li>
-						</ul>
-						<!-- /.sub-menu -->
-					</div>
-					<!-- /.dropdown js__dropdown -->
-					<canvas id="bar-chartjs-chart" class="chartjs-chart" width="480" height="320"></canvas>
-					<!-- /#bar-chartjs-chart.chartjs-chart -->
-				</div>
-				<!-- /.box-content -->
-			</div>
-			<!-- /.col-xs-12 -->
-			<div class="col-lg-6 col-xs-12">
-				<div class="box-content">
-					<h4 class="box-title">Sales</h4>
-					<!-- /.box-title -->
-					<div class="dropdown js__drop_down">
-						<a href="#" class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
-						<ul class="sub-menu">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else there</a></li>
-							<li class="split"></li>
-							<li><a href="#">Separated link</a></li>
-						</ul>
-						<!-- /.sub-menu -->
-					</div>
-					<!-- /.dropdown js__dropdown -->
-					<canvas id="donut-chartjs-chart" class="chartjs-chart" width="475" height="316"></canvas>
-					<!-- /#donut-chartjs-chart.chartjs-chart -->
-				</div>
-				<!-- /.box-content -->
-			</div>
-			<!-- /.col-xs-12 -->
-		</div>
-		<!-- .row -->
-		<div class="row small-spacing">
 			<div class="col-lg-3 col-md-6 col-xs-12">
-				<div class="box-content bg-success text-white">
-					<div class="statistics-box with-icon">
-						<i class="ico small fa fa-diamond"></i>
-						<p class="text text-white">SUCCESS</p>
-						<h2 class="counter">72943</h2>
+				<div class="box-content bg-success text-white row justify-content-between">
+					<div class="statistics-box with-icon col-md-6" style="padding-left: 0; text-align: left;">
+						<p class="text text-white">Today</p>
+						<h4 class="counter">Total: <%= todayTotal %></h4>
+						<h4 class="counter">Female: <%= todayTotalFemail %></h4>
+						<h4 class="counter">Male: <%= todayTotalMale %></h4>
+					</div>
+					<div class="statistics-box with-icon col-md-6" style="padding-left: 0; ">
+						<p class="text text-white">Yesterday</p>
+						<h4 class="counter">Total: <%= yseterdayTotal %></h4>
+						<h4 class="counter">Female: <%= yseterdayTotalFemail %></h4>
+						<h4 class="counter">Male: <%= yseterdayTotalMale %></h4>
 					</div>
 				</div>
 				<!-- /.box-content -->
@@ -241,10 +179,17 @@
 			<!-- /.col-lg-3 col-md-6 col-xs-12 -->
 			<div class="col-lg-3 col-md-6 col-xs-12">
 				<div class="box-content bg-info text-white">
-					<div class="statistics-box with-icon">
-						<i class="ico small fa fa-download"></i>
-						<p class="text text-white">DOWNLOAD</p>
-						<h2 class="counter">6382</h2>
+					<div class="statistics-box with-icon col-md-6" style="padding-left: 0; text-align: left;">
+						<p class="text text-white">Today</p>
+						<h4 class="counter">Total: <%= todayTotal %></h4>
+						<h4 class="counter">Female: <%= todayTotalFemail %></h4>
+						<h4 class="counter">Male: <%= todayTotalMale %></h4>
+					</div>
+					<div class="statistics-box with-icon col-md-6" style="padding-left: 0; ">
+						<p class="text text-white">Yesterday</p>
+						<h4 class="counter">Total: <%= yseterdayTotal %></h4>
+						<h4 class="counter">Female: <%= yseterdayTotalFemail %></h4>
+						<h4 class="counter">Male: <%= yseterdayTotalMale %></h4>
 					</div>
 				</div>
 				<!-- /.box-content -->
@@ -252,10 +197,17 @@
 			<!-- /.col-lg-3 col-md-6 col-xs-12 -->
 			<div class="col-lg-3 col-md-6 col-xs-12">
 				<div class="box-content bg-danger text-white">
-					<div class="statistics-box with-icon">
-						<i class="ico small fa fa-bug"></i>
-						<p class="text text-white">FIXED BUG</p>
-						<h2 class="counter">12564</h2>
+					<div class="statistics-box with-icon col-md-6" style="padding-left: 0; text-align: left;">
+						<p class="text text-white">Today</p>
+						<h4 class="counter">Total: <%= todayTotal %></h4>
+						<h4 class="counter">Female: <%= todayTotalFemail %></h4>
+						<h4 class="counter">Male: <%= todayTotalMale %></h4>
+					</div>
+					<div class="statistics-box with-icon col-md-6" style="padding-left: 0; ">
+						<p class="text text-white">Yesterday</p>
+						<h4 class="counter">Total: <%= yseterdayTotal %></h4>
+						<h4 class="counter">Female: <%= yseterdayTotalFemail %></h4>
+						<h4 class="counter">Male: <%= yseterdayTotalMale %></h4>
 					</div>
 				</div>
 				<!-- /.box-content -->
@@ -263,10 +215,17 @@
 			<!-- /.col-lg-3 col-md-6 col-xs-12 -->
 			<div class="col-lg-3 col-md-6 col-xs-12">
 				<div class="box-content bg-warning text-white">
-					<div class="statistics-box with-icon">
-						<i class="ico small fa fa-usd"></i>
-						<p class="text text-white">SALES</p>
-						<h2 class="counter">2,637</h2>
+					<div class="statistics-box with-icon col-md-6" style="padding-left: 0; text-align: left;">
+						<p class="text text-white">Today</p>
+						<h4 class="counter">Total: <%= todayTotal %></h4>
+						<h4 class="counter">Female: <%= todayTotalFemail %></h4>
+						<h4 class="counter">Male: <%= todayTotalMale %></h4>
+					</div>
+					<div class="statistics-box with-icon col-md-6" style="padding-left: 0; ">
+						<p class="text text-white">Yesterday</p>
+						<h4 class="counter">Total: <%= yseterdayTotal %></h4>
+						<h4 class="counter">Female: <%= yseterdayTotalFemail %></h4>
+						<h4 class="counter">Male: <%= yseterdayTotalMale %></h4>
 					</div>
 				</div>
 				<!-- /.box-content -->

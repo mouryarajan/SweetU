@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router()
 const purchaseController = require('../controllers/c-purchase');
+const verify = require('../middleware/verify-token');
 
 router.get('/purchase', purchaseController.getPurchase);
 router.post('/purchase', purchaseController.postPurchase);

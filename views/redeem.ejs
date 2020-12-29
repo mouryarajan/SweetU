@@ -52,19 +52,33 @@
 					<h4 class="box-title">Settings For New User</h4>
 					<!-- /.box-title -->
 					<div class="card-content">
-						<form method="POST" action="/settings" >
-						<label for="inputCoin">Coins</label>
-						<div class="input-group margin-bottom-20">
-							<input type="text" value="<%= result.bonus_coin %>" name="inputCoin" class="form-control" placeholder="Coin..." />
-                            <div class="input-group-btn"><button type="submit" class="btn btn-violet no-border waves-effect waves-light"><i class="fa fa-diamond text-white"></i></button></div>
-						</div>
-						<label for="inputCoin">Money</label>
-						<div class="input-group margin-bottom-20">
-							<input type="text" value="<%= result.bonus_amount %>" name="inputWallet" class="form-control" placeholder="Wallet..." />
-							<div class="input-group-btn"><button type="submit" class="btn btn-success no-border waves-effect waves-light"><i class="fa fa-inr text-white"></i></button></div>
-                            <!-- /.input-group-btn -->
-                        </div>
+                        <% for (let d of data) { %>
+                        <form method="POST" action="/edit-redeem" >
+                            <div class="row">
+                                <input type="hidden" value="<%= d._id %>" name="inputId" class="form-control" placeholder="Id" />
+                                <div class="form-group col-sm-2">
+                                    <label for="inputCoin">Amount</label>
+                                    <input type="text" value="<%= d.amount %>" name="inputAmount" class="form-control" placeholder="Amount" />
+                                </div>
+                                <div class="form-group col-sm-2">
+                                    <label for="inputCoin">Coins</label>
+                                    <input type="text" value="<%= d.coin %>" name="inputCoin" class="form-control" placeholder="Coin" />
+                                </div>
+                                <div class="form-group col-sm-2">
+                                    <label for="inputCoin">Matches</label>
+                                    <input type="text" value="<%= d.match %>" name="inputMatch" class="form-control" placeholder="Match" />
+                                </div>
+                                <div class="form-group col-sm-5">
+                                    <label for="inputCoin">Remark</label>
+                                    <input type="text" value="<%= d.remark %>" name="inputRemark" class="form-control" placeholder="Remark" />
+                                </div>
+                                <div class="form-group col-sm-1">
+                                    <label for="inputCoin">Action</label>
+                                    <div class="input-group-btn"><button type="submit" class="btn btn-success no-border waves-effect waves-light"><i class="fa fa-inr text-white"></i></button></div>
+                                </div>
+                            </div>
                         </form>
+                        <% } %>
 					</div>
 					<!-- /.card-content -->
 				</div>

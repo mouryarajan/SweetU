@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const moment = require('moment');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -47,10 +46,6 @@ const userSchema = new Schema({
       type: String,
       required: false,
    },
-   user_coin: {
-      type: Number,
-      required: false,
-   },
    user_country: {
       type: String,
       required: false
@@ -63,27 +58,9 @@ const userSchema = new Schema({
       type: Boolean,
       default: false
    },
-   user_coinLog: {
-      items: [
-         {
-            transactionId: {
-               type: String,
-               required: true,
-            },
-            coinAmount: {
-               type: Number
-            },
-            remark: {
-               type: String
-            },
-            date: {
-               type: String
-            },
-            time: {
-               type: String
-            }
-         }
-      ]
+   user_coin: {
+      type: Number,
+      required: false,
    },
    user_wallet: {
       type: Number,
@@ -96,28 +73,6 @@ const userSchema = new Schema({
    is_Active: {
       type: Boolean,
       required: false
-   },
-   user_walletLog: {
-      items: [
-         {
-            transactionId: {
-               type: String,
-               required: true,
-            },
-            walletAmount: {
-               type: Number
-            },
-            remark: {
-               type: String
-            },
-            date: {
-               type: String
-            },
-            time: {
-               type: String
-            }
-         }
-      ]
    },
    user_favrateLog:{
       items: [
@@ -142,6 +97,30 @@ const userSchema = new Schema({
             }
          }
       ]
+   },
+   match:{
+      type: Number,
+      default: 0,
+      required: true
+   },
+   notificationTocken: {
+      type: String,
+      required: false
+   },
+   id_subscribe: {
+      type: Boolean,
+      required: true,
+      default: false
+   },
+   subscription: {
+      startDate: {
+         type: Date,
+         required: false
+      },
+      endDate: {
+         type: Date,
+         required: false
+      }
    }
 }, { timestamps: true }
 );
