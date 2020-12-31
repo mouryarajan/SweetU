@@ -36,6 +36,7 @@ const userSchema = new Schema({
    },
    user_isAuthorised: {
       type: Boolean,
+      required: false,
       default: false
    },
    user_type: {
@@ -98,6 +99,16 @@ const userSchema = new Schema({
          }
       ]
    },
+   user_favrateYou:{
+      items: [
+         {
+            favouriteUserId: {
+               type: String,
+               required: false,
+            }
+         }
+      ]
+   },
    match:{
       type: Number,
       default: 0,
@@ -121,6 +132,11 @@ const userSchema = new Schema({
          type: Date,
          required: false
       }
+   },
+   isLogedIn: {
+      type: Boolean,
+      required: true,
+      default: false
    }
 }, { timestamps: true }
 );

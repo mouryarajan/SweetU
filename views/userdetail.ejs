@@ -32,194 +32,297 @@
 
 <body>
 	<%- include('includes/header.ejs') %>
-	<%- include('includes/sidebar.ejs') %>
+		<%- include('includes/sidebar.ejs') %>
 
-	<div id="wrapper">
-		<div class="main-content">
-			<div class="row small-spacing">
-				<div class="col-md-3 col-xs-12">
-					<div class="box-content bordered primary margin-bottom-20">
-						<div class="profile-avatar">
-							<img style="height:500px; width:100%; object-fit: cover;" src="/<%= user.user_image %>"
-								alt="" />
-							<h3><strong><%= user.user_name %></strong></h3>
-							<h4><%= user.user_profession %></h4>
-							<p><%= user.user_about %></p>
-						</div>
-						<!-- .profile-avatar -->
-						<table class="table table-hover no-margin">
-							<tbody>
-								<tr>
-									<td>Status</td>
-									<td><span class="notice notice-danger">Active</span></td>
-								</tr>
-								<!-- <tr>
+			<div id="wrapper">
+				<div class="main-content">
+					<div class="row small-spacing">
+						<div class="col-md-3 col-xs-12">
+							<div class="box-content bordered primary margin-bottom-20">
+								<div class="profile-avatar">
+									<img style="height:500px; width:100%; object-fit: cover;"
+										src="/images/<%= user.user_image %>" alt="" />
+									<h3><strong>
+											<%= user.user_name %>
+										</strong></h3>
+									<h4>
+										<%= user.user_profession %>
+									</h4>
+									<p>
+										<%= user.user_about %>
+									</p>
+								</div>
+								<!-- .profile-avatar -->
+								<table class="table table-hover no-margin">
+									<tbody>
+										<tr>
+											<td>Status</td>
+											<td><span class="notice notice-danger">Active</span></td>
+										</tr>
+										<!-- <tr>
 								<td>User Rating</td>
 								<td><i class="fa fa-star text-warning"></i> <i class="fa fa-star text-warning"></i> <i class="fa fa-star text-warning"></i> <i class="fa fa-star text-warning"></i> <i class="fa fa-star text-warning"></i></td>
 							</tr> -->
-								<tr>
-									<td>Member Since</td>
-									<td><%= user.createdAt %></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<!-- /.box-content bordered -->
-				</div>
-				<!-- /.col-md-3 col-xs-12 -->
-				<div class="col-md-9 col-xs-12">
-					<div class="row">
-						<div class="col-xs-12">
-							<div class="box-content card">
-								<h4 class="box-title"><i class="fa fa-user ico"></i>About</h4>
-								<!-- /.box-title -->
-								<!-- /.dropdown js__dropdown -->
-								<div class="card-content">
-									<div class="row">
-										<div class="col-md-6">
+										<tr>
+											<td>Member Since</td>
+											<td>
+												<%= user.createdAt %>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<!-- /.box-content bordered -->
+						</div>
+						<!-- /.col-md-3 col-xs-12 -->
+						<div class="col-md-9 col-xs-12">
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="box-content card">
+										<h4 class="box-title"><i class="fa fa-user ico"></i>About</h4>
+										<!-- /.box-title -->
+										<!-- /.dropdown js__dropdown -->
+										<div class="card-content">
 											<div class="row">
-												<div class="col-xs-5"><label>Name:</label></div>
-												<!-- /.col-xs-5 -->
-												<div class="col-xs-7"><%= user.user_name %></div>
-												<!-- /.col-xs-7 -->
+												<div class="col-md-6">
+													<div class="row">
+														<div class="col-xs-5"><label>Name:</label></div>
+														<!-- /.col-xs-5 -->
+														<div class="col-xs-7">
+															<%= user.user_name %>
+														</div>
+														<!-- /.col-xs-7 -->
+													</div>
+													<!-- /.row -->
+												</div>
+												<div class="col-md-6">
+													<div class="row">
+														<div class="col-xs-5"><label>User Name:</label></div>
+														<!-- /.col-xs-5 -->
+														<div class="col-xs-7">
+															<%= user.user_name %>
+														</div>
+														<!-- /.col-xs-7 -->
+													</div>
+													<!-- /.row -->
+												</div>
+												<!-- /.col-md-6 -->
+												<div class="col-md-6">
+													<div class="row">
+														<div class="col-xs-5"><label>Email:</label></div>
+														<!-- /.col-xs-5 -->
+														<div class="col-xs-7">
+															<%= user.user_emailId %>
+														</div>
+														<!-- /.col-xs-7 -->
+													</div>
+													<!-- /.row -->
+												</div>
+												<div class="col-md-6">
+													<div class="row">
+														<div class="col-xs-5"><label>Country:</label></div>
+														<!-- /.col-xs-5 -->
+														<div class="col-xs-7">
+															<%= user.user_country %>
+														</div>
+														<!-- /.col-xs-7 -->
+													</div>
+													<!-- /.row -->
+												</div>
+												<!-- /.col-md-6 -->
+												<div class="col-md-6">
+													<div class="row">
+														<div class="col-xs-5"><label>Age:</label></div>
+														<!-- /.col-xs-5 -->
+														<div class="col-xs-7">
+															<%= user.user_age %>
+														</div>
+														<!-- /.col-xs-7 -->
+													</div>
+													<!-- /.row -->
+												</div>
+												<!-- /.col-md-6 -->
+												<div class="col-md-6">
+													<div class="row">
+														<div class="col-xs-5"><label>Interests:</label></div>
+														<!-- /.col-xs-5 -->
+														<div class="col-xs-7">Basketball, Web, Design, etc.</div>
+														<!-- /.col-xs-7 -->
+													</div>
+													<!-- /.row -->
+												</div>
 											</div>
 											<!-- /.row -->
 										</div>
-										<div class="col-md-6">
-											<div class="row">
-												<div class="col-xs-5"><label>User Name:</label></div>
-												<!-- /.col-xs-5 -->
-												<div class="col-xs-7"><%= user.user_name %></div>
-												<!-- /.col-xs-7 -->
-											</div>
-											<!-- /.row -->
-										</div>
-										<!-- /.col-md-6 -->
-										<div class="col-md-6">
-											<div class="row">
-												<div class="col-xs-5"><label>Email:</label></div>
-												<!-- /.col-xs-5 -->
-												<div class="col-xs-7"><%= user.user_emailId %></div>
-												<!-- /.col-xs-7 -->
-											</div>
-											<!-- /.row -->
-										</div>
-										<div class="col-md-6">
-											<div class="row">
-												<div class="col-xs-5"><label>Country:</label></div>
-												<!-- /.col-xs-5 -->
-												<div class="col-xs-7"><%= user.user_country %></div>
-												<!-- /.col-xs-7 -->
-											</div>
-											<!-- /.row -->
-										</div>
-										<!-- /.col-md-6 -->
-										<div class="col-md-6">
-											<div class="row">
-												<div class="col-xs-5"><label>Age:</label></div>
-												<!-- /.col-xs-5 -->
-												<div class="col-xs-7"><%= user.user_age %></div>
-												<!-- /.col-xs-7 -->
-											</div>
-											<!-- /.row -->
-										</div>
-										<!-- /.col-md-6 -->
-										<div class="col-md-6">
-											<div class="row">
-												<div class="col-xs-5"><label>Interests:</label></div>
-												<!-- /.col-xs-5 -->
-												<div class="col-xs-7">Basketball, Web, Design, etc.</div>
-												<!-- /.col-xs-7 -->
-											</div>
-											<!-- /.row -->
-										</div>
+										<!-- /.card-content -->
 									</div>
-									<!-- /.row -->
+									<!-- /.box-content card -->
 								</div>
-								<!-- /.card-content -->
 							</div>
-							<!-- /.box-content card -->
+
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="box-content card">
+										<h4 class="box-title"><i class="fa fa-user ico"></i>Send Notification</h4>
+										<!-- /.box-title -->
+										<!-- /.dropdown js__dropdown -->
+										<div class="card-content">
+											<div class="row">
+												<form method="POST" action="/send-notification-one"
+													enctype="multipart/form-data">
+													<div class="col-md-5">
+														<div class="row">
+															<div class="form-group">
+																<label for="exampleinputTitle">Title</label>
+																<input required type="text" class="form-control" name="inputTitle" id="inputTitle"
+																	placeholder="Title">
+															</div>
+															<!-- /.col-xs-7 -->
+															<input type="hidden" name="userid" value="<%= user._id %>"/>
+														</div>
+														<!-- /.row -->
+													</div>
+													<div class="col-md-2"></div>
+													<div class="col-md-5">
+														<div class="row">
+															<div class="form-group">
+																<label for="exampleinputBody">Body</label>
+																<input required type="text" class="form-control" name="inputBody" id="inputBody"
+																	placeholder="Body">
+															</div>
+															<!-- /.col-xs-7 -->
+														</div>
+														<!-- /.row -->
+													</div>
+													<!-- /.col-md-6 -->
+													<div class="col-md-5">
+														<div class="row">
+															<div class="form-group">
+																<label for="exampleimage">Image</label>
+																<input type="file" class="form-control" name="image" id="image"
+																	placeholder="Enter Country Code">
+															</div>
+															<!-- /.col-xs-7 -->
+														</div>
+														<!-- /.row -->
+													</div>
+													<div class="col-md-2"></div>
+													<div class="col-md-3">
+														<div class="row">
+															<div class="form-group">
+																<label for="exampleimage">Type</label><br>
+																<div style="margin-top: 10px;"></div>
+																<input type="radio" class="form-group" id="type" name="type" value="email" checked> Email &nbsp;&nbsp;
+																<input type="radio" class="form" id="type" name="type" value="app notification" > App Notification
+															</div>
+															<!-- /.col-xs-7 -->
+														</div>
+														<!-- /.row -->
+													</div>
+													<div class="col-md-2">
+														<div style="margin-top: 30px;"></div>
+														<button type="submit" class="btn btn-primary waves-effect waves-light">Send Notification</button>
+													</div>
+													<!-- /.col-md-6 -->
+												</form>
+											</div>
+											
+											<!-- /.row -->
+										</div>
+										<!-- /.card-content -->
+									</div>
+									<!-- /.box-content card -->
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-6 col-xs-12">
+									<div class="box-content card">
+										<h4 class="box-title"><i class="fa fa-heart ico"></i> Favourite Users</h4>
+										<!-- /.box-title -->
+										<div class="card-content">
+											<ul class="notice-list">
+
+												<% if(fdata==null){%>
+													<div></div>
+													<%}else{ for(let log of fdata) {%>
+														<li>
+															<a href="/user-detail/<%= log.userId %>">
+																<span class="avatar"><img style="height: 100%;"
+																		src="/<%= log.userImage %>" alt="" /></span>
+																<span class="name">
+																	<%= log.userName %>
+																</span>
+															</a>
+														</li>
+														<% } } %>
+											</ul>
+											<!-- /.notice-list -->
+											<!-- <div class="text-center margin-top-20"><a href="#" class="btn btn-default">See All Activities <i class="fa fa-angle-double-right"></i></a></div> -->
+										</div>
+										<!-- /.card-content -->
+									</div>
+									<!-- /.box-content card -->
+								</div>
+								<!-- /.col-md-6 -->
+								<div class="col-md-6 col-xs-12">
+									<div class="box-content card">
+										<h4 class="box-title"><i class="fa fa-ban ico"></i> Block Uers</h4>
+
+										<div class="card-content">
+											<ul class="notice-list">
+												<% if(bdata==null){%>
+													<div></div>
+													<%}else{ for(let log of bdata) {%>
+														<li>
+															<a href="/user-detail/<%= log.userId %>">
+																<span class="avatar"><img style="height: 100%;"
+																		src="/<%= log.userImage %>" alt="" /></span>
+																<span class="name">
+																	<%= log.userName %>
+																</span>
+															</a>
+														</li>
+														<% } } %>
+											</ul>
+											<!-- /.notice-list -->
+											<!-- <div class="text-center margin-top-20"><a href="#" class="btn btn-default">See All Activities <i class="fa fa-angle-double-right"></i></a></div> -->
+										</div>
+										<!-- /.box-title -->
+									</div>
+									<!-- /.box-content card -->
+								</div>
+								<!-- /.col-md-6 -->
+							</div>
 						</div>
+						<!-- /.col-md-9 col-xs-12 -->
 					</div>
-
-					<div class="row">
-						<div class="col-md-6 col-xs-12">
-							<div class="box-content card">
-								<h4 class="box-title"><i class="fa fa-heart ico"></i> Favourite Users</h4>
-								<!-- /.box-title -->
-								<div class="card-content">
-									<ul class="notice-list">
-
-										<% if(fdata==null){%><div></div><%}else{ for(let log of fdata) {%>
-										<li>
-											<a href="/user-detail/<%= log.userId %>">
-												<span class="avatar"><img style="height: 100%;" src="/<%= log.userImage %>" alt="" /></span>
-												<span class="name"><%= log.userName %> </span>
-											</a>
-										</li>
-										<% } } %>
-									</ul>
-									<!-- /.notice-list -->
-									<!-- <div class="text-center margin-top-20"><a href="#" class="btn btn-default">See All Activities <i class="fa fa-angle-double-right"></i></a></div> -->
-								</div>
-								<!-- /.card-content -->
-							</div>
-							<!-- /.box-content card -->
-						</div>
-						<!-- /.col-md-6 -->
-						<div class="col-md-6 col-xs-12">
-							<div class="box-content card">
-								<h4 class="box-title"><i class="fa fa-ban ico"></i> Block Uers</h4>
-
-								<div class="card-content">
-									<ul class="notice-list">
-										<% if(bdata==null){%><div></div><%}else{ for(let log of bdata) {%>
-										<li>
-											<a href="/user-detail/<%= log.userId %>">
-												<span class="avatar"><img style="height: 100%;" src="/<%= log.userImage %>" alt="" /></span>
-												<span class="name"><%= log.userName %> </span>
-											</a>
-										</li>
-										<% } } %>
-									</ul>
-									<!-- /.notice-list -->
-									<!-- <div class="text-center margin-top-20"><a href="#" class="btn btn-default">See All Activities <i class="fa fa-angle-double-right"></i></a></div> -->
-								</div>
-								<!-- /.box-title -->
-							</div>
-							<!-- /.box-content card -->
-						</div>
-						<!-- /.col-md-6 -->
-					</div>
+					<!-- /.row small-spacing -->
+					<%- include('includes/footer.ejs') %>
 				</div>
-				<!-- /.col-md-9 col-xs-12 -->
+				<!-- /.main-content -->
 			</div>
-			<!-- /.row small-spacing -->
-			<%- include('includes/footer.ejs') %>
-		</div>
-		<!-- /.main-content -->
-	</div>
-	<!--/#wrapper -->
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!--[if lt IE 9]>
+			<!--/#wrapper -->
+			<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+			<!--[if lt IE 9]>
 		<script src="assets/script/html5shiv.min.js"></script>
 		<script src="assets/script/respond.min.js"></script>
 	<![endif]-->
-	<!-- 
+			<!-- 
 	================================================== -->
-	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="/scripts/jquery.min.js"></script>
-	<script src="/scripts/modernizr.min.js"></script>
-	<script src="/plugin/bootstrap/js/bootstrap.min.js"></script>
-	<script src="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
-	<script src="/plugin/nprogress/nprogress.js"></script>
-	<script src="/plugin/sweet-alert/sweetalert.min.js"></script>
-	<script src="/plugin/waves/waves.min.js"></script>
-	<!-- Full Screen Plugin -->
-	<script src="/plugin/fullscreen/jquery.fullscreen-min.js"></script>
+			<!-- Placed at the end of the document so the pages load faster -->
+			<script src="/scripts/jquery.min.js"></script>
+			<script src="/scripts/modernizr.min.js"></script>
+			<script src="/plugin/bootstrap/js/bootstrap.min.js"></script>
+			<script src="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+			<script src="/plugin/nprogress/nprogress.js"></script>
+			<script src="/plugin/sweet-alert/sweetalert.min.js"></script>
+			<script src="/plugin/waves/waves.min.js"></script>
+			<!-- Full Screen Plugin -->
+			<script src="/plugin/fullscreen/jquery.fullscreen-min.js"></script>
 
-	<script src="/scripts/main.min.js"></script>
-	<script src="/color-switcher/color-switcher.min.js"></script>
+			<script src="/scripts/main.min.js"></script>
+			<script src="/color-switcher/color-switcher.min.js"></script>
 </body>
 
 </html>

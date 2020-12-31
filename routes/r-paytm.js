@@ -9,92 +9,36 @@ dotenv.config();
 router.post('/api/genrate-checksum', (req, res) => {
     const d = req.body;
     if (!d) return res.status(201).json({ status: false, message: "Provide proper details" });
-    let oid = d.inputOrderId;
-    // let params = {};
-    // params["MID"] = process.env.PAYTM_MID;
-    // params["WEBSITE"] = process.env.PAYTM_WEBSITE;
-    // params["CHANNEL_ID"] = process.env.PAYTM_CHANNEL_ID;
-    // params["INDUSTRY_TYPE_ID"] = process.env.PAYTM_INDUSTRY_TYPE_ID;
-    // params["ORDER_ID"] = oid;
-    // params["CUST_ID"] = d.inputUserId;
-    // params["TXN_AMOUNT"] = d.inputAmount;
-    // params["CALLBACK_URL"] = "http://23af8545c754.ngrok.io/api/receipt";
-    // params["EMAIL"] = d.inputEmailId;
-    // params["MOBILE_NO"] = d.inputMobileNumber;
-    // body = { "mid": process.env.PAYTM_MID, "orderId": oid }
-    // var paytmCheckSum = PaytmChecksum.generateSignature(params, process.env.PAYTM_MID_KEY);
-    //sdsdsd
-    var paytmParams = {};
-
-    /* Generate Checksum via Array */
-
-    /* initialize an array */
-    paytmParams["MID"] = process.env.PAYTM_MID;
-    paytmParams["ORDERID"] = oid;
-
-    var paytmChecksum = PaytmChecksum.generateSignature(paytmParams, process.env.PAYTM_MID_KEY);
-    paytmChecksum.then(function (result) {
-        console.log("generateSignature Returns: " + result);
-        var verifyChecksum = PaytmChecksum.verifySignature(paytmParams, process.env.PAYTM_MID_KEY, result);
-        console.log(verifyChecksum);
+    body = {
+        "mid": d.mid,
+        "CHANNEL_ID":  d.CHANNEL_ID,
+        "INDUSTRY_TYPE_ID": d.INDUSTRY_TYPE_ID,
+        "WEBSITE": d.WEBSITE,
+        "PAYTM_MERCHANT_KEY": d.PAYTM_MERCHANT_KEY,
+        "TXN_AMOUNT": d.TXN_AMOUNT,
+        "ORDER_ID": d.ORDER_ID,
+        "CUST_ID": d.CUST_ID
+    };
+    var paytmChecksum = PaytmChecksum.generateSignature(JSON.stringify(req.body), d.PAYTM_MERCHANT_KEY);
+    paytmChecksum.then(function(result){
+        console.log(result);
         return res.status(200).json({
-            CHECKSUMHASH: verifyChecksum,
-            MID: process.env.PAYTM_MID,
-            WEBSITE: process.env.PAYTM_WEBSITE,
-            CHANNEL_ID: process.env.PAYTM_CHANNEL_ID,
-            INDUSTRY_TYPE_ID: process.env.PAYTM_INDUSTRY_TYPE_ID,
-            ORDER_ID: oid,
-            CUST_ID: d.inputUserId,
-            TXN_AMOUNT: d.inputAmount,
-            CALLBACK_URL: "http://8a97184a0825.ngrok.io/api/receipt",
-            EMAIL: d.inputEmailId,
-            MOBILE_NO: d.inputMobileNumber
+            CHECKSUMHASH: result,
+            CUST_ID: d.CUST_ID,
+            ORDER_ID: d.ORDER_ID
         });
-        //console.log("verifySignature Returns: " + verifyChecksum);
     }).catch(function (error) {
         console.log(error);
     });
-
-    // paytmCheckSum.then(function (checksum) {
-    //     console.log(checksum);
-    //     return res.status(200).json({
-    //         CHECKSUMHASH: checksum,
-    //         MID: process.env.PAYTM_MID,
-    //         WEBSITE: process.env.PAYTM_WEBSITE,
-    //         CHANNEL_ID: process.env.PAYTM_CHANNEL_ID,
-    //         INDUSTRY_TYPE_ID: process.env.PAYTM_INDUSTRY_TYPE_ID,
-    //         ORDER_ID: oid,
-    //         CUST_ID: d.inputUserId,
-    //         TXN_AMOUNT: d.inputAmount,
-    //         CALLBACK_URL: "http://23af8545c754.ngrok.io/api/receipt",
-    //         EMAIL: d.inputEmailId,
-    //         MOBILE_NO: d.inputMobileNumber
-    //     });
-    // })
 });
 
-router.post('/api/receipt', (req, res) => {
-    let responseData = req.body;
-    console.log(called);
-    console.log(responseData);
-    res.status(200).json({
-        responseData
-    })
-    // var checksumhash = responseData.CHECKSUMHASH;
-    // var isVerifySignature = PaytmChecksum.verifySignature(responseData, process.env.PAYTM_MID_KEY, checksumhash);
-    // if (isVerifySignature) {
-    //     console.log(isVerifySignature);
-    //     return res.send({
-    //         status: 0,
-    //         data: responseData
-    //     })
-    // } else {
-    //     console.log(isVerifySignature);
-    //     return res.send({
-    //         status: 1,
-    //         data: responseData
-    //     })
-    // }
-});
+// router.post('/api/receipt', (req, res) => {
+//     let responseData = req.body;
+//     console.log(called);
+//     console.log(responseData);
+//     res.status(200).json({
+//         responseData
+//     })
+// });
 
 module.exports = router;

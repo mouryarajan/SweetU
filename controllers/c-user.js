@@ -123,7 +123,7 @@ exports.postAddUser = (req, res, next) => {
                 });
             }
             const x = user_image.filename;
-            const images = "images/" + x;
+            const images = x;
             const user = new User({
                 user_name: user_name,
                 user_about: user_about,
@@ -406,7 +406,7 @@ exports.postAPIsUserAdd = (req, res, next) => { //user login
                         })
                     }
                     response.type = matches[1];
-                    response.data = new Buffer(matches[2], 'base64');
+                    response.data = new Buffer.from(matches[2], 'base64');
                     let decodeImg = response;
                     let imageBuffer = decodeImg.data;
                     let type = decodeImg.type;
@@ -677,7 +677,7 @@ function isEmptyObject(obj) {
 
 exports.postAPIsUserImage = (req, res, next) => {
     try {
-        console.log('called');
+        //console.log('called');
         const uId = req.body.inputUserId;
         User.findOne({ _id: uId })
             .then(result => {
@@ -693,14 +693,14 @@ exports.postAPIsUserImage = (req, res, next) => {
                         })
                     }
                     response.type = matches[1];
-                    response.data = new Buffer(matches[2], 'base64');
+                    response.data = new Buffer.from(matches[2], 'base64');
                     let decodeImg = response;
                     let imageBuffer = decodeImg.data;
                     let type = decodeImg.type;
                     let extension = mime.extension(type);
                     let filename = Math.floor(100000 + Math.random() * 900000) + "image." + extension;
-                    let finalname = "images/" + filename;
-                    console.log(finalname);
+                    let finalname = filename;
+                    //console.log(finalname);
                     fs.writeFileSync("./images/" + filename, imageBuffer, 'utf8');
                     result.user_image = finalname;
                     result.save()
@@ -721,14 +721,14 @@ exports.postAPIsUserImage = (req, res, next) => {
                         })
                     }
                     response.type = matches[1];
-                    response.data = new Buffer(matches[2], 'base64');
+                    response.data = new Buffer.from(matches[2], 'base64');
                     let decodeImg = response;
                     let imageBuffer = decodeImg.data;
                     let type = decodeImg.type;
                     let extension = mime.extension(type);
                     let filename = Math.floor(100000 + Math.random() * 900000) + "image." + extension;
-                    let finalname = "images/" + filename;
-                    console.log(finalname);
+                    let finalname =  filename;
+                    //console.log(finalname);
                     fs.writeFileSync("./images/" + filename, imageBuffer, 'utf8');
                     User.findOne({ _id: uId })
                         .then(re => {
@@ -755,7 +755,7 @@ exports.postAPIsUserImage = (req, res, next) => {
 //Online User List
 exports.getAPIsOnlineUserList = (req, res, next) => { //user list
     const uId = req.body.inputUserId;
-    User.find({ is_Active: 'true', _id: { $nin: [uId] } }).select('user_name').select('user_image').select('user_country').select('user_countryCode').sort({ user_coin: 'desc' })
+    User.find({ is_Active: 'true', _id: { $nin: [uId] } }).select('user_name').select('user_image').select('user_country').select('user_countryCode').sort({ user_coin: 'desc' }).sort({createdAt: 'desc'})
         .then(result => {
             res.status(201).json(
                 result
@@ -810,7 +810,7 @@ exports.postAPIsCoin = (req, res, next) => { // Add to Coin Log
 }
 
 //Adding Favourite User
-exports.postAPIsFavourite = (req, res, next) => {
+exports.postAPIsFavourite = async (req, res, next) => {
     const uid = req.body.inputUserId;
     const fuid = req.body.inputFavouriteUserId;
     let status = false;
@@ -828,6 +828,8 @@ exports.postAPIsFavourite = (req, res, next) => {
                 })
             } else {
                 const arr = result.user_favrateLog.items;
+                const sada = await = user.findOne({_id: fuid});
+                const you = sada.user_favrateLog.items;
                 //console.log(arr)
                 arr.push({
                     favouriteUserId: fuid

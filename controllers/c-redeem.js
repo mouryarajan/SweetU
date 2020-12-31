@@ -209,32 +209,10 @@ exports.postGetRedeemLogUser = (req, res, next) => {
     const uId = req.body.inputUserId;
     redeemLog.find({ userId: uId })
         .then(result => {
-            if (result) {
-                //var date = new Date(result.createdAt);
-                // var d = moment(result.createdAt).format("DD-MM-YYYY");
-                // arr = {
-                //     status: result.status,
-                //     remark: result.remark,
-                //     amount: result.amount,
-                //     coin: result.coin,
-                //     match: result.match,
-                //     userId: result.userId,
-                //     name: result.name,
-                //     phoneNumber: result.phoneNumber,
-                //     mode: result.mode,
-                //     createdAt: d
-                // };
-                console.log(arr);
-                res.status(200).json({
-                    status: true,
-                    data: data
-                })
-            } else {
-                res.status(201).json({
-                    status: false,
-                    message: "No Redeem Request"
-                })
-            }
+            res.status(200).json({
+                status: true,
+                data: result
+            })
         }).catch(err => { console.log(err) });
 }
 

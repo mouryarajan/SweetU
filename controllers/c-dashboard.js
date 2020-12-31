@@ -79,7 +79,8 @@ exports.postEditor = (req, res, next) => {
     editor.findOne({_id: pid})
     .then(data=>{
         if(data){
-            data.privacyAndPolicy = area
+            let pdata = "<html><body>" + area + "</body></html>"
+            data.privacyAndPolicy = pdata
             data.save()
             .then(result=>{
                 if(result){
@@ -103,10 +104,11 @@ exports.postEditor = (req, res, next) => {
 //API
 
 exports.getPivacyAndPolicyAPI = (req, res, next) =>{
-    editor.find()
+    editor.findOne({_id:"5feae8e74724e221bc769777"})
     .then(data=>{
         if(data){
-            res.status(200).json({status:true,data: data});
+            let a = data.privacyAndPolicy
+            res.status(200).json({data:a});
         }else{
             res.status(201).json({status:false, message: "Not found any data"});
         }
