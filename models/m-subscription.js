@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+const subSchema = new Schema({
     name: {
         type: String,
         required: false
@@ -21,4 +21,4 @@ const userSchema = new Schema({
 },{ timestamps: true }
 );
 
-module.exports = mongoose.model('tblusers', userSchema);
+module.exports = mongoose.model('tblsubscription', subSchema);

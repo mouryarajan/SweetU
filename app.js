@@ -15,6 +15,16 @@ const store = new MongoDbStore({
     collection: 'sessions',
 });
 
+//paytm
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin,X-Requested-With,Content-Type,Accept"
+    );
+    next();
+});
+
 // const csrfProtection = csrf();
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -54,6 +64,7 @@ const paytmRoutes = require('./routes/r-paytm');
 const redeemRoutes = require('./routes/r-redeem');
 const stickerRoutes = require('./routes/r-sticker');
 const notificationRoutes = require('./routes/r-notification');
+const subRoutes = require('./routes/r-subscription');
 
 app.use(express.static(path.join(__dirname, 'assets')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
@@ -100,6 +111,7 @@ app.use(paytmRoutes);
 app.use(redeemRoutes);
 app.use(stickerRoutes);
 app.use(notificationRoutes);
+app.use(subRoutes);
 
 //404 Page
 app.use((req, res, next) => {

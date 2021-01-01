@@ -313,6 +313,7 @@ exports.getUserDelete = (req, res, next) => {
 
 exports.postAPIsLoginCheck = (req, res, next) => {
     const uId = req.body.inputEmailId;
+    const deviceToken = req.body.inputNotificationTocken;
     User.findOne({ user_emailId: uId })
         .then(result => {
             if (result) {
@@ -337,6 +338,8 @@ exports.postAPIsLoginCheck = (req, res, next) => {
                     userId: data.user_id,
                     user_emailId: data.user_emailId
                 }, process.env.TOKEN_SECRET);
+                result.notificationTocken = deviceToken;
+                result.save();
                 res.status(201).json({
                     status: true,
                     data: data,

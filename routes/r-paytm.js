@@ -1,44 +1,69 @@
+// const functions = require('firebase-functions');
+// var serviceAccount = require("../sweetu-6cb6e-firebase-adminsdk-26jna-c0cf9f09ac.json");
 const express = require('express');
 const router = express.Router();
-const PaytmChecksum = require('../PaytmChecksum');
-const { v4: uuidv4 } = require('uuid');
-const dotenv = require('dotenv');
+const checksum_lib = require('../PaytmChecksum.js');
 
-dotenv.config();
+var PaytmConfig = {
+    mid: "VKXquL75508181564628",
+    key: "HQ88ogvH0NKsYheI",
+    website: "WEBSTAGING" // for Testing 
+}
+var txn_url = "https://securegw-stage.paytm.in/theia/processTransaction";
+var callbackURL = "https://sweetu-karon.herokuapp.com/customFunctions/paymentReceipt";// Replace with this callbackURL to your project path
 
-router.post('/api/genrate-checksum', (req, res) => {
-    const d = req.body;
-    if (!d) return res.status(201).json({ status: false, message: "Provide proper details" });
-    body = {
-        "mid": d.mid,
-        "CHANNEL_ID":  d.CHANNEL_ID,
-        "INDUSTRY_TYPE_ID": d.INDUSTRY_TYPE_ID,
-        "WEBSITE": d.WEBSITE,
-        "PAYTM_MERCHANT_KEY": d.PAYTM_MERCHANT_KEY,
-        "TXN_AMOUNT": d.TXN_AMOUNT,
-        "ORDER_ID": d.ORDER_ID,
-        "CUST_ID": d.CUST_ID
-    };
-    var paytmChecksum = PaytmChecksum.generateSignature(JSON.stringify(req.body), d.PAYTM_MERCHANT_KEY);
-    paytmChecksum.then(function(result){
-        console.log(result);
-        return res.status(200).json({
-            CHECKSUMHASH: result,
-            CUST_ID: d.CUST_ID,
-            ORDER_ID: d.ORDER_ID
-        });
-    }).catch(function (error) {
-        console.log(error);
+
+router.post("/payment", (req, res) => {
+    let paymentData = req.body;
+    var params = {};
+    params['MID'] = PaytmConfig.mid;
+    params['WEBSITE'] = PaytmConfig.website;
+    params['CHANNEL_ID'] = 'WEB';
+    params['INDUSTRY_TYPE_ID'] = 'Retail';
+    params['ORDER_ID'] = paymentData.orderID;
+    params['CUST_ID'] = paymentData.custID;
+    params['TXN_AMOUNT'] = paymentData.amount;
+    params['CALLBACK_URL'] = callbackURL;
+    params['EMAIL'] = paymentData.custEmail;
+    params['MOBILE_NO'] = paymentData.custPhone;
+
+
+    checksum_lib.genchecksum(params, PaytmConfig.key, (err, checksum) => {
+        if (err) {
+            console.log("Error: " + e);
+        }
+
+
+        var form_fields = "";
+        for (var x in params) {
+            form_fields += "<input type='hidden' name='" + x + "' value='" + params[x] + "' >";
+        }
+        form_fields += "<input type='hidden' name='CHECKSUMHASH' value='" + checksum + "' >";
+
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.write('<html><head><title>Merchant Checkout Page</title></head><body><center><h1>Please do not refresh this page...</h1></center><form method="post" action="' + txn_url + '" name="f1">' + form_fields + '</form><script type="text/javascript">document.f1.submit();</script></body></html>');
+        res.end();
     });
 });
+router.post("/paymentReceipt", (req, res) => {
+    let responseData = req.body;
+    var checksumhash = responseData.CHECKSUMHASH;
+    var result = checksum_lib.verifychecksum(
+        responseData,
+        PaytmConfig.key,
+        checksumhash,
+    );
+    if (result) {
+        return res.send({
+            status: 0,
+            data: responseData
+        });
 
-// router.post('/api/receipt', (req, res) => {
-//     let responseData = req.body;
-//     console.log(called);
-//     console.log(responseData);
-//     res.status(200).json({
-//         responseData
-//     })
-// });
-
+    } else {
+        return res.send({
+            status: 1,
+            data: responseData
+        });
+    }
+});
 module.exports = router;
