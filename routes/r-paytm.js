@@ -10,7 +10,7 @@ var PaytmConfig = {
     website: "WEBSTAGING" // for Testing 
 }
 var txn_url = "https://securegw-stage.paytm.in/theia/processTransaction";
-var callbackURL = "https://sweetu-karon.herokuapp.com/customFunctions/paymentReceipt";// Replace with this callbackURL to your project path
+var callbackURL = "https://sweetu-karon.herokuapp.com/paymentReceipt";// Replace with this callbackURL to your project path
 
 
 router.post("/payment", (req, res) => {
@@ -45,25 +45,26 @@ router.post("/payment", (req, res) => {
         res.end();
     });
 });
-router.post("/paymentReceipt", (req, res) => {
-    let responseData = req.body;
-    var checksumhash = responseData.CHECKSUMHASH;
-    var result = checksum_lib.verifychecksum(
-        responseData,
-        PaytmConfig.key,
-        checksumhash,
-    );
-    if (result) {
-        return res.send({
-            status: 0,
-            data: responseData
-        });
+router.get("/paymentReceipt", (req, res) => {
+    res.send("Hello");
+    // let responseData = req.body;
+    // var checksumhash = responseData.CHECKSUMHASH;
+    // var result = checksum_lib.verifychecksum(
+    //     responseData,
+    //     PaytmConfig.key,
+    //     checksumhash,
+    // );
+    // if (result) {
+    //     return res.send({
+    //         status: 0,
+    //         data: responseData
+    //     });
 
-    } else {
-        return res.send({
-            status: 1,
-            data: responseData
-        });
-    }
+    // } else {
+    //     return res.send({
+    //         status: 1,
+    //         data: responseData
+    //     });
+    // }
 });
 module.exports = router;
