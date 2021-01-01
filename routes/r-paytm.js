@@ -25,7 +25,6 @@ router.post("/payment", (req, res) => {
     params['TXN_AMOUNT'] = paymentData.amount;
     params['CALLBACK_URL'] = callbackURL;
     params['EMAIL'] = paymentData.custEmail;
-    params['MOBILE_NO'] = paymentData.custPhone;
 
 
     checksum_lib.genchecksum(params, PaytmConfig.key, (err, checksum) => {
