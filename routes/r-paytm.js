@@ -45,26 +45,25 @@ router.post("/payment", (req, res) => {
         res.end();
     });
 });
-router.get("/paymentReceipt", (req, res) => {
-    res.send("Hello");
-    // let responseData = req.body;
-    // var checksumhash = responseData.CHECKSUMHASH;
-    // var result = checksum_lib.verifychecksum(
-    //     responseData,
-    //     PaytmConfig.key,
-    //     checksumhash,
-    // );
-    // if (result) {
-    //     return res.send({
-    //         status: 0,
-    //         data: responseData
-    //     });
+router.post("/paymentReceipt", (req, res) => {
+    let responseData = req.body;
+    var checksumhash = responseData.CHECKSUMHASH;
+    var result = checksum_lib.verifychecksum(
+        responseData,
+        PaytmConfig.key,
+        checksumhash,
+    );
+    if (result) {
+        return res.send({
+            status: 0,
+            data: responseData
+        });
 
-    // } else {
-    //     return res.send({
-    //         status: 1,
-    //         data: responseData
-    //     });
-    // }
+    } else {
+        return res.send({
+            status: 1,
+            data: responseData
+        });
+    }
 });
 module.exports = router;
