@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const mime = require('mime');
 const jwt = require('jsonwebtoken');
+const coinss = require('../models/m-coinlog');
 
 var nodemailer = require('nodemailer');
 
@@ -774,17 +775,26 @@ exports.postAPIsCoin = (req, res, next) => { // Add to Coin Log
     const status = req.body.inputStatus;
     if (status == true) {
         User.findOne({ _id: uId })
-            .then(result => {
+            .then(async result => {
                 if (result) {
                     result.user_coin = result.user_coin + coin;
-                    result.save()
+                    const Coin = new coinss({
+                        userId: result._id,
+                        name: result.user_name,
+                        amount: req.body.inputAmount,
+                        coin: coin
+                    });
+                    Coin.save()
+                    .then(rs=>{
+                        result.save()
                         .then(data => {
                             if (data) {
-                                res.status(201).json({
+                                res.status(200).json({
                                     status: true
                                 })
                             }
-                        })
+                        }).catch(err=>{console.log(err)});
+                    }).catch(err=>{console.log(err)});
                 }
             })
     } else {
@@ -800,10 +810,10 @@ exports.postAPIsCoin = (req, res, next) => { // Add to Coin Log
                                         status: true
                                     })
                                 }
-                            })
+                            }).catch(err=>{console.log(err)});
                     } else {
                         res.status(201).json({
-                            status: true,
+                            status: false,
                             message: "You don't have enough coins"
                         })
                     }

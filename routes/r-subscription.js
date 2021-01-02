@@ -7,6 +7,8 @@ router.get('/subscription', subController.getSubscription);
 router.post('/add-subscription', subController.postSubscription);
 router.get('/subscription-log', subController.getSubscriptionLog);
 router.post('/subscription-filter', subController.postSubscriptionFilter);
+router.get('/get-coinlog', subController.getCoinLog);
+router.post('/filter-coin-log', subController.postFilterCoinLog);
 
 //API
 router.get('/api/subscription', subController.getAPIsSubscription);

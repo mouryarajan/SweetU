@@ -41,7 +41,7 @@ router.post('/api/user-edit',verify, userController.postAPIsUserEdit);
 router.post('/api/user-image',verify, userController.postAPIsUserImage);
 router.post('/api/user-list', verify,userController.getAPIsOnlineUserList);
 
-// router.post('/api/coin',userController.postAPIsCoin);
+router.post('/api/coin',userController.postAPIsCoin);
 
 router.post('/api/add-favourite',verify,userController.postAPIsFavourite);
 router.post('/api/get-favourite',verify,userController.postAPIsGetFavourite);
