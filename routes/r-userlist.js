@@ -59,4 +59,5 @@ router.post('/api/update-status-online', verify,userController.postAPIUpdateStat
 router.post('/api/update-status-ofline', verify,userController.postAPIUpdateStatusOfline);
 
 router.post('/api/get-favourite-you', verify, userController.getFavouriteYou);
+router.post('/api/get-video-list', userController.postVideoCallList);
 module.exports = router;

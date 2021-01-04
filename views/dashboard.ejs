@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	
+
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<meta name="description" content="" />
 	<meta name="author" content="" />
 
-	<title><%= pageTitle %></title>
+	<title>
+		<%= pageTitle %>
+	</title>
 
 	<!-- Main Styles -->
 	<link rel="stylesheet" href="/styles/style.min.css" />
-	
+
 	<!-- Material Design Icon -->
 	<link rel="stylesheet" href="/fonts/material-design/css/materialdesignicons.css" />
 
@@ -23,7 +26,7 @@
 
 	<!-- Sweet Alert -->
 	<link rel="stylesheet" href="/plugin/sweet-alert/sweetalert.css" />
-	
+
 	<!-- Percent Circle -->
 	<link rel="stylesheet" href="/plugin/percircle/css/percircle.css" />
 
@@ -36,688 +39,803 @@
 
 	<!-- Color Picker -->
 	<link rel="stylesheet" href="/color-switcher/color-switcher.min.css" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
 
 <body>
-<%- include('includes/sidebar.ejs') %>
-<!-- /.main-menu -->
+	<%- include('includes/sidebar.ejs') %>
+		<!-- /.main-menu -->
 
-<%- include('includes/header.ejs') %>
-<!-- /.fixed-navbar -->
+		<%- include('includes/header.ejs') %>
+			<!-- /.fixed-navbar -->
 
-<div id="wrapper">
-	<div class="main-content">
-		<div class="row small-spacing">
-			<div class="col-sm-6 col-lg-3 col-xs-12">
-				<div class="box-content">
-					<h4 class="box-title text-orange">Total Users</h4>
-					<!-- /.dropdown js__dropdown -->
-					<div class="content widget-stat">
-						<div class="left-content">
-							<h4 class="counter text-orange" style="font-size:1.2rem ;text-align: left;" >M&nbsp;: <%= totalMale %></h4>
-							<h4 class="counter text-orange" style="font-size:1.2rem ;text-align: left;">F&nbsp;&nbsp;: <%= totalFemale %></h4>
-							<h4 class="counter text-info">&nbsp;</h4>
+			<div id="wrapper">
+				<div class="main-content">
+					<div class="row small-spacing">
+						<div class="col-sm-6 col-lg-3 col-xs-12">
+							<div class="box-content">
+								<h4 class="box-title text-orange">Total Users</h4>
+								<!-- /.dropdown js__dropdown -->
+								<div class="content widget-stat">
+									<div class="left-content">
+										<h4 class="counter text-orange" style="font-size:1.2rem ;text-align: left;">
+											M&nbsp;: <%= totalMale %>
+										</h4>
+										<h4 class="counter text-orange" style="font-size:1.2rem ;text-align: left;">
+											F&nbsp;&nbsp;: <%= totalFemale %>
+										</h4>
+										<h4 class="counter text-info">&nbsp;</h4>
+									</div>
+									<!-- /#traffic-sparkline-chart-3 -->
+									<div class="right-content">
+										<h2 class="counter text-orange">
+											<%= total %>
+										</h2>
+										<!-- /.counter -->
+										<p class="text text-orange">Total</p>
+										<!-- /.text -->
+									</div>
+									<!-- .right-content -->
+								</div>
+								<!-- /.content widget-stat -->
+							</div>
+							<!-- /.box-content -->
 						</div>
-						<!-- /#traffic-sparkline-chart-3 -->
-						<div class="right-content">
-							<h2 class="counter text-orange"><%= total %></h2>
-							<!-- /.counter -->
-							<p class="text text-orange">Total</p>
-							<!-- /.text -->
-						</div>
-						<!-- .right-content -->
-					</div>
-					<!-- /.content widget-stat -->
-				</div>
-				<!-- /.box-content -->
-			</div>
 
-			<div class="col-sm-6 col-lg-3 col-xs-12">
-				<div class="box-content">
-					<h4 class="box-title text-success">Active Users</h4>
-					<!-- /.dropdown js__dropdown -->
-					<div class="content widget-stat">
-						<div class="left-content">
-							<h4 class="counter text-success"style="font-size:1.2rem ;text-align: left;" >M&nbsp;:<%= totalActiveMale %></h4>
-							<h4 class="counter text-success"style="font-size:1.2rem ;text-align: left;">F&nbsp;&nbsp;: <%= totalActiveFemale %></h4>
-							<h4 class="counter text-info">&nbsp;</h4>
+						<div class="col-sm-6 col-lg-3 col-xs-12">
+							<div class="box-content">
+								<h4 class="box-title text-success">Active Users</h4>
+								<!-- /.dropdown js__dropdown -->
+								<div class="content widget-stat">
+									<div class="left-content">
+										<h2 class="counter text-success" style="text-align: left;">
+											<%= totalActiveMale %></h2>
+											<p class="text text-success"
+												style="display: block; text-align: left; margin-bottom: 0;">Male :</p>
+										
+										<h4 class="counter text-success" style="font-size:1.2rem ;text-align: left;">
+											F&nbsp;&nbsp;: <%= totalActiveFemale %>
+										</h4>
+										<h4 class="counter text-info">&nbsp;</h4>
+									</div>
+									<!-- /#traffic-sparkline-chart-2 -->
+									<div class="right-content">
+										<h2 class="counter text-success">
+											<%= totalActive %>
+										</h2>
+										<!-- /.counter -->
+										<p class="text text-success">Users</p>
+										<!-- /.text -->
+									</div>
+									<!-- .right-content -->
+								</div>
+								<!-- /.content widget-stat -->
+							</div>
+							<!-- /.box-content -->
 						</div>
-						<!-- /#traffic-sparkline-chart-2 -->
-						<div class="right-content">
-							<h2 class="counter text-success"><%= totalActive %></h2>
-							<!-- /.counter -->
-							<p class="text text-success">Users</p>
-							<!-- /.text -->
+						<!-- /.col-sm-6 col-lg-3 col-xs-12 -->
+						<div class="col-sm-6 col-lg-3 col-xs-12">
+							<div class="box-content">
+								<h4 class="box-title text-info">Matched User</h4>
+								<!-- /.dropdown js__dropdown -->
+								<div class="content widget-stat">
+									<div class="left-content">
+										<div>
+											<h2 class="counter text-info" style="text-align: left;">
+												<%= totalActiveMale %>
+											</h2>
+											<p class="text text-info"
+												style="display: block; text-align: left; margin-bottom: 0;">Male -
+												Female:</p>
+										</div>
+										<div>
+											<h2 class="counter text-info" style="text-align: left;">
+												<%= totalActiveFemale %>
+											</h2>
+											<p class="text text-info"
+												style="display: block; text-align: left; margin-bottom: 0;">Male - Male:
+											</p>
+										</div>
+										<div>
+											<h2 class="counter text-info" style="text-align: left;">
+												<%= totalActiveFemale %>
+											</h2>
+											<p class="text text-info margin-bottom: 0;"
+												style="display: block; text-align: left;  margin-bottom: 0;">Female -
+												Female:</p>
+										</div>
+									</div>
+									<!-- /#traffic-sparkline-chart-1 -->
+									<div class="right-content">
+										<h2 class="counter text-info">278</h2>
+										<!-- /.counter -->
+										<p class="text text-info">Users</p>
+										<!-- /.text -->
+									</div>
+									<!-- .right-content -->
+								</div>
+								<!-- /.content widget-stat -->
+							</div>
+							<!-- /.box-content -->
 						</div>
-						<!-- .right-content -->
-					</div>
-					<!-- /.content widget-stat -->
-				</div>
-				<!-- /.box-content -->
-			</div>
-			<!-- /.col-sm-6 col-lg-3 col-xs-12 -->
-			<div class="col-sm-6 col-lg-3 col-xs-12">
-				<div class="box-content">
-					<h4 class="box-title text-info">Matched User</h4>
-					<!-- /.dropdown js__dropdown -->
-					<div class="content widget-stat">
-						<div class="left-content ">
-							<h4 class="counter text-info"style="font-size:1.2rem ;text-align: left;" >M-F: <%= totalActiveMale %></h4>
-							<h4 class="counter text-info"style="font-size:1.2rem ;text-align: left;" >M-M: <%= totalActiveFemale %></h4>
-							<h4 class="counter text-info"style="font-size:1.2rem ;text-align: left;" >F-F: <%= totalActiveFemale %></h4>
-						</div>
-						<!-- /#traffic-sparkline-chart-1 -->
-						<div class="right-content">
-							<h2 class="counter text-info">278</h2>
-							<!-- /.counter -->
-							<p class="text text-info">Users</p>
-							<!-- /.text -->
-						</div>
-						<!-- .right-content -->
-					</div>
-					<!-- /.content widget-stat -->
-				</div>
-				<!-- /.box-content -->
-			</div>
-			<!-- /.col-sm-6 col-lg-3 col-xs-12 -->
+						<!-- /.col-sm-6 col-lg-3 col-xs-12 -->
 
-			
-			<!-- /.col-lg-4 col-xs-12 -->
 
-			<div class="col-sm-6 col-lg-3 col-xs-12">
-				<div class="box-content">
-					<h4 class="box-title text-orange" style="font-size:1.6rem ;">Subscription</h4>
-					<!-- /.box-title -->
-					<div class="content widget-stat">
-						<div class="left-content ">
-							<h4 class="counter text-orange"style="font-size:1.2rem ;text-align: left;" >M&nbsp;:<%= totalActiveMale %></h4>
-							<h4 class="counter text-orange"style="font-size:1.2rem ;text-align: left;">F&nbsp;&nbsp;: <%= totalActiveFemale %></h4>
-						</div>
-						<!-- /#traffic-sparkline-chart-3 -->
-						<div class="right-content">
-							<h2 class="counter text-orange">235</h2>
-							<!-- /.counter -->
-							<p class="text text-orange">Purchase</p>
-							<!-- /.text -->
-						</div>
-						<!-- .right-content -->
-					</div>
-					<!-- /.content widget-stat -->
-				</div>
-				<!-- /.box-content -->
-			</div>
-			<!-- /.col-sm-6 col-lg-3 col-xs-12 -->
-		</div>
-		<!-- .row -->
-		<div class="row small-spacing">
-			<div class="col-lg-3 col-md-6 col-xs-12">
-				<div class="box-content bg-success text-white row justify-content-between">
-					<div class="statistics-box with-icon col-md-6" style="padding-left: 0; text-align: left;">
-						<p class="text text-white">Today</p>
-						<h4 class="counter"style="font-size:1.2rem ;text-align: left;">T&nbsp;&nbsp;: <%= todayTotal %></h4>
-						<h4 class="counter" style="font-size:1.2rem ;text-align: left;">F&nbsp;&nbsp;: <%= todayTotalFemail %></h4>
-						<h4 class="counter" style="font-size:1.2rem ;text-align: left;" >M&nbsp;:<%= todayTotalMale %></h4>
-					</div>
-					<div class="statistics-box with-icon col-md-6" style="padding-left: 0; ">
-						<p class="text text-white">Yesterday</p>
-						<h4 class="counter"style="font-size:1.2rem ;text-align: right;">T&nbsp;&nbsp;: <%= yseterdayTotal %></h4>
-						<h4 class="counter" style="font-size:1.2rem ;text-align: right;">F&nbsp;&nbsp;: <%= yseterdayTotalFemail %></h4>
-						<h4 class="counter" style="font-size:1.2rem ;text-align: right;" >M&nbsp;:<%= yseterdayTotalMale %></h4>
-					</div>
-				</div>
-				<!-- /.box-content -->
-			</div>
-			<!-- /.col-lg-3 col-md-6 col-xs-12 -->
-			<div class="col-lg-3 col-md-6 col-xs-12">
-				<div class="box-content bg-info text-white">
-					<div class="statistics-box with-icon col-md-6" style="padding-left: 0; text-align: left;">
-						<p class="text text-white">Today</p>
-						<h4 class="counter"style="font-size:1.2rem ;text-align: left;">T&nbsp;&nbsp;: <%= todayTotal %></h4>
-						<h4 class="counter"style="font-size:1.2rem ;text-align: left;">F&nbsp;&nbsp;: <%= todayTotalFemail %></h4>
-						<h4 class="counter"style="font-size:1.2rem ;text-align: left;" >M&nbsp;:<%= todayTotalMale %></h4>
-					</div>
-					<div class="statistics-box with-icon col-md-6" style="padding-left: 0; ">
-						<p class="text text-white">Yesterday</p>
-						<h4 class="counter"style="font-size:1.2rem ;text-align: right;">T&nbsp;&nbsp;: <%= yseterdayTotal %></h4>
-						<h4 class="counter"style="font-size:1.2rem ;text-align: right;">F&nbsp;&nbsp;:<%= yseterdayTotalFemail %></h4>
-						<h4 class="counter"style="font-size:1.2rem ;text-align: right;" >M&nbsp;:<%= yseterdayTotalMale %></h4>
-					</div>
-				</div>
-				<!-- /.box-content -->
-			</div>
-			<!-- /.col-lg-3 col-md-6 col-xs-12 -->
-			<div class="col-lg-3 col-md-6 col-xs-12">
-				<div class="box-content bg-danger text-white">
-					<div class="statistics-box with-icon col-md-6" style="padding-left: 0; text-align: left;">
-						<p class="text text-white">Today</p>
-						<h4 class="counter"style="font-size:1.2rem ;text-align: left;">T&nbsp;&nbsp;: <%= todayTotal %></h4>
-						<h4 class="counter"style="font-size:1.2rem ;text-align: left;">F&nbsp;&nbsp;: <%= todayTotalFemail %></h4>
-						<h4 class="counter"style="font-size:1.2rem ;text-align: left;" >M&nbsp;: <%= todayTotalMale %></h4>
-					</div>
-					<div class="statistics-box with-icon col-md-6" style="padding-left: 0; ">
-						<p class="text text-white">Yesterday</p>
-						<h4 class="counter"style="font-size:1.2rem ;text-align: right;">T&nbsp;&nbsp;: <%= yseterdayTotal %></h4>
-						<h4 class="counter"style="font-size:1.2rem ;text-align: right;">F&nbsp;&nbsp;: <%= yseterdayTotalFemail %></h4>
-						<h4 class="counter"style="font-size:1.2rem ;text-align: right;" >M&nbsp;: <%= yseterdayTotalMale %></h4>
-					</div>
-				</div>
-				<!-- /.box-content -->
-			</div>
-			<!-- /.col-lg-3 col-md-6 col-xs-12 -->
-			<div class="col-lg-3 col-md-6 col-xs-12">
-				<div class="box-content bg-warning text-white">
-					<div class="statistics-box with-icon col-md-6" style="padding-left: 0; text-align: left;">
-						<p class="text text-white">Today</p>
-						<h4 class="counter" style="font-size:1.2rem ;text-align: left;">T&nbsp;&nbsp;: <%= todayTotal %></h4>
-						<h4 class="counter"style="font-size:1.2rem ;text-align: left;" >M&nbsp;: <%= todayTotalMale %></h4>
-						<h4 class="counter"style="font-size:1.2rem ;text-align: left;">F&nbsp;&nbsp;: <%= todayTotalFemail %></h4>
-					</div>
-					<div class="statistics-box with-icon col-md-6" style="padding-left: 0; ">
-						<p class="text text-white">Yesterday</p>
-						<h4 class="counter"style="font-size:1.2rem ;text-align: right;">T&nbsp;&nbsp;: <%= yseterdayTotal %></h4>
-						<h4 class="counter"style="font-size:1.2rem ;text-align: right;" >M&nbsp;: <%= yseterdayTotalMale %></h4>
-						<h4 class="counter"style="font-size:1.2rem ;text-align: right;">F&nbsp;&nbsp;: <%= yseterdayTotalFemail %></h4>
-					</div>
-				</div>
-				<!-- /.box-content -->
-			</div>
-			<!-- /.col-lg-3 col-md-6 col-xs-12 -->
-		</div>
-		<!-- .row -->
+						<!-- /.col-lg-4 col-xs-12 -->
 
-		<div class="row small-spacing">
-			<div class="col-lg-4 col-xs-12">
-				<div class="box-content">
-					<h4 class="box-title">Last Reviews</h4>
-					<!-- /.box-title -->
-					<div class="dropdown js__drop_down">
-						<a href="#" class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
-						<ul class="sub-menu">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else there</a></li>
-							<li class="split"></li>
-							<li><a href="#">Separated link</a></li>
-						</ul>
-						<!-- /.sub-menu -->
+						<div class="col-sm-6 col-lg-3 col-xs-12">
+							<div class="box-content">
+								<h4 class="box-title text-orange" style="font-size:1.6rem ;">Subscription</h4>
+								<!-- /.box-title -->
+								<div class="content widget-stat">
+									<div class="left-content ">
+										<h4 class="counter text-orange" style="font-size:1.2rem ;text-align: left;">
+											M&nbsp;:<%= totalActiveMale %>
+										</h4>
+										<h4 class="counter text-orange" style="font-size:1.2rem ;text-align: left;">
+											F&nbsp;&nbsp;: <%= totalActiveFemale %>
+										</h4>
+									</div>
+									<!-- /#traffic-sparkline-chart-3 -->
+									<div class="right-content">
+										<h2 class="counter text-orange">235</h2>
+										<!-- /.counter -->
+										<p class="text text-orange">Purchase</p>
+										<!-- /.text -->
+									</div>
+									<!-- .right-content -->
+								</div>
+								<!-- /.content widget-stat -->
+							</div>
+							<!-- /.box-content -->
+						</div>
+						<!-- /.col-sm-6 col-lg-3 col-xs-12 -->
 					</div>
-					<!-- /.dropdown js__dropdown -->
-					<div class="review-list">
-						<div class="review-item">
-							<div class="top">
-								<div class="name">John Doe</div>
-								<!-- /.name -->
-								<div class="date">10 min</div>
-								<!-- /.date -->
-								<div class="star-rating text-warning">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star-half-o"></i>
-									<i class="fa fa-star-o"></i>
+					<!-- .row -->
+					<div class="row small-spacing">
+						<div class="col-lg-3 col-md-6 col-xs-12">
+							<div class="box-content bg-success text-white row justify-content-between">
+								<div class="statistics-box with-icon col-md-6"
+									style="padding-left: 0; text-align: left;">
+									<p class="text text-white">Today</p>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: left;">T&nbsp;&nbsp;: <%=
+											todayTotal %>
+									</h4>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: left;">F&nbsp;&nbsp;: <%=
+											todayTotalFemail %>
+									</h4>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: left;">M&nbsp;:<%=
+											todayTotalMale %>
+									</h4>
 								</div>
-								<!-- /.star-rating -->
-							</div>
-							<!-- /.top -->
-							<div class="desc">Amet odio neque nobis consequuntur consequatur a quae, impedit facere, impedit facere.</div>
-							<!-- /.desc -->
-						</div>
-						<!-- /.review-item -->
-						<div class="review-item">
-							<div class="top">
-								<div class="name">Harry Halen</div>
-								<!-- /.name -->
-								<div class="date">15 min</div>
-								<!-- /.date -->
-								<div class="star-rating text-warning">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star-o"></i>
+								<div class="statistics-box with-icon col-md-6" style="padding-left: 0; ">
+									<p class="text text-white">Yesterday</p>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: right;">T&nbsp;&nbsp;: <%=
+											yseterdayTotal %>
+									</h4>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: right;">F&nbsp;&nbsp;: <%=
+											yseterdayTotalFemail %>
+									</h4>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: right;">M&nbsp;:<%=
+											yseterdayTotalMale %>
+									</h4>
 								</div>
-								<!-- /.star-rating -->
 							</div>
-							<!-- /.top -->
-							<div class="desc">Amet odio neque nobis consequuntur consequatur a quae, impedit facere, impedit facere.</div>
-							<!-- /.desc -->
+							<!-- /.box-content -->
 						</div>
-						<!-- /.review-item -->
-						<div class="review-item">
-							<div class="top">
-								<div class="name">Thomas Taylor</div>
-								<!-- /.name -->
-								<div class="date">30 min</div>
-								<!-- /.date -->
-								<div class="star-rating text-warning">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
+						<!-- /.col-lg-3 col-md-6 col-xs-12 -->
+						<div class="col-lg-3 col-md-6 col-xs-12">
+							<div class="box-content bg-info text-white">
+								<div class="statistics-box with-icon col-md-6"
+									style="padding-left: 0; text-align: left;">
+									<p class="text text-white">Today</p>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: left;">T&nbsp;&nbsp;: <%=
+											todayTotal %>
+									</h4>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: left;">F&nbsp;&nbsp;: <%=
+											todayTotalFemail %>
+									</h4>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: left;">M&nbsp;:<%=
+											todayTotalMale %>
+									</h4>
 								</div>
-								<!-- /.star-rating -->
-							</div>
-							<!-- /.top -->
-							<div class="desc">Amet odio neque nobis consequuntur consequatur a quae, impedit facere, impedit facere.</div>
-							<!-- /.desc -->
-						</div>
-						<!-- /.review-item -->
-						<div class="review-item">
-							<div class="top">
-								<div class="name">Helen Candy</div>
-								<!-- /.name -->
-								<div class="date">1 hour ago</div>
-								<!-- /.date -->
-								<div class="star-rating text-warning">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star-o"></i>
-									<i class="fa fa-star-o"></i>
-									<i class="fa fa-star-o"></i>
-									<i class="fa fa-star-o"></i>
+								<div class="statistics-box with-icon col-md-6" style="padding-left: 0; ">
+									<p class="text text-white">Yesterday</p>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: right;">T&nbsp;&nbsp;: <%=
+											yseterdayTotal %>
+									</h4>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: right;">F&nbsp;&nbsp;:<%=
+											yseterdayTotalFemail %>
+									</h4>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: right;">M&nbsp;:<%=
+											yseterdayTotalMale %>
+									</h4>
 								</div>
-								<!-- /.star-rating -->
 							</div>
-							<!-- /.top -->
-							<div class="desc">Amet odio neque nobis consequuntur consequatur a quae, impedit facere, impedit facere.</div>
-							<!-- /.desc -->
+							<!-- /.box-content -->
 						</div>
-						<!-- /.review-item -->
-						<div class="review-item">
-							<div class="top">
-								<div class="name">Henny Betty</div>
-								<!-- /.name -->
-								<div class="date">1 day ago</div>
-								<!-- /.date -->
-								<div class="star-rating text-warning">
-									<i class="fa fa-star-half-o"></i>
-									<i class="fa fa-star-o"></i>
-									<i class="fa fa-star-o"></i>
-									<i class="fa fa-star-o"></i>
-									<i class="fa fa-star-o"></i>
+						<!-- /.col-lg-3 col-md-6 col-xs-12 -->
+						<div class="col-lg-3 col-md-6 col-xs-12">
+							<div class="box-content bg-danger text-white">
+								<div class="statistics-box with-icon col-md-6"
+									style="padding-left: 0; text-align: left;">
+									<p class="text text-white">Today</p>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: left;">T&nbsp;&nbsp;: <%=
+											todayTotal %>
+									</h4>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: left;">F&nbsp;&nbsp;: <%=
+											todayTotalFemail %>
+									</h4>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: left;">M&nbsp;: <%=
+											todayTotalMale %>
+									</h4>
 								</div>
-								<!-- /.star-rating -->
+								<div class="statistics-box with-icon col-md-6" style="padding-left: 0; ">
+									<p class="text text-white">Yesterday</p>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: right;">T&nbsp;&nbsp;: <%=
+											yseterdayTotal %>
+									</h4>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: right;">F&nbsp;&nbsp;: <%=
+											yseterdayTotalFemail %>
+									</h4>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: right;">M&nbsp;: <%=
+											yseterdayTotalMale %>
+									</h4>
+								</div>
 							</div>
-							<!-- /.top -->
-							<div class="desc">Amet odio neque nobis consequuntur consequatur a quae, impedit facere, impedit facere.</div>
-							<!-- /.desc -->
+							<!-- /.box-content -->
 						</div>
-						<!-- /.review-item -->
+						<!-- /.col-lg-3 col-md-6 col-xs-12 -->
+						<div class="col-lg-3 col-md-6 col-xs-12">
+							<div class="box-content bg-warning text-white">
+								<div class="statistics-box with-icon col-md-6"
+									style="padding-left: 0; text-align: left;">
+									<p class="text text-white">Today</p>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: left;">T&nbsp;&nbsp;: <%=
+											todayTotal %>
+									</h4>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: left;">M&nbsp;: <%=
+											todayTotalMale %>
+									</h4>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: left;">F&nbsp;&nbsp;: <%=
+											todayTotalFemail %>
+									</h4>
+								</div>
+								<div class="statistics-box with-icon col-md-6" style="padding-left: 0; ">
+									<p class="text text-white">Yesterday</p>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: right;">T&nbsp;&nbsp;: <%=
+											yseterdayTotal %>
+									</h4>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: right;">M&nbsp;: <%=
+											yseterdayTotalMale %>
+									</h4>
+									<h4 class="counter" style="font-size:1.2rem ;text-align: right;">F&nbsp;&nbsp;: <%=
+											yseterdayTotalFemail %>
+									</h4>
+								</div>
+							</div>
+							<!-- /.box-content -->
+						</div>
+						<!-- /.col-lg-3 col-md-6 col-xs-12 -->
 					</div>
-					<!-- /.review-list -->
-				</div>
-				<!-- /.box-content -->
-			</div>
-			<!-- /.col-lg-4 col-xs-12 -->
-			<div class="col-lg-4 col-xs-12">
-				<div class="box-content">
-					<h4 class="box-title">Activity</h4>
-					<!-- /.box-title -->
-					<div class="dropdown js__drop_down">
-						<a href="#" class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
-						<ul class="sub-menu">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else there</a></li>
-							<li class="split"></li>
-							<li><a href="#">Separated link</a></li>
-						</ul>
-						<!-- /.sub-menu -->
-					</div>
-					<!-- /.dropdown js__dropdown -->
-					<div class="activity-list">
-						<div class="activity-item">
-							<div class="bar bg-primary">
-								<div class="dot bg-primary"></div>
-								<!-- /.dot -->
-							</div>
-							<!-- /.bar -->
-							<div class="content">
-								<div class="date">10 min</div>
-								<!-- /.date -->
-								<div class="text">
-									Harry has finished "Amaza HTML" task
-								</div>
-								<!-- /.text -->
-							</div>
-							<!-- /.content -->
-						</div>
-						<!-- /.activity-item -->
-						<div class="activity-item">
-							<div class="bar bg-danger">
-								<div class="dot bg-danger"></div>
-								<!-- /.dot -->
-							</div>
-							<!-- /.bar -->
-							<div class="content">
-								<div class="date">15 min</div>
-								<!-- /.date -->
-								<div class="text">
-									You completed your task
-								</div>
-								<!-- /.text -->
-							</div>
-							<!-- /.content -->
-						</div>
-						<!-- /.activity-item -->
-						<div class="activity-item">
-							<div class="bar bg-success">
-								<div class="dot bg-success"></div>
-								<!-- /.dot -->
-							</div>
-							<!-- /.bar -->
-							<div class="content">
-								<div class="date">30 min</div>
-								<!-- /.date -->
-								<div class="text">
-									New updated has been installed
-								</div>
-								<!-- /.text -->
-							</div>
-							<!-- /.content -->
-						</div>
-						<!-- /.activity-item -->
-						<div class="activity-item">
-							<div class="bar bg-violet">
-								<div class="dot bg-violet"></div>
-								<!-- /.dot -->
-							</div>
-							<!-- /.bar -->
-							<div class="content">
-								<div class="date">1 hour ago</div>
-								<!-- /.date -->
-								<div class="text">Write some comments</div>
-								<!-- /.text -->
-							</div>
-							<!-- /.content -->
-						</div>
-						<!-- /.activity-item -->
-						<div class="activity-item">
-							<div class="bar bg-warning">
-								<div class="dot bg-warning"></div>
-								<!-- /.dot -->
-							</div>
-							<!-- /.bar -->
-							<div class="content">
-								<div class="date">1 day ago</div>
-								<!-- /.date -->
-								<div class="text">4 friends request accepted</div>
-								<!-- /.text -->
-							</div>
-							<!-- /.content -->
-						</div>
-						<!-- /.activity-item -->
-						<div class="activity-item">
-							<div class="bar bg-orange">
-								<div class="dot bg-orange"></div>
-								<!-- /.dot -->
-							</div>
-							<!-- /.bar -->
-							<div class="content">
-								<div class="date">6 days ago</div>
-								<!-- /.date -->
-								<div class="text">Betty has joined your team</div>
-								<!-- /.text -->
-							</div>
-							<!-- /.content -->
-						</div>
-						<!-- /.activity-item -->
-						<div class="activity-item">
-							<div class="bar bg-orange">
-								<div class="dot bg-orange"></div>
-								<div class="last-dot bg-orange"></div>
-								<!-- /.dot -->
-							</div>
-							<!-- /.bar -->
-							<div class="content">
-								<div class="date">12 days ago</div>
-								<!-- /.date -->
-								<div class="text">Daisy has joined your team</div>
-								<!-- /.text -->
-							</div>
-							<!-- /.content -->
-						</div>
-						<!-- /.activity-item -->
-					</div>
-					<!-- /.activity-list -->
-					<a href="#" class="activity-link">View all activity <i class="fa fa-angle-down"></i></a>
-				</div>
-				<!-- /.box-content -->
-			</div>
-			<!-- /.col-lg-4 col-xs-12 -->
-			<div class="col-lg-4 col-xs-12">
-				<div class="box-content js__todo_widget">
-					<h4 class="box-title">Todo</h4>
-					<!-- /.box-title -->
-					<div class="dropdown js__drop_down">
-						<a href="#" class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
-						<ul class="sub-menu">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else there</a></li>
-							<li class="split"></li>
-							<li><a href="#">Separated link</a></li>
-						</ul>
-						<!-- /.sub-menu -->
-					</div>
-					<!-- /.dropdown js__dropdown -->
-					<div class="todo-list js__todo_list">
-						<div class="todo-item">
-							<div class="checkbox"><input type="checkbox" id="todo-1" /><label for="todo-1">Task To Do 1</label></div>
-							<!-- /.checkbox -->
-						</div>
-						<!-- /.todo-item -->
-						<div class="todo-item">
-							<div class="checkbox primary"><input type="checkbox" id="todo-2" /><label for="todo-2">Task To Do 2</label></div>
-							<!-- /.checkbox -->
-						</div>
-						<!-- /.todo-item -->
-						<div class="todo-item">
-							<div class="checkbox info"><input type="checkbox" checked="" id="todo-3" /><label for="todo-3">Task To Do 3</label></div>
-							<!-- /.checkbox -->
-						</div>
-						<!-- /.todo-item -->
-						<div class="todo-item">
-							<div class="checkbox success"><input type="checkbox" id="todo-4" /><label for="todo-4">Task To Do 4</label></div>
-							<!-- /.checkbox -->
-						</div>
-						<!-- /.todo-item -->
-						<div class="todo-item">
-							<div class="checkbox danger"><input type="checkbox" checked="" id="todo-5" /><label for="todo-5">Task To Do 5</label></div>
-							<!-- /.checkbox -->
-						</div>
-						<!-- /.todo-item -->
-						<div class="todo-item">
-							<div class="checkbox success"><input type="checkbox" id="todo-6" /><label for="todo-6">Task To Do 6</label></div>
-							<!-- /.checkbox -->
-						</div>
-						<!-- /.todo-item -->
-						<div class="todo-item">
-							<div class="checkbox success"><input type="checkbox" id="todo-7" /><label for="todo-7">Task To Do 7</label></div>
-							<!-- /.checkbox -->
-						</div>
-						<!-- /.todo-item -->
-						<div class="todo-item">
-							<div class="checkbox success"><input type="checkbox" id="todo-8" /><label for="todo-8">Task To Do 8</label></div>
-							<!-- /.checkbox -->
-						</div>
-						<!-- /.todo-item -->
-						<div class="todo-item">
-							<div class="checkbox success"><input type="checkbox" id="todo-9" /><label for="todo-9">Task To Do 9</label></div>
-							<!-- /.checkbox -->
-						</div>
-						<!-- /.todo-item -->
-					</div>
-					<!-- /.todo-list -->
-					<div class="todo-form">
-						<div class="input-group">
-							<input type="text" placeholder="Add new task" class="form-control js__todo_value" />
-							<div class="input-group-btn"><button type="button" class="btn btn-success no-border text-white js__todo_button waves-effect waves-light"><i class="fa fa-plus"></i></button></div>
-							<!-- /.input-group-btn -->
-						</div>
-						<!-- /.input-group -->
-					</div>
-					<!-- /.todo-form -->
-				</div>
-				<!-- /.box-content .js__todo_form -->
-			</div>
-			<!-- /.col-lg-4 col-xs-12 -->
-		</div>
-		<!-- /.row -->
+					<!-- .row -->
 
-		<div class="row small-spacing">			
-			<div class="col-lg-6 col-xs-12">
-				<div class="box-content">
-					<div id="calendar-widget"></div>
-				</div>
-				<!-- /.box-content -->
-			</div>
-			<!-- /.col-lg-6 col-xs-12 -->
-			<div class="col-lg-6 col-xs-12">
-				<div class="box-content">
-					<h4 class="box-title">Purchases</h4>
-					<!-- /.box-title -->
-					<div class="dropdown js__drop_down">
-						<a href="#" class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
-						<ul class="sub-menu">
-							<li><a href="#">Product</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else there</a></li>
-							<li class="split"></li>
-							<li><a href="#">Separated link</a></li>
-						</ul>
-						<!-- /.sub-menu -->
+					<div class="row small-spacing">
+						<div class="col-lg-4 col-xs-12">
+							<div class="box-content">
+								<h4 class="box-title">Last Reviews</h4>
+								<!-- /.box-title -->
+								<div class="dropdown js__drop_down">
+									<a href="#"
+										class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
+									<ul class="sub-menu">
+										<li><a href="#">Action</a></li>
+										<li><a href="#">Another action</a></li>
+										<li><a href="#">Something else there</a></li>
+										<li class="split"></li>
+										<li><a href="#">Separated link</a></li>
+									</ul>
+									<!-- /.sub-menu -->
+								</div>
+								<!-- /.dropdown js__dropdown -->
+								<div class="review-list">
+									<div class="review-item">
+										<div class="top">
+											<div class="name">John Doe</div>
+											<!-- /.name -->
+											<div class="date">10 min</div>
+											<!-- /.date -->
+											<div class="star-rating text-warning">
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star-half-o"></i>
+												<i class="fa fa-star-o"></i>
+											</div>
+											<!-- /.star-rating -->
+										</div>
+										<!-- /.top -->
+										<div class="desc">Amet odio neque nobis consequuntur consequatur a quae, impedit
+											facere, impedit facere.</div>
+										<!-- /.desc -->
+									</div>
+									<!-- /.review-item -->
+									<div class="review-item">
+										<div class="top">
+											<div class="name">Harry Halen</div>
+											<!-- /.name -->
+											<div class="date">15 min</div>
+											<!-- /.date -->
+											<div class="star-rating text-warning">
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star-o"></i>
+											</div>
+											<!-- /.star-rating -->
+										</div>
+										<!-- /.top -->
+										<div class="desc">Amet odio neque nobis consequuntur consequatur a quae, impedit
+											facere, impedit facere.</div>
+										<!-- /.desc -->
+									</div>
+									<!-- /.review-item -->
+									<div class="review-item">
+										<div class="top">
+											<div class="name">Thomas Taylor</div>
+											<!-- /.name -->
+											<div class="date">30 min</div>
+											<!-- /.date -->
+											<div class="star-rating text-warning">
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+											</div>
+											<!-- /.star-rating -->
+										</div>
+										<!-- /.top -->
+										<div class="desc">Amet odio neque nobis consequuntur consequatur a quae, impedit
+											facere, impedit facere.</div>
+										<!-- /.desc -->
+									</div>
+									<!-- /.review-item -->
+									<div class="review-item">
+										<div class="top">
+											<div class="name">Helen Candy</div>
+											<!-- /.name -->
+											<div class="date">1 hour ago</div>
+											<!-- /.date -->
+											<div class="star-rating text-warning">
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star-o"></i>
+												<i class="fa fa-star-o"></i>
+												<i class="fa fa-star-o"></i>
+												<i class="fa fa-star-o"></i>
+											</div>
+											<!-- /.star-rating -->
+										</div>
+										<!-- /.top -->
+										<div class="desc">Amet odio neque nobis consequuntur consequatur a quae, impedit
+											facere, impedit facere.</div>
+										<!-- /.desc -->
+									</div>
+									<!-- /.review-item -->
+									<div class="review-item">
+										<div class="top">
+											<div class="name">Henny Betty</div>
+											<!-- /.name -->
+											<div class="date">1 day ago</div>
+											<!-- /.date -->
+											<div class="star-rating text-warning">
+												<i class="fa fa-star-half-o"></i>
+												<i class="fa fa-star-o"></i>
+												<i class="fa fa-star-o"></i>
+												<i class="fa fa-star-o"></i>
+												<i class="fa fa-star-o"></i>
+											</div>
+											<!-- /.star-rating -->
+										</div>
+										<!-- /.top -->
+										<div class="desc">Amet odio neque nobis consequuntur consequatur a quae, impedit
+											facere, impedit facere.</div>
+										<!-- /.desc -->
+									</div>
+									<!-- /.review-item -->
+								</div>
+								<!-- /.review-list -->
+							</div>
+							<!-- /.box-content -->
+						</div>
+						<!-- /.col-lg-4 col-xs-12 -->
+						<div class="col-lg-4 col-xs-12">
+							<div class="box-content">
+								<h4 class="box-title">Activity</h4>
+								<!-- /.box-title -->
+								<div class="dropdown js__drop_down">
+									<a href="#"
+										class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
+									<ul class="sub-menu">
+										<li><a href="#">Action</a></li>
+										<li><a href="#">Another action</a></li>
+										<li><a href="#">Something else there</a></li>
+										<li class="split"></li>
+										<li><a href="#">Separated link</a></li>
+									</ul>
+									<!-- /.sub-menu -->
+								</div>
+								<!-- /.dropdown js__dropdown -->
+								<div class="activity-list">
+									<div class="activity-item">
+										<div class="bar bg-primary">
+											<div class="dot bg-primary"></div>
+											<!-- /.dot -->
+										</div>
+										<!-- /.bar -->
+										<div class="content">
+											<div class="date">10 min</div>
+											<!-- /.date -->
+											<div class="text">
+												Harry has finished "Amaza HTML" task
+											</div>
+											<!-- /.text -->
+										</div>
+										<!-- /.content -->
+									</div>
+									<!-- /.activity-item -->
+									<div class="activity-item">
+										<div class="bar bg-danger">
+											<div class="dot bg-danger"></div>
+											<!-- /.dot -->
+										</div>
+										<!-- /.bar -->
+										<div class="content">
+											<div class="date">15 min</div>
+											<!-- /.date -->
+											<div class="text">
+												You completed your task
+											</div>
+											<!-- /.text -->
+										</div>
+										<!-- /.content -->
+									</div>
+									<!-- /.activity-item -->
+									<div class="activity-item">
+										<div class="bar bg-success">
+											<div class="dot bg-success"></div>
+											<!-- /.dot -->
+										</div>
+										<!-- /.bar -->
+										<div class="content">
+											<div class="date">30 min</div>
+											<!-- /.date -->
+											<div class="text">
+												New updated has been installed
+											</div>
+											<!-- /.text -->
+										</div>
+										<!-- /.content -->
+									</div>
+									<!-- /.activity-item -->
+									<div class="activity-item">
+										<div class="bar bg-violet">
+											<div class="dot bg-violet"></div>
+											<!-- /.dot -->
+										</div>
+										<!-- /.bar -->
+										<div class="content">
+											<div class="date">1 hour ago</div>
+											<!-- /.date -->
+											<div class="text">Write some comments</div>
+											<!-- /.text -->
+										</div>
+										<!-- /.content -->
+									</div>
+									<!-- /.activity-item -->
+									<div class="activity-item">
+										<div class="bar bg-warning">
+											<div class="dot bg-warning"></div>
+											<!-- /.dot -->
+										</div>
+										<!-- /.bar -->
+										<div class="content">
+											<div class="date">1 day ago</div>
+											<!-- /.date -->
+											<div class="text">4 friends request accepted</div>
+											<!-- /.text -->
+										</div>
+										<!-- /.content -->
+									</div>
+									<!-- /.activity-item -->
+									<div class="activity-item">
+										<div class="bar bg-orange">
+											<div class="dot bg-orange"></div>
+											<!-- /.dot -->
+										</div>
+										<!-- /.bar -->
+										<div class="content">
+											<div class="date">6 days ago</div>
+											<!-- /.date -->
+											<div class="text">Betty has joined your team</div>
+											<!-- /.text -->
+										</div>
+										<!-- /.content -->
+									</div>
+									<!-- /.activity-item -->
+									<div class="activity-item">
+										<div class="bar bg-orange">
+											<div class="dot bg-orange"></div>
+											<div class="last-dot bg-orange"></div>
+											<!-- /.dot -->
+										</div>
+										<!-- /.bar -->
+										<div class="content">
+											<div class="date">12 days ago</div>
+											<!-- /.date -->
+											<div class="text">Daisy has joined your team</div>
+											<!-- /.text -->
+										</div>
+										<!-- /.content -->
+									</div>
+									<!-- /.activity-item -->
+								</div>
+								<!-- /.activity-list -->
+								<a href="#" class="activity-link">View all activity <i class="fa fa-angle-down"></i></a>
+							</div>
+							<!-- /.box-content -->
+						</div>
+						<!-- /.col-lg-4 col-xs-12 -->
+						<div class="col-lg-4 col-xs-12">
+							<div class="box-content js__todo_widget">
+								<h4 class="box-title">Todo</h4>
+								<!-- /.box-title -->
+								<div class="dropdown js__drop_down">
+									<a href="#"
+										class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
+									<ul class="sub-menu">
+										<li><a href="#">Action</a></li>
+										<li><a href="#">Another action</a></li>
+										<li><a href="#">Something else there</a></li>
+										<li class="split"></li>
+										<li><a href="#">Separated link</a></li>
+									</ul>
+									<!-- /.sub-menu -->
+								</div>
+								<!-- /.dropdown js__dropdown -->
+								<div class="todo-list js__todo_list">
+									<div class="todo-item">
+										<div class="checkbox"><input type="checkbox" id="todo-1" /><label
+												for="todo-1">Task To Do 1</label></div>
+										<!-- /.checkbox -->
+									</div>
+									<!-- /.todo-item -->
+									<div class="todo-item">
+										<div class="checkbox primary"><input type="checkbox" id="todo-2" /><label
+												for="todo-2">Task To Do 2</label></div>
+										<!-- /.checkbox -->
+									</div>
+									<!-- /.todo-item -->
+									<div class="todo-item">
+										<div class="checkbox info"><input type="checkbox" checked=""
+												id="todo-3" /><label for="todo-3">Task To Do 3</label></div>
+										<!-- /.checkbox -->
+									</div>
+									<!-- /.todo-item -->
+									<div class="todo-item">
+										<div class="checkbox success"><input type="checkbox" id="todo-4" /><label
+												for="todo-4">Task To Do 4</label></div>
+										<!-- /.checkbox -->
+									</div>
+									<!-- /.todo-item -->
+									<div class="todo-item">
+										<div class="checkbox danger"><input type="checkbox" checked=""
+												id="todo-5" /><label for="todo-5">Task To Do 5</label></div>
+										<!-- /.checkbox -->
+									</div>
+									<!-- /.todo-item -->
+									<div class="todo-item">
+										<div class="checkbox success"><input type="checkbox" id="todo-6" /><label
+												for="todo-6">Task To Do 6</label></div>
+										<!-- /.checkbox -->
+									</div>
+									<!-- /.todo-item -->
+									<div class="todo-item">
+										<div class="checkbox success"><input type="checkbox" id="todo-7" /><label
+												for="todo-7">Task To Do 7</label></div>
+										<!-- /.checkbox -->
+									</div>
+									<!-- /.todo-item -->
+									<div class="todo-item">
+										<div class="checkbox success"><input type="checkbox" id="todo-8" /><label
+												for="todo-8">Task To Do 8</label></div>
+										<!-- /.checkbox -->
+									</div>
+									<!-- /.todo-item -->
+									<div class="todo-item">
+										<div class="checkbox success"><input type="checkbox" id="todo-9" /><label
+												for="todo-9">Task To Do 9</label></div>
+										<!-- /.checkbox -->
+									</div>
+									<!-- /.todo-item -->
+								</div>
+								<!-- /.todo-list -->
+								<div class="todo-form">
+									<div class="input-group">
+										<input type="text" placeholder="Add new task"
+											class="form-control js__todo_value" />
+										<div class="input-group-btn"><button type="button"
+												class="btn btn-success no-border text-white js__todo_button waves-effect waves-light"><i
+													class="fa fa-plus"></i></button></div>
+										<!-- /.input-group-btn -->
+									</div>
+									<!-- /.input-group -->
+								</div>
+								<!-- /.todo-form -->
+							</div>
+							<!-- /.box-content .js__todo_form -->
+						</div>
+						<!-- /.col-lg-4 col-xs-12 -->
 					</div>
-					<!-- /.dropdown js__dropdown -->
-					<table class="table table-striped margin-bottom-10 table-purchases">
-						<thead>
-							<tr>
-								<th style="width:40%;">Product</th>
-								<th>Price</th>
-								<th>Date</th>
-								<th>State</th>
-								<th style="width:5%;"></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Amaza Themes</td>
-								<td>$71</td>
-								<td>Nov 12,2016</td>
-								<td class="text-success">Completed</td>
-								<td><a href="#"><i class="fa fa-plus-circle"></i></a></td>
-							</tr>
-							<tr>
-								<td>Macbook</td>
-								<td>$142</td>
-								<td>Nov 10,2016</td>
-								<td class="text-danger">Cancelled</td>
-								<td><a href="#"><i class="fa fa-plus-circle"></i></a></td>
-							</tr>
-							<tr>
-								<td>Samsung TV</td>
-								<td>$200</td>
-								<td>Nov 01,2016</td>
-								<td class="text-warning">Pending</td>
-								<td><a href="#"><i class="fa fa-plus-circle"></i></a></td>
-							</tr>
-							<tr>
-								<td>Ninja Admin</td>
-								<td>$200</td>
-								<td>Oct 28,2016</td>
-								<td class="text-warning">Pending</td>
-								<td><a href="#"><i class="fa fa-plus-circle"></i></a></td>
-							</tr>
-							<tr>
-								<td>Galaxy Note 5</td>
-								<td>$200</td>
-								<td>Oct 28,2016</td>
-								<td class="text-success">Completed</td>
-								<td><a href="#"><i class="fa fa-plus-circle"></i></a></td>
-							</tr>
-							<tr>
-								<td>CleanUp Themes</td>
-								<td>$71</td>
-								<td>Oct 22,2016</td>
-								<td class="text-success">Completed</td>
-								<td><a href="#"><i class="fa fa-plus-circle"></i></a></td>
-							</tr>
-							<tr>
-								<td>Facebook WP Plugin</td>
-								<td>$10</td>
-								<td>Oct 15,2016</td>
-								<td class="text-success">Completed</td>
-								<td><a href="#"><i class="fa fa-plus-circle"></i></a></td>
-							</tr>
-							<tr>
-								<td>Iphone 7</td>
-								<td>$100</td>
-								<td>Oct 12,2016</td>
-								<td class="text-warning">Pending</td>
-								<td><a href="#"><i class="fa fa-plus-circle"></i></a></td>
-							</tr>
-							<tr>
-								<td>Nova House</td>
-								<td>$100</td>
-								<td>Oct 12,2016</td>
-								<td class="text-warning">Pending</td>
-								<td><a href="#"><i class="fa fa-plus-circle"></i></a></td>
-							</tr>
-							<tr>
-								<td>Repair Cars</td>
-								<td>$35</td>
-								<td>Oct 12,2016</td>
-								<td class="text-warning">Pending</td>
-								<td><a href="#"><i class="fa fa-plus-circle"></i></a></td>
-							</tr>
-						</tbody>
-					</table>
-					<!-- /.table -->
+					<!-- /.row -->
+
+					<div class="row small-spacing">
+						<div class="col-lg-6 col-xs-12">
+							<div class="box-content">
+								<div id="calendar-widget"></div>
+							</div>
+							<!-- /.box-content -->
+						</div>
+						<!-- /.col-lg-6 col-xs-12 -->
+						<div class="col-lg-6 col-xs-12">
+							<div class="box-content">
+								<h4 class="box-title">Purchases</h4>
+								<!-- /.box-title -->
+								<div class="dropdown js__drop_down">
+									<a href="#"
+										class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
+									<ul class="sub-menu">
+										<li><a href="#">Product</a></li>
+										<li><a href="#">Another action</a></li>
+										<li><a href="#">Something else there</a></li>
+										<li class="split"></li>
+										<li><a href="#">Separated link</a></li>
+									</ul>
+									<!-- /.sub-menu -->
+								</div>
+								<!-- /.dropdown js__dropdown -->
+								<table class="table table-striped margin-bottom-10 table-purchases">
+									<thead>
+										<tr>
+											<th style="width:40%;">Product</th>
+											<th>Price</th>
+											<th>Date</th>
+											<th>State</th>
+											<th style="width:5%;"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>Amaza Themes</td>
+											<td>$71</td>
+											<td>Nov 12,2016</td>
+											<td class="text-success">Completed</td>
+											<td><a href="#"><i class="fa fa-plus-circle"></i></a></td>
+										</tr>
+										<tr>
+											<td>Macbook</td>
+											<td>$142</td>
+											<td>Nov 10,2016</td>
+											<td class="text-danger">Cancelled</td>
+											<td><a href="#"><i class="fa fa-plus-circle"></i></a></td>
+										</tr>
+										<tr>
+											<td>Samsung TV</td>
+											<td>$200</td>
+											<td>Nov 01,2016</td>
+											<td class="text-warning">Pending</td>
+											<td><a href="#"><i class="fa fa-plus-circle"></i></a></td>
+										</tr>
+										<tr>
+											<td>Ninja Admin</td>
+											<td>$200</td>
+											<td>Oct 28,2016</td>
+											<td class="text-warning">Pending</td>
+											<td><a href="#"><i class="fa fa-plus-circle"></i></a></td>
+										</tr>
+										<tr>
+											<td>Galaxy Note 5</td>
+											<td>$200</td>
+											<td>Oct 28,2016</td>
+											<td class="text-success">Completed</td>
+											<td><a href="#"><i class="fa fa-plus-circle"></i></a></td>
+										</tr>
+										<tr>
+											<td>CleanUp Themes</td>
+											<td>$71</td>
+											<td>Oct 22,2016</td>
+											<td class="text-success">Completed</td>
+											<td><a href="#"><i class="fa fa-plus-circle"></i></a></td>
+										</tr>
+										<tr>
+											<td>Facebook WP Plugin</td>
+											<td>$10</td>
+											<td>Oct 15,2016</td>
+											<td class="text-success">Completed</td>
+											<td><a href="#"><i class="fa fa-plus-circle"></i></a></td>
+										</tr>
+										<tr>
+											<td>Iphone 7</td>
+											<td>$100</td>
+											<td>Oct 12,2016</td>
+											<td class="text-warning">Pending</td>
+											<td><a href="#"><i class="fa fa-plus-circle"></i></a></td>
+										</tr>
+										<tr>
+											<td>Nova House</td>
+											<td>$100</td>
+											<td>Oct 12,2016</td>
+											<td class="text-warning">Pending</td>
+											<td><a href="#"><i class="fa fa-plus-circle"></i></a></td>
+										</tr>
+										<tr>
+											<td>Repair Cars</td>
+											<td>$35</td>
+											<td>Oct 12,2016</td>
+											<td class="text-warning">Pending</td>
+											<td><a href="#"><i class="fa fa-plus-circle"></i></a></td>
+										</tr>
+									</tbody>
+								</table>
+								<!-- /.table -->
+							</div>
+							<!-- /.box-content -->
+						</div>
+						<!-- /.col-lg-6 col-xs-12 -->
+					</div>
+					<!-- /.row -->
+					<%- include('includes/footer.ejs') %>
 				</div>
-				<!-- /.box-content -->
+				<!-- /.main-content -->
 			</div>
-			<!-- /.col-lg-6 col-xs-12 -->
-		</div>
-		<!-- /.row -->		
-		<%- include('includes/footer.ejs') %>
-	</div>
-	<!-- /.main-content -->
-</div><!--/#wrapper -->
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!--[if lt IE 9]>
+			<!--/#wrapper -->
+			<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+			<!--[if lt IE 9]>
 		<script src="assets/script/html5shiv.min.js"></script>
 		<script src="assets/script/respond.min.js"></script>
 	<![endif]-->
-	<!-- 
+			<!-- 
 	================================================== -->
-	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="/scripts/jquery.min.js"></script>
-	<script src="/scripts/modernizr.min.js"></script>
-	<script src="/plugin/bootstrap/js/bootstrap.min.js"></script>
-	<script src="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
-	<script src="/plugin/nprogress/nprogress.js"></script>
-	<script src="/plugin/sweet-alert/sweetalert.min.js"></script>
-	<script src="/plugin/waves/waves.min.js"></script>
-	<!-- Full Screen Plugin -->
-	<script src="/plugin/fullscreen/jquery.fullscreen-min.js"></script>
+			<!-- Placed at the end of the document so the pages load faster -->
+			<script src="/scripts/jquery.min.js"></script>
+			<script src="/scripts/modernizr.min.js"></script>
+			<script src="/plugin/bootstrap/js/bootstrap.min.js"></script>
+			<script src="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+			<script src="/plugin/nprogress/nprogress.js"></script>
+			<script src="/plugin/sweet-alert/sweetalert.min.js"></script>
+			<script src="/plugin/waves/waves.min.js"></script>
+			<!-- Full Screen Plugin -->
+			<script src="/plugin/fullscreen/jquery.fullscreen-min.js"></script>
 
-	<!-- Google Chart -->
-	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+			<!-- Google Chart -->
+			<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-	<!-- chart.js Chart -->
-	<script src="/plugin/chart/chartjs/Chart.bundle.min.js"></script>
-	<script src="/scripts/chart.chartjs.init.min.js"></script>
+			<!-- chart.js Chart -->
+			<script src="/plugin/chart/chartjs/Chart.bundle.min.js"></script>
+			<script src="/scripts/chart.chartjs.init.min.js"></script>
 
-	<!-- FullCalendar -->
-	<script src="/plugin/moment/moment.js"></script>
-	<script src="/plugin/fullcalendar/fullcalendar.min.js"></script>
-	<script src="/scripts/fullcalendar.init.js"></script>
+			<!-- FullCalendar -->
+			<script src="/plugin/moment/moment.js"></script>
+			<script src="/plugin/fullcalendar/fullcalendar.min.js"></script>
+			<script src="/scripts/fullcalendar.init.js"></script>
 
-	<!-- Sparkline Chart -->
-	<script src="/plugin/chart/sparkline/jquery.sparkline.min.js"></script>
-	<script src="/scripts/chart.sparkline.init.min.js"></script>
+			<!-- Sparkline Chart -->
+			<script src="/plugin/chart/sparkline/jquery.sparkline.min.js"></script>
+			<script src="/scripts/chart.sparkline.init.min.js"></script>
 
-	<script src="/scripts/main.min.js"></script>
-	<script src="/color-switcher/color-switcher.min.js"></script>
+			<script src="/scripts/main.min.js"></script>
+			<script src="/color-switcher/color-switcher.min.js"></script>
 </body>
+
 </html>
