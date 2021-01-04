@@ -134,6 +134,7 @@ router.post('/send-notification', async (req, res, next) => {
     const title = req.body.inputTitle;
     const body = req.body.inputBody;
     const s = req.body.image;
+    const sen = req.body.sendto;
     let image;
     if (s) {
         image = req.file;
@@ -147,19 +148,28 @@ router.post('/send-notification', async (req, res, next) => {
             title: title,
             body: body,
             image: images,
-            sendto: "all",
+            sendto: sen,
             type: type
         });
     } else {
         d = new noti({
             title: title,
             body: body,
-            sendto: "all",
+            sendto: sen,
             type: type
         });
     }
     if (type == "email") {
-        const data = await user.find();
+        let data;
+        if(sen == "all"){
+            data = await user.find();
+        }
+        if(sen == "authorised"){
+            data = await user.find({user_isAuthorised: true});
+        }
+        if(sen == "subscribe"){
+            data = await user.find({id_subscribe: true});
+        }
         for (let n of data) {
             var mailOptions = {
                 from: 'sweetu.karon@gmail.com',

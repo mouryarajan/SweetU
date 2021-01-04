@@ -32,6 +32,8 @@ router.post('/user-edit', isAdmin,userController.postUserEdit);
 
 router.post('/filter-user', isAdmin, userController.postFilterUser);
 
+router.get('/subscribed-user', isAdmin, userController.getSubscribedUserList);
+
 // API's Route's
 
 router.post('/api/add-user', userController.postAPIsUserAdd);
@@ -43,7 +45,7 @@ router.post('/api/user-list', verify,userController.getAPIsOnlineUserList);
 
 router.post('/api/coin',userController.postAPIsCoin);
 
-router.post('/api/add-favourite',verify,userController.postAPIsFavourite);
+router.post('/api/add-favourite',userController.postAPIsFavourite);
 router.post('/api/get-favourite',verify,userController.postAPIsGetFavourite);
 router.post('/api/remove-favourite',verify,userController.postAPIsRemoveFavourite);
 router.post('/api/add-block',verify,userController.postAPIsBlock);
@@ -55,4 +57,6 @@ router.post('/api/change-genderpreference',verify,userController.postAPIsRandomU
 
 router.post('/api/update-status-online', verify,userController.postAPIUpdateStatusOnline);
 router.post('/api/update-status-ofline', verify,userController.postAPIUpdateStatusOfline);
+
+router.post('/api/get-favourite-you', verify, userController.getFavouriteYou);
 module.exports = router;

@@ -7,7 +7,7 @@ exports.getSticker = (req, res, next) => {
         .then(result => {
             if (result) {
                 res.render('sticker', {
-                    pageTitle: "Sticker",
+                    pageTitle: "Stickers",
                     data: result
                 })
             }

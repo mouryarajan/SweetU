@@ -132,8 +132,15 @@
                                             placeholder="Enter Country Code">
                                     </div>
                                     <div class="form-group">
-                                        <input type="radio" id="type" name="type" value="email" checked> Email
+                                        <div class="col-xs-2" style="position: absolute; text-align: left;"><label for="exampleimage">Type:</label></div>
+                                        <input type="radio" id="type" name="type" value="email" checked> Email &nbsp;&nbsp;&nbsp;
                                         <input type="radio" id="type" name="type" value="app notification" > App Notification
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-xs-2" style="position: absolute; text-align: left;"><label for="exampleimage">Send To:</label></div>
+                                        <input type="radio" id="sendto" name="sendto" value="all" checked> All User &nbsp;&nbsp;&nbsp;
+                                        <input type="radio" id="sendto" name="sendto" value="authorised" > Authorised User &nbsp;&nbsp;&nbsp;
+                                        <input type="radio" id="sendto" name="sendto" value="subscribe" > Subscribed User
                                     </div>
                                     <button type="submit" class="remodal-confirm">Submit </button>
                                     <button data-remodal-action="cancel" class="remodal-cancel">Cancel</button>

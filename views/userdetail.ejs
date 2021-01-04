@@ -40,7 +40,7 @@
 						<div class="col-md-3 col-xs-12">
 							<div class="box-content bordered primary margin-bottom-20">
 								<div class="profile-avatar">
-									<img style="height:500px; width:100%; object-fit: cover;"
+									<img style="height:200px; width:100%; object-fit: cover;"
 										src="/images/<%= user.user_image %>" alt="" />
 									<h3><strong>
 											<%= user.user_name %>
@@ -64,9 +64,10 @@
 								<td><i class="fa fa-star text-warning"></i> <i class="fa fa-star text-warning"></i> <i class="fa fa-star text-warning"></i> <i class="fa fa-star text-warning"></i> <i class="fa fa-star text-warning"></i></td>
 							</tr> -->
 										<tr>
-											<td>Member Since</td>
+											<td>Joined</td>
 											<td>
-												<%= user.createdAt %>
+												<% let date = user.createdAt.toString().split(' '); %>
+												<%= date[0]; %>&nbsp;<%= date[1]; %>&nbsp;<%= date[2]; %>&nbsp;<%= date[3]; %>
 											</td>
 										</tr>
 									</tbody>
@@ -144,9 +145,9 @@
 												<!-- /.col-md-6 -->
 												<div class="col-md-6">
 													<div class="row">
-														<div class="col-xs-5"><label>Interests:</label></div>
+														<div class="col-xs-5"><label>Subscribed:</label></div>
 														<!-- /.col-xs-5 -->
-														<div class="col-xs-7">Basketball, Web, Design, etc.</div>
+														<div class="col-xs-7"><%= user.id_subscribe %></div>
 														<!-- /.col-xs-7 -->
 													</div>
 													<!-- /.row -->
@@ -220,8 +221,7 @@
 														<!-- /.row -->
 													</div>
 													<div class="col-md-2">
-														<div style="margin-top: 30px;"></div>
-														<button type="submit" class="btn btn-primary waves-effect waves-light">Send Notification</button>
+														<button type="submit" class="btn btn-primary waves-effect waves-light">      Send       </button>
 													</div>
 													<!-- /.col-md-6 -->
 												</form>
@@ -249,7 +249,7 @@
 														<li>
 															<a href="/user-detail/<%= log.userId %>">
 																<span class="avatar"><img style="height: 100%;"
-																		src="/<%= log.userImage %>" alt="" /></span>
+																		src="/<%= log.userImage %>" alt="No Image" /></span>
 																<span class="name">
 																	<%= log.userName %>
 																</span>

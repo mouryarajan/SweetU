@@ -73,7 +73,20 @@ exports.getAuthorisedUserList = (req, res, next) => {
         .then(users => {
             res.render('authorisedUserlist', {
                 users: users,
-                pageTitle: 'User List'
+                pageTitle: 'Authorised List'
+            })
+        })
+        .catch(err => {
+            console.log(err);
+        });
+};
+
+exports.getSubscribedUserList = (req, res, next) => {
+    User.find({ id_subscribe: true })
+        .then(users => {
+            res.render('subscribed-user-list', {
+                users: users,
+                pageTitle: 'Subscribed User'
             })
         })
         .catch(err => {
@@ -277,21 +290,147 @@ exports.unauthoriseUser = (req, res, next) => {
         .catch(err => { console.log(err) });
 }
 
-// function isEmptyObject(obj) {
-//     return !Object.keys(obj).length;
-// }
+function isEmptyObject(obj) {
+    return !Object.keys(obj).length;
+}
 
 exports.getUser = (req, res, next) => {
     const uId = req.params.inputUserId.toString();
     //console.log(uId);
     User.findById(uId)
         .then(user => {
-            res.render('userdetail', {
-                pageTitle: 'User Detail',
-                user: user,
-                fdata: null,
-                bdata: null
-            });
+            //console.log('Get User Called');
+            const data = user.user_favrateLog.items;
+            const bdata = user.user_blockLog.items;
+            const f = isEmptyObject(data);
+            const b = isEmptyObject(bdata);
+            //console.log(bdata);
+            if (f && b) {
+                //console.log("hello");
+                res.render('userdetail', {
+                    pageTitle: 'User Detail',
+                    user: user,
+                    fdata: null,
+                    bdata: null
+                });
+            } else if (f === false && b === true) {
+                //console.log("hello");
+                var x = 0;
+                var y = 0;
+                let arr = [];
+                for (let n of data) {
+                    x++;
+                }
+                for (let n of data) {
+                    //console.log(n.favouriteUserId);
+                    User.findOne({ _id: n.favouriteUserId })
+                        .then(s => {
+                            y++;
+                            arr.push({
+                                userId: n.favouriteUserId,
+                                userName: s.user_name,
+                                userImage: s.user_image,
+                            });
+                            if (y >= x) {
+                                //console.log(arr);
+                                res.render('userdetail', {
+                                    pageTitle: 'User Detail',
+                                    user: user,
+                                    fdata: arr,
+                                    bdata: null
+                                });
+                            }
+                        })
+                        .catch(err => { console.log(err); });
+                }
+            } else if (f == true && b == false) {
+                var x = 0;
+                var y = 0;
+                let arr = [];
+                for (let n of bdata) {
+                    x++;
+                }
+                for (let n of bdata) {
+                    //console.log(n.favouriteUserId);
+                    User.findOne({ _id: n.blockUserId })
+                        .then(s => {
+                            y++;
+                            console.log(s);
+                            arr.push({
+                                userId: n.blockUserId,
+                                userName: s.user_name,
+                                userImage: s.user_image,
+                            });
+                            if (y >= x) {
+                                //console.log(arr);
+                                res.render('userdetail', {
+                                    pageTitle: 'User Detail',
+                                    user: user,
+                                    fdata: null,
+                                    bdata: arr
+                                });
+                            }
+                        })
+                        .catch(err => { console.log(err); });
+                }
+            } else {
+                var x = 0;
+                var y = 0;
+                let arr = [];
+                for (let n of data) {
+                    x++;
+                }
+                for (let n of data) {
+                    //console.log(n.favouriteUserId);
+                    User.findOne({ _id: n.favouriteUserId })
+                        .then(s => {
+                            y++;
+                            arr.push({
+                                userId: n.favouriteUserId,
+                                userName: s.user_name,
+                                userImage: s.user_image,
+                            });
+                            if (y >= x) {
+                                //console.log(arr);
+                                var a = 0;
+                                var c = 0;
+                                let arrr = [];
+                                for (let n of bdata) {
+                                    a++;
+                                }
+                                for (let n of bdata) {
+                                    //console.log(n.favouriteUserId);
+                                    User.findOne({ _id: n.blockUserId })
+                                        .then(s => {
+                                            c++;
+                                            arrr.push({
+                                                userId: n.blockUserId,
+                                                userName: s.user_name,
+                                                userImage: s.user_image,
+                                            });
+                                            if (c >= a) {
+                                                //console.log(arr);
+                                                res.render('userdetail', {
+                                                    pageTitle: 'User Detail',
+                                                    user: user,
+                                                    fdata: arr,
+                                                    bdata: arrr
+                                                });
+                                            }
+                                        })
+                                        .catch(err => { console.log(err); });
+                                }
+                                // res.render('userdetail', {
+                                //     pageTitle: 'User Detail',
+                                //     user: user,
+                                //     fdata: arr,
+                                //     bdata: null
+                                // });
+                            }
+                        })
+                        .catch(err => { console.log(err); });
+                }
+            }
         })
         .catch(err => console.log(err));
 }
@@ -352,6 +491,29 @@ exports.postAPIsLoginCheck = (req, res, next) => {
                 })
             }
         })
+}
+
+//Video call user list
+exports.postVideoCallList = (req, res, next) => {
+    const page = req.body.page;
+    let itemPerPage = 1;
+    User.find({
+        is_Active: true,
+        user_isAuthorised: true
+    })
+        .skip((page - 1) * itemPerPage)
+        .limit(itemPerPage)
+        .then(data => {
+            if (data) {
+                res.status(200).json({
+                    data: data
+                })
+            } else {
+                res.status(200).json({
+                    message: "No more users"
+                })
+            }
+        }).catch(err => { console.log(err) });
 }
 
 exports.postAPIsUserProfile = (req, res, next) => {
@@ -678,7 +840,6 @@ function isEmptyObject(obj) {
 }
 
 //Image Upload
-
 exports.postAPIsUserImage = (req, res, next) => {
     try {
         //console.log('called');
@@ -731,7 +892,7 @@ exports.postAPIsUserImage = (req, res, next) => {
                     let type = decodeImg.type;
                     let extension = mime.extension(type);
                     let filename = Math.floor(100000 + Math.random() * 900000) + "image." + extension;
-                    let finalname =  filename;
+                    let finalname = filename;
                     //console.log(finalname);
                     fs.writeFileSync("./images/" + filename, imageBuffer, 'utf8');
                     User.findOne({ _id: uId })
@@ -759,7 +920,7 @@ exports.postAPIsUserImage = (req, res, next) => {
 //Online User List
 exports.getAPIsOnlineUserList = (req, res, next) => { //user list
     const uId = req.body.inputUserId;
-    User.find({ is_Active: 'true', _id: { $nin: [uId] } }).select('user_name').select('user_image').select('user_country').select('user_countryCode').sort({ user_coin: 'desc' }).sort({createdAt: 'desc'})
+    User.find({ is_Active: 'true', _id: { $nin: [uId] } }).select('user_name').select('user_image').select('user_country').select('user_countryCode').sort({ user_coin: 'desc' }).sort({ createdAt: 'desc' })
         .then(result => {
             res.status(201).json(
                 result
@@ -785,16 +946,16 @@ exports.postAPIsCoin = (req, res, next) => { // Add to Coin Log
                         coin: coin
                     });
                     Coin.save()
-                    .then(rs=>{
-                        result.save()
-                        .then(data => {
-                            if (data) {
-                                res.status(200).json({
-                                    status: true
-                                })
-                            }
-                        }).catch(err=>{console.log(err)});
-                    }).catch(err=>{console.log(err)});
+                        .then(rs => {
+                            result.save()
+                                .then(data => {
+                                    if (data) {
+                                        res.status(200).json({
+                                            status: true
+                                        })
+                                    }
+                                }).catch(err => { console.log(err) });
+                        }).catch(err => { console.log(err) });
                 }
             })
     } else {
@@ -810,7 +971,7 @@ exports.postAPIsCoin = (req, res, next) => { // Add to Coin Log
                                         status: true
                                     })
                                 }
-                            }).catch(err=>{console.log(err)});
+                            }).catch(err => { console.log(err) });
                     } else {
                         res.status(201).json({
                             status: false,
@@ -841,8 +1002,15 @@ exports.postAPIsFavourite = async (req, res, next) => {
                 })
             } else {
                 const arr = result.user_favrateLog.items;
-                const sada = await = user.findOne({_id: fuid});
-                const you = sada.user_favrateLog.items;
+                User.findOne({ _id: fuid })
+                    .then(dataa => {
+                        let you = dataa.user_favrateYou.items;
+                        you.push({
+                            favouriteUserId: uid
+                        });
+                        dataa.user_favrateYou.items = you;
+                        dataa.save();
+                    }).catch(err => { console.log(err) });
                 //console.log(arr)
                 arr.push({
                     favouriteUserId: fuid
@@ -864,14 +1032,11 @@ exports.postAPIsFavourite = async (req, res, next) => {
                         console.log(err);
                     });
             }
-
-
         })
         .catch(err => { console.log(err) });
 }
 
 //Removing Favourite User
-
 exports.postAPIsRemoveFavourite = (req, res, next) => {
     const uid = req.body.inputUserId;
     const fuid = req.body.inputFavouriteUserId;
@@ -1113,8 +1278,48 @@ exports.postAPIsRemoveBlock = async (req, res, next) => {
         })
 }
 
-//Getting Fevourite User
+exports.getFavouriteYou = (req, res, next) => {
+    const uId = req.body.inputUserId;
+    var arr = [];
+    User.findOne({ _id: uId }).select('user_favrateYou')
+        .then(result => {
+            var x = 0;
+            var y = 0;
+            const data = result.user_favrateYou.items;
+            if (isEmptyObject(data)) {
+                res.status(201).json({
+                    data: "Favourite User Is Empty",
+                    status: false
+                })
+            } else {
+                for (let n of data) {
+                    x++;
+                }
+                for (let n of data) {
+                    User.findOne({ _id: n.favouriteUserId })
+                        .then(s => {
+                            y++;
+                            arr.push({
+                                userId: n.favouriteUserId,
+                                user_name: s.user_name,
+                                user_image: s.user_image,
+                                user_country: s.user_country,
+                                user_countryCode: s.user_countryCode
+                            });
+                            if (y >= x) {
+                                res.status(200).json({
+                                    data: arr,
+                                    status: true
+                                })
+                            }
+                        })
+                        .catch(err => { console.log(err); });
+                }
+            }
+        }).catch(err => { console.log(err); });
+}
 
+//Getting Fevourite User
 exports.postAPIsGetFavourite = async (req, res, next) => {
     const uId = req.body.inputUserId;
     var arr = [];
@@ -1147,7 +1352,7 @@ exports.postAPIsGetFavourite = async (req, res, next) => {
                                     user_countryCode: s.user_countryCode
                                 });
                                 if (y >= x) {
-                                    res.status(201).json({
+                                    res.status(200).json({
                                         data: arr,
                                         status: true
                                     })
