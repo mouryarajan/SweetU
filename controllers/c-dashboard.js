@@ -1,5 +1,6 @@
 const User = require('../models/m-user.js');
 const editor = require('../models/m-editor');
+const match = require('../models/m-match');
 
 exports.getDashBoard = async (req, res, next) => {
     const total = await User.find().countDocuments();
@@ -45,7 +46,8 @@ exports.getDashBoard = async (req, res, next) => {
             $lt: new Date(new Date().setHours(00, 00, 00))
         },user_gender: "Male"
     }).countDocuments();
-    
+    const latestUser = await User.find().sort({createdAt: 'desc'}).limit(5)
+    const latestMatch = await match.find().sort({createdAt: 'desc'}).limit(5)
 
     res.render('dashboard', {
         pageTitle: 'Dashboard',
@@ -60,7 +62,9 @@ exports.getDashBoard = async (req, res, next) => {
         todayTotalFemail: todayTotalFemail,
         todayTotalMale:todayTotalMale,
         yseterdayTotalFemail:yseterdayTotalFemail,
-        yseterdayTotalMale:yseterdayTotalMale
+        yseterdayTotalMale:yseterdayTotalMale,
+        latestUser: latestUser,
+        latestMatch: latestMatch
     });
 }
 

@@ -22,8 +22,9 @@ var transporter = nodemailer.createTransport({
 // const jwt = require('jsonweb~');
 
 exports.getUserList = (req, res, next) => {
-    User.find().select('user_name').select('user_emailId').select('user_gender').select('user_isAuthorised').select('user_isBlock')
-        .then(users => {
+    User.find().select('user_name').select('user_emailId').select('user_gender').select('user_isAuthorised').select('user_isBlock').select('createdAt')
+    .sort({createdAt:'desc'})    
+    .then(users => {
             res.render('userlist', {
                 users: users,
                 pageTitle: 'User List'
@@ -69,9 +70,10 @@ exports.postFilterUser = (req, res, next) => {
 }
 
 exports.getAuthorisedUserList = (req, res, next) => {
-    User.find({ user_isAuthorised: true })
-        .then(users => {
-            res.render('authorisedUserlist', {
+    User.find({ user_isAuthorised: true }).select('user_name').select('user_emailId').select('user_gender').select('user_isAuthorised').select('user_isBlock').select('createdAt')
+    .sort({createdAt:'desc'})      
+    .then(users => {
+            res.render('authorisedUserList', {
                 users: users,
                 pageTitle: 'Authorised List'
             })
@@ -82,8 +84,9 @@ exports.getAuthorisedUserList = (req, res, next) => {
 };
 
 exports.getSubscribedUserList = (req, res, next) => {
-    User.find({ id_subscribe: true })
-        .then(users => {
+    User.find({ id_subscribe: true }).select('user_name').select('user_emailId').select('user_gender').select('user_isAuthorised').select('user_isBlock').select('createdAt')
+    .sort({createdAt:'desc'})    
+    .then(users => {
             res.render('subscribed-user-list', {
                 users: users,
                 pageTitle: 'Subscribed User'
@@ -480,7 +483,7 @@ exports.postAPIsLoginCheck = (req, res, next) => {
                 }, process.env.TOKEN_SECRET);
                 result.notificationTocken = deviceToken;
                 result.save();
-                res.status(201).json({
+                res.status(200).json({
                     status: true,
                     data: data,
                     authToken: token
@@ -494,31 +497,49 @@ exports.postAPIsLoginCheck = (req, res, next) => {
 }
 
 //Video call user list
-exports.postVideoCallList = (req, res, next) => {
+exports.postVideoCallList = async (req, res, next) => {
     const page = req.body.page;
-    let itemPerPage = 1;
-    User.find({
-        is_Active: true,
-        user_isAuthorised: true
-    })
-        .skip((page - 1) * itemPerPage)
-        .limit(itemPerPage)
-        .then(data => {
-            if (data) {
+    const uid = req.body.inputUserId;
+    const use = await User.findOne({ _id: uid });
+    if (!use) return res.status(201).json({ status: "false", message: "User not found" });
+    if (use.user_isAuthorised) {
+        let itemPerPage = 1;
+        User.find({
+            is_Active: true,
+            user_isAuthorised: false,
+            _id: { $ne: uid }
+        }).skip((page - 1) * itemPerPage)
+            .limit(itemPerPage)
+            .then(data => {
                 res.status(200).json({
                     data: data
                 })
-            } else {
-                res.status(200).json({
-                    message: "No more users"
-                })
-            }
-        }).catch(err => { console.log(err) });
+            }).catch(err => { console.log(err) });
+    } else {
+        let itemPerPage = 1;
+        User.find({
+            is_Active: true,
+            _id: { $ne: uid }
+        })
+            .skip((page - 1) * itemPerPage)
+            .limit(itemPerPage)
+            .then(data => {
+                if (data) {
+                    res.status(200).json({
+                        data: data
+                    })
+                } else {
+                    res.status(200).json({
+                        message: "No more users"
+                    })
+                }
+            }).catch(err => { console.log(err) });
+    }
 }
 
 exports.postAPIsUserProfile = (req, res, next) => {
     const uId = req.body.inputUserId;
-    User.findOne({ _id: uId }).select('user_name').select('user_about').select('user_image').select('user_gender').select('user_profession').select('user_age').select('user_country').select('user_countryCode').select('user_genderPreference')
+    User.findOne({ _id: uId })
         .then(result => {
             if (result) {
                 res.status(201).json({
@@ -615,7 +636,8 @@ exports.postAPIsUserAdd = (req, res, next) => { //user login
                                 user_wallet: user_wallet,
                                 is_Active: false,
                                 google_id: google_id,
-                                notificationTocken: notificationTocken
+                                notificationTocken: notificationTocken,
+                                user_isAuthorised: false
                             });
 
                             user.save()
@@ -650,7 +672,8 @@ exports.postAPIsUserAdd = (req, res, next) => { //user login
                                             user_genderPreference: result.user_genderPreference,
                                             user_coin: result.user_coin,
                                             user_wallet: result.user_wallet,
-                                            google_id: result.google_id
+                                            google_id: result.google_id,
+                                            user_isAuthorised: false
                                         };
                                         const token = jwt.sign({
                                             userId: data.user_id,
@@ -709,7 +732,8 @@ exports.postAPIsUserAdd = (req, res, next) => { //user login
                                 user_wallet: user_wallet,
                                 is_Active: false,
                                 google_id: google_id,
-                                notificationTocken: notificationTocken
+                                notificationTocken: notificationTocken,
+                                user_isAuthorised: false
                             });
                             //console.log(user);
                             user.save()
@@ -744,7 +768,8 @@ exports.postAPIsUserAdd = (req, res, next) => { //user login
                                             user_genderPreference: result.user_genderPreference,
                                             user_coin: result.user_coin,
                                             user_wallet: result.user_wallet,
-                                            google_id: result.google_id
+                                            google_id: result.google_id,
+                                            user_isAuthorised: false
                                         };
                                         const token = jwt.sign({
                                             userId: data.user_id,
@@ -920,16 +945,32 @@ exports.postAPIsUserImage = (req, res, next) => {
 //Online User List
 exports.getAPIsOnlineUserList = (req, res, next) => { //user list
     const uId = req.body.inputUserId;
-    User.find({ is_Active: 'true', _id: { $nin: [uId] } }).select('user_name').select('user_image').select('user_country').select('user_countryCode').sort({ user_coin: 'desc' }).sort({ createdAt: 'desc' })
+    User.find({ is_Active: true, _id: { $nin: [uId] } }).select('user_name').select('user_image').select('user_country').select('user_countryCode').select('is_Active').sort({ user_coin: 'desc' }).sort({ createdAt: 'desc' })
         .then(result => {
-            res.status(201).json(
+            res.status(200).json(
                 result
             )
         })
         .catch(err => { console.log(err) });
 }
 
-//Adding to coin log
+//authorised user list
+exports.getOnlineUserForAuthorisedUser = (req, res, next) => {
+    const uId = req.body.inputUserId;
+    if (!uId) return res.status(201).json({ status: false, message: "Provide proper details" });
+    User.find({
+        user_isAuthorised: false,
+        is_Active: true
+    })
+        .then(result => {
+            res.status(200).json(
+                result
+            )
+        })
+        .catch(err => { console.log(err) });
+}
+
+//Adding to coin log for purchase only
 exports.postAPIsCoin = (req, res, next) => { // Add to Coin Log
     const uId = req.body.inputUserId;
     const coin = req.body.inputCoin;
@@ -980,6 +1021,34 @@ exports.postAPIsCoin = (req, res, next) => { // Add to Coin Log
                     }
                 }
             })
+    }
+}
+
+//Chat Coin deduction
+exports.postChatCoinDeduction = async (req, res, next) => {
+    const sid = req.body.inputSenderId;
+    const rid = req.body.inputReceiverId;
+    const coin = req.body.inputCoin;
+    //console.log(sid);
+    const sender = await User.findOne({ google_id: sid });
+    if (!sender) return res.status(201).json({ status: "false", message: "Sender not found" });
+    const receiver = await User.findOne({ google_id: rid });
+    if (!receiver) return res.status(201).json({ status: "false", message: "Receiver not found" });
+
+    if (sender.user_coin >= coin) {
+        receiver.user_coin = receiver.user_coin + coin;
+        sender.user_coin = sender.user_coin - coin;
+        if (receiver.user_isAuthorised) {
+            await receiver.save();
+        }
+        await sender.save();
+        res.status(200).json({
+            status: "true"
+        })
+    } else {
+        res.status(201).json({
+            status: "false"
+        })
     }
 }
 

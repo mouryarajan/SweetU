@@ -8,6 +8,7 @@ router.get('/redeem', redeem.getRedeem);
 router.post('/edit-redeem', redeem.postRedeem);
 router.get('/redeem-request', redeem.getRedeemLogAdmin);
 router.post('/redeem-filter', redeem.postFilterRedeemLog);
+router.get('/redeem-update/:inputRedeemId/:inputStatus', redeem.postRedeemUpdate);
 
 
 router.get('/api/get-redeem',redeem.getApiRedeem);

@@ -33,12 +33,18 @@ exports.postRedeem = (req, res, next) => {
     const coin = req.body.inputCoin;
     const match = req.body.inputMatch;
     const remark = req.body.inputRemark;
+    let re;
+    if(remark){
+        re = remark;
+    }else{
+        re="";
+    }
     redeem.findOne({ _id: id })
         .then(result => {
             result.amount = amount;
             result.coin = coin;
             result.match = match;
-            result.remark = remark;
+            result.remark = re;
             result.save()
                 .then(data => {
                     if (data) {
@@ -197,7 +203,7 @@ exports.postRedeemLog = (req, res, next) => {
                         })
                 }
             } else {
-                res.status(200).json({
+                res.status(201).json({
                     status: false,
                     message: "Something went wrong."
                 })
@@ -217,22 +223,15 @@ exports.postGetRedeemLogUser = (req, res, next) => {
 }
 
 exports.postRedeemUpdate = (req, res, next) => {
-    const rid = req.body.inputRedeemId;
+    const rid = req.params.inputRedeemId;
+    const status = req.params.inputStatus;
     redeemLog.findOne({ _id: rid })
         .then(result => {
             if (result) {
-                result.status = true;
+                result.status = status;
                 result.save()
                     .then(data => {
-                        if (data) {
-                            res.status(201).json({
-                                status: true
-                            })
-                        } else {
-                            res.status(201).json({
-                                status: false
-                            })
-                        }
+                        res.redirect('/redeem-request')
                     })
                     .catch(err => { console.log(err) });
             }

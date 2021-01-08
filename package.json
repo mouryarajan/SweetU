@@ -41,8 +41,6 @@
     "passport": "^0.4.1",
     "paytmchecksum": "^1.5.0",
     "regex": "^0.1.1",
-    "socket.io": "^3.0.4",
-    "socket.io-client": "^3.0.4",
     "uuid": "^8.3.2",
     "web-push": "^3.4.4"
   },

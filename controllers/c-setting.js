@@ -16,7 +16,8 @@ exports.postSetting = (req, res, next) => {
     .then(result=>{
         if(result){
             result.bonus_coin = req.body.inputCoin;
-            result.bonus_amount = req.body.inputWallet;
+            result.call_duration = req.body.inputWallet;
+            result.call_rate = req.body.inputCallRate;
             result.save();
             res.render('setting',{pageTitle:'Settings',result:result});
         }

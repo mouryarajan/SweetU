@@ -75,6 +75,7 @@
 											<th>Email Id</th>
 											<th>Gender</th>
 											<th>Status</th>
+											<th>Date</th>
 											<th>Action</th>
 										</tr>
 									</thead>
@@ -101,6 +102,11 @@
 															<a href="/user-authorise/<%= user._id %>"
 																class="btn btn-danger btn-xs waves-effect waves-light">Unauthorised</a>
 															<% } %>
+												</td>
+												<td>
+													<% var dat = user.createdAt.toString();
+													var x = dat.split(" "); %>
+													<%= x[2] %>&nbsp;<%= x[1] %>&nbsp;<%= x[3] %>
 												</td>
 												<td>
 													<a href="/user-detail/<%= user._id %>"

@@ -103,10 +103,10 @@
                                                 </td>
                                                 <td>
                                                     <% if(d.status){ %>
-                                                        <a href="/redeem-unpaid/<%= d._id %>"
+                                                        <a href="/redeem-update/<%= d._id %>/false"
                                                             class="btn btn-success btn-xs waves-effect waves-light">Paid</a>
                                                         <%} else{ %>
-                                                            <a href="/redeem-paid/<%= d._id %>"
+                                                            <a href="/redeem-update/<%= d._id %>/true"
                                                                 class="btn btn-danger btn-xs waves-effect waves-light">Pending</a>
                                                             <% } %>
                                                 </td>

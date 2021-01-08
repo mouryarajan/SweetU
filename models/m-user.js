@@ -37,7 +37,7 @@ const userSchema = new Schema({
    user_isAuthorised: {
       type: Boolean,
       default: false,
-      required: true
+      required: false
      
    },
    user_type: {

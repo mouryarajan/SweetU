@@ -6,10 +6,14 @@ const settingSchema = new Schema({
        type: Number,
        required: true
     },
-    bonus_amount: {
+    call_duration: {
         type: Number,
         required: true,
     },
+    call_rate: {
+        type: Number,
+        required: false
+    }
 });
 
 module.exports = mongoose.model('tblsetting', settingSchema);

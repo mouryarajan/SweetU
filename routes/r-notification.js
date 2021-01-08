@@ -28,7 +28,7 @@ const notification_options = {
 };
 
 router.get('/get-notification', (req, res, next) => {
-    noti.find()
+    noti.find().sort({createdAt: 'desc'})
         .then(data => {
             res.render('notification', { data: data, pageTitle: "Notifications" });
         }).catch(err => { console.log(err) });
@@ -192,6 +192,7 @@ router.post('/send-notification', async (req, res, next) => {
         if (image) {
             const x = image.filename;
             const images = x;
+            console.log(images);
             message = {
                 notification: {
                     title: title,

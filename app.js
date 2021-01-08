@@ -17,11 +17,13 @@ const store = new MongoDbStore({
 
 //paytm
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header(
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
         "Access-Control-Allow-Headers",
         "Origin,X-Requested-With,Content-Type,Accept"
     );
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 });
 
@@ -65,6 +67,7 @@ const redeemRoutes = require('./routes/r-redeem');
 const stickerRoutes = require('./routes/r-sticker');
 const notificationRoutes = require('./routes/r-notification');
 const subRoutes = require('./routes/r-subscription');
+const matchRoutes = require('./routes/r-match');
 
 app.use(express.static(path.join(__dirname, 'assets')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
@@ -112,6 +115,7 @@ app.use(redeemRoutes);
 app.use(stickerRoutes);
 app.use(notificationRoutes);
 app.use(subRoutes);
+app.use(matchRoutes);
 
 //404 Page
 app.use((req, res, next) => {
@@ -121,11 +125,7 @@ app.use((req, res, next) => {
 //Connection String
 mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(result => {
-        const server = app.listen(process.env.PORT || 3000);
-        const io = require('socket.io')(server);
-        io.on('connection', socket => {
-            console.log('Client connected');
-        });
+        app.listen(process.env.PORT || 3000);
     })
     .catch(err => {
         console.log(err);

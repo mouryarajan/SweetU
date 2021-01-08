@@ -16,8 +16,7 @@ const redeemSchema = new Schema({
     },
     remark: {
         type: String,
-       required: true,
-       default: "Redeem Diamonds"
+       required: false
     }
 });
 

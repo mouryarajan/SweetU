@@ -3,8 +3,8 @@ const user= require('../models/m-user');
 
 exports.getBlockUser = (req, res, next) =>{
     block.find()
+    .sort({updatedAt:'desc'})
     .then(data=>{
-        //console.log(data);
         res.render('block-user',({
             pageTitle: "Block Users",
             data: data
@@ -18,7 +18,6 @@ exports.getBlockedBy = (req, res, next)=>{
     .then(result=>{
         if(result){
             const data = result.blockedBy.users;
-            //console.log(data);
             res.render('blockby',{
                 pageTitle: "Block By",
                 data: data
