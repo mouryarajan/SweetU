@@ -1,5 +1,9 @@
 const contact = require('../models/m-contact');
 
+function isEmptyObject(obj) {
+    return !Object.keys(obj).length;
+}
+
 exports.postChat = async (req, res, next) => {
     const id = req.body.inputUserId;
     const msg = req.body.inputMessage;
@@ -45,19 +49,71 @@ exports.postChat = async (req, res, next) => {
 
 exports.getChat = async (req, res, next) => {
     contact.find()
-    .populate({path: "userId", select: "user_name"})
+    .populate('userId',["user_name" ,"user_image"])
     .sort({updatedAt: 'desc'})
     .then(data=>{
-        console.log(data);
+        //console.log(data);
         let arr = [];
+        let arrr = [];
+        let z = false;
         for (let n of data){
-            arr.push({
-                name: n.userId.userName,
-            });
+            let drr = n.user.items;
+            for(let x of drr){
+                //console.log(n.userId.user_name);
+                if(x.isProblem){
+                    if(isEmptyObject(arr)){
+                        arr.push({
+                            id: n._id,
+                            name: n.userId.user_name,
+                            image: n.userId.user_image
+                        });
+                    }else{
+                        for(let y of arr){
+                            if(y.name == n.userId.user_name){
+                                z=true;
+                            }
+                        }
+                        if(z){
+                            continue;
+                        }else{
+                            arr.push({
+                                id: n._id,
+                                name: n.userId.user_name,
+                                image: n.userId.user_image
+                            });
+                        }
+                    }
+                }else{
+                    if(isEmptyObject(arrr)){
+                        arrr.push({
+                            id: n._id,
+                            name: n.userId.user_name,
+                            image: n.userId.user_image
+                        });
+                    }else{
+                        for(let y of arrr){
+                            if(y.name == n.userId.user_name){
+                                z=true;
+                            }
+                        }
+                        if(z){
+                            continue;
+                        }else{
+                            arrr.push({
+                                id: n._id,
+                                name: n.userId.user_name,
+                                image: n.userId.user_image
+                            });
+                        }
+                    }
+                    
+                }
+            }
         }
         res.render('contact', {
             pageTitle: "Contact Us",
-            data: data
+            suggestion: arrr,
+            problem: arr
         })
     }).catch(err=>{console.log(err)});
 }
@@ -70,4 +126,16 @@ exports.getApiChat = async (req, res, next) => {
     res.status(200).json({
         data: arr
     });
+}
+
+exports.getChatDetails = async (req, res, next) => {
+    const id = req.params.inputUserId;
+    contact.findOne({_id: id})
+    .then(data=>{
+        arr = data.user.items;
+        res.render('chat',{
+            pageTitle: "Chat",
+            data: arr
+        })
+    }).catch(err=>{console.log(err)});
 }

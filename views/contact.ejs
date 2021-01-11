@@ -50,12 +50,13 @@
 						<div class="table-responsive mailbox-messages">
 							<table class="table table-hover table-striped">
 								<tbody>
+                                    <% for(let n of suggestion){ %>
 									<tr class="">
-                                        <a href="./read-mail.html">
-										<td class="mailbox-name">Mat Helme</td>
+										<td style="text-align: center;"><img src="/images/<%= n.image %>" style="vertical-align: middle;width: 50px;height: 50px;border-radius: 50%;"></td>
+                                        <td class="mailbox-name"><%= n.name.toUpperCase() %></td>
                                         <td class="mailbox-date" style="text-align: right;">5 mins ago</td>
-                                        </a>    
                                     </tr>
+                                    <% } %>
 								</tbody>
 							</table>
 							<!-- /.table -->
@@ -76,12 +77,13 @@
 						<div class="table-responsive mailbox-messages">
 							<table class="table table-hover table-striped">
 								<tbody>
-									<tr class="">
-                                        <a href="./read-mail.html">
-										<td class="mailbox-name">Mat Helme</td>
-                                        <td class="mailbox-date" style="text-align: right;">5 mins ago</td>
-                                        </a>    
-                                    </tr>
+									<% for(let n of problem){ %>
+                                        <tr class="">
+                                            <td style="text-align: center;"><img src="/images/<%= n.image %>" style="vertical-align: middle;width: 50px;height: 50px;border-radius: 50%;"></td>
+                                            <td class="mailbox-name"><a href="/get-chat-details/<%= n.id %>"><%= n.name.toUpperCase() %></a></td>
+                                            <td class="mailbox-date" style="text-align: right;">5 mins ago</td>
+                                        </tr>
+                                        <% } %>
 								</tbody>
 							</table>
 							<!-- /.table -->
