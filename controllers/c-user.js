@@ -475,7 +475,8 @@ exports.postAPIsLoginCheck = (req, res, next) => {
                     user_genderPreference: result.user_genderPreference,
                     user_coin: result.user_coin,
                     user_wallet: result.user_wallet,
-                    google_id: result.google_id
+                    google_id: result.google_id,
+                    user_isAuthorised: result.user_isAuthorised
                 };
                 const token = jwt.sign({
                     userId: data.user_id,

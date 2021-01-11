@@ -45,8 +45,16 @@ exports.postChat = async (req, res, next) => {
 
 exports.getChat = async (req, res, next) => {
     contact.find()
+    .populate({path: "userId", select: "user_name"})
     .sort({updatedAt: 'desc'})
     .then(data=>{
+        console.log(data);
+        let arr = [];
+        for (let n of data){
+            arr.push({
+                name: n.userId.userName,
+            });
+        }
         res.render('contact', {
             pageTitle: "Contact Us",
             data: data
