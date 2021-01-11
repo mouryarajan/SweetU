@@ -68,6 +68,8 @@ const stickerRoutes = require('./routes/r-sticker');
 const notificationRoutes = require('./routes/r-notification');
 const subRoutes = require('./routes/r-subscription');
 const matchRoutes = require('./routes/r-match');
+const chatRoutes = require('./routes/r-chat');
+const contactRoutes = require('./routes/r-contact');
 
 app.use(express.static(path.join(__dirname, 'assets')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
@@ -116,6 +118,8 @@ app.use(stickerRoutes);
 app.use(notificationRoutes);
 app.use(subRoutes);
 app.use(matchRoutes);
+app.use(chatRoutes);
+app.use(contactRoutes);
 
 //404 Page
 app.use((req, res, next) => {

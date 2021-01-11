@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+
+	<title><%= pageTitle %></title>
+
+	<!-- Main Styles -->
+	<link rel="stylesheet" href="/styles/style.min.css" />
+	
+	<!-- Material Design Icon -->
+	<link rel="stylesheet" href="/fonts/material-design/css/materialdesignicons.css" />
+
+	<!-- mCustomScrollbar -->
+	<link rel="stylesheet" href="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.min.css" />
+
+	<!-- Waves Effect -->
+	<link rel="stylesheet" href="/plugin/waves/waves.min.css" />
+
+	<!-- Sweet Alert -->
+	<link rel="stylesheet" href="/plugin/sweet-alert/sweetalert.css" />
+	
+	<!-- iCheck -->
+	<link rel="stylesheet" href="/plugin/iCheck/skins/square/blue.css" />
+
+	<!-- Color Picker -->
+	<link rel="stylesheet" href="/color-switcher/color-switcher.min.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+
+<body>
+    <%- include('includes/sidebar.ejs') %>
+    <!-- /.main-menu -->
+
+    <%- include('includes/header.ejs') %>
+<div id="wrapper">
+	<div class="main-content">
+		<div class="row">
+			<div class="col-md-12 col-xs-12">
+				<div class="box">
+					<div class="box-header with-border">
+						<h3 class="box-title">Inbox</h3>
+						<div class="box-tools">
+							<div class="has-feedback">
+								<input type="text" class="form-control input-sm" placeholder="Search Mail" />
+								<span class="glyphicon glyphicon-search form-control-feedback"></span>
+							</div>
+						</div>
+						<!-- /.box-tools -->
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body no-padding">
+						<div class="mailbox-controls">
+							<div class="pull-right">
+								<span class="inbox-text">1-50/200</span>
+								<div class="btn-group">
+									<button type="button" class="btn btn-default btn-sm waves-effect waves-light"><i class="fa fa-angle-left"></i></button>
+									<button type="button" class="btn btn-default btn-sm waves-effect waves-light"><i class="fa fa-angle-right"></i></button>
+								</div>
+								<!-- /.btn-group -->
+							</div>
+							<!-- /.pull-right -->
+						</div>
+						<div class="table-responsive mailbox-messages">
+							<table class="table table-hover table-striped">
+								<tbody>
+                                    <a href="./read-mail.html">Mat Helme
+									<tr class="">
+										<td class="mailbox-name"></td>
+										<td class="mailbox-subject"><span class="mailbox-subject-title">Amaza Themes Approved</span> - Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+										</td>
+										<td class="mailbox-attachment"></td>
+										<td class="mailbox-date">5 mins ago</td>
+                                    </tr>
+                                    </a>
+								</tbody>
+							</table>
+							<!-- /.table -->
+						</div>
+						<!-- /.mail-box-messages -->
+					</div>
+					<!-- /.box-body -->
+					<!-- <div class="box-footer no-padding">
+						<div class="mailbox-controls">
+							<button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
+							<button type="button" class="btn btn-default btn-sm waves-effect waves-light"><i class="fa fa-trash"></i></button>
+							<button type="button" class="btn btn-default btn-sm waves-effect waves-light"><i class="fa fa-exclamation-circle"></i></button>
+							<button type="button" class="btn btn-default btn-sm waves-effect waves-light"><i class="fa fa-refresh"></i></button>
+							<div class="pull-right">
+								<span class="inbox-text">1-50/200</span>
+								<div class="btn-group">
+									<button type="button" class="btn btn-default btn-sm waves-effect waves-light"><i class="fa fa-angle-left"></i></button>
+									<button type="button" class="btn btn-default btn-sm waves-effect waves-light"><i class="fa fa-angle-right"></i></button>
+								</div>
+							</div>
+						</div>
+					</div> -->
+				</div>
+				<!-- /. box -->
+			</div>
+			<!-- /.col-md-9 col-xs-12 -->
+		</div>
+		<!-- /.row -->		
+		<%- include('includes/footer.ejs') %>
+	</div>
+	<!-- /.main-content -->
+</div><!--/#wrapper -->
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+		<script src="assets/script/html5shiv.min.js"></script>
+		<script src="assets/script/respond.min.js"></script>
+	<![endif]-->
+	<!-- 
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="./assets/scripts/jquery.min.js"></script>
+	<script src="./assets/scripts/modernizr.min.js"></script>
+	<script src="/plugin/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script src="/plugin/nprogress/nprogress.js"></script>
+	<script src="/plugin/sweet-alert/sweetalert.min.js"></script>
+	<script src="/plugin/waves/waves.min.js"></script>
+	<!-- Full Screen Plugin -->
+	<script src="/plugin/fullscreen/jquery.fullscreen-min.js"></script>
+
+	<!-- iCheck -->
+	<script src="/plugin/iCheck/icheck.min.js"></script>
+	<script src="./assets/scripts/mailbox.init.min.js"></script>
+
+	<script src="./assets/scripts/main.min.js"></script>
+	<script src="/color-switcher/color-switcher.min.js"></script>
+</body>
+</html>

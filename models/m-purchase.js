@@ -14,6 +14,10 @@ const purchaseSchema = new Schema({
         type: String,
         required: true,
     },
+    google_play: {
+        type: String,
+        required: false
+    }
 });
 
 module.exports = mongoose.model('tblpurchase', purchaseSchema);

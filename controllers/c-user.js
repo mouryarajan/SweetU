@@ -23,8 +23,8 @@ var transporter = nodemailer.createTransport({
 
 exports.getUserList = (req, res, next) => {
     User.find().select('user_name').select('user_emailId').select('user_gender').select('user_isAuthorised').select('user_isBlock').select('createdAt')
-    .sort({createdAt:'desc'})    
-    .then(users => {
+        .sort({ createdAt: 'desc' })
+        .then(users => {
             res.render('userlist', {
                 users: users,
                 pageTitle: 'User List'
@@ -71,8 +71,8 @@ exports.postFilterUser = (req, res, next) => {
 
 exports.getAuthorisedUserList = (req, res, next) => {
     User.find({ user_isAuthorised: true }).select('user_name').select('user_emailId').select('user_gender').select('user_isAuthorised').select('user_isBlock').select('createdAt')
-    .sort({createdAt:'desc'})      
-    .then(users => {
+        .sort({ createdAt: 'desc' })
+        .then(users => {
             res.render('authorisedUserList', {
                 users: users,
                 pageTitle: 'Authorised List'
@@ -85,8 +85,8 @@ exports.getAuthorisedUserList = (req, res, next) => {
 
 exports.getSubscribedUserList = (req, res, next) => {
     User.find({ id_subscribe: true }).select('user_name').select('user_emailId').select('user_gender').select('user_isAuthorised').select('user_isBlock').select('createdAt')
-    .sort({createdAt:'desc'})    
-    .then(users => {
+        .sort({ createdAt: 'desc' })
+        .then(users => {
             res.render('subscribed-user-list', {
                 users: users,
                 pageTitle: 'Subscribed User'
@@ -1533,14 +1533,19 @@ exports.postAPIUpdateStatusOfline = (req, res, next) => {
         })
     }
 }
-exports.postAPIsGenderPreference = (req, res, next) => {
+exports.postAPIsGenderPreference = async (req, res, next) => {
     const uId = req.body.inputUserId;
+    if(!uId) return res.status(201).json({message: "Provide Proper Details"});
+    const cost = await settings.findOne({_id:"5fbcc934e311361f6063a84d"});
     User.findOne({ _id: uId })
         .then(result => {
             if (result) {
                 let data = {
                     user_genderPreference: result.user_genderPreference,
-                    user_coin: result.user_coin
+                    user_coin: result.user_coin,
+                    both: cost.gender_change_both,
+                    male: cost.gender_change_male,
+                    female: cost.gender_change_female
                 };
                 res.status(201).json({
                     status: true,
@@ -1554,19 +1559,36 @@ exports.postAPIsGenderPreference = (req, res, next) => {
         })
 }
 
-exports.postAPIsRandomUser = (req, res, next) => {
+exports.postAPIsRandomUser = async (req, res, next) => {
     const gender = req.body.inputGender;
     const uid = req.body.inputUserId;
-    //const n = User.find({user_genderPreference:gender, is_active:true}).count();
+    const cost = await settings.findOne({ _id: "5fbcc934e311361f6063a84d" });
     User.findOne({ _id: uid })
         .then(d => {
             if (d) {
-                d.user_genderPreference = gender;
-                d.save(s => {
-                    res.status(201).json({
-                        status: true
+                let fcost;
+                if (gender == "Male") {
+                    fcost = cost.gender_change_male;
+                } else if (gender == "Female") {
+                    fcost = cost.gender_change_female;
+                } else {
+                    fcost = cost.gender_change_both;
+                }
+
+                if (d.user_coin >= fcost) {
+                    d.user_genderPreference = gender;
+                    d.user_coin = d.user_coin - fcost;
+                    d.save(s => {
+                        res.status(200).json({
+                            status: true
+                        })
                     })
-                })
+                } else {
+                    res.status(201).json({
+                        status: false,
+                        message: "Don't have enough coins"
+                    })
+                }
             } else {
                 res.status(201).json({
                     status: false
@@ -1575,27 +1597,16 @@ exports.postAPIsRandomUser = (req, res, next) => {
         })
 
 }
-// const n = User.count({ user_genderPreference: gender, is_Active: true })
-//                         .then(result => {
-//                             console.log(result);
-//                             const r = Math.floor(Math.random() * result);
-//                             console.log(r);
-//                             User.find({ user_genderPreference: gender, is_Active: true }).select('user_name').select('user_emailId').select('user_gender')
-//                                 .then(data => {
-//                                     if (data) {
-//                                         console.log(data[r]);
-//                                         res.status(201).json({
-//                                             status: true,
-//                                             data: data[r]
-//                                         })
-//                                     } else {
-//                                         res.status(201).json({
-//                                             status: false
-//                                         })
-//                                     }
-//                                 })
-//                                 .catch(err => { console.log(err) });
-//                         })
-//                         .catch(err => {
-//                             console.log(err);
-//                         });
+
+
+exports.APIisAuthorised = (req, res, next) => {
+    const id = req.body.inputUserId;
+    if (!id) return res.status(201).json({ message: "Provide proper details" });
+
+    User.findOne({ _id: id }).select('user_isAuthorised')
+        .then(data => {
+            res.status(200).json({
+                data: data
+            });
+        }).catch(err => { console.log(err) });
+}

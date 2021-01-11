@@ -13,6 +13,18 @@ const settingSchema = new Schema({
     call_rate: {
         type: Number,
         required: false
+    },
+    gender_change_both: {
+        type: Number,
+        required: false
+    },
+    gender_change_female: {
+        type: Number,
+        required: false
+    },
+    gender_change_male: {
+        type: Number,
+        required: false
     }
 });
 

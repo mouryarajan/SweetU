@@ -62,4 +62,6 @@ router.post('/api/get-favourite-you',   userController.getFavouriteYou);
 router.post('/api/get-video-list', userController.postVideoCallList);
 
 router.post('/api/chat-coin', userController.postChatCoinDeduction);
+
+router.post('/api/is-authorized', userController.APIisAuthorised);
 module.exports = router;

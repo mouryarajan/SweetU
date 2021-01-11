@@ -17,10 +17,12 @@ exports.postPurchase = (req, res, next) => {
     const coin = req.body.inputCoin;
     const amount = req.body.inputAmount;
     const comment = req.body.inputComment;
+    const google_play = req.body.inputGooglePlay;
     const purchase = Purchase({
         coin: coin,
         amount: amount,
-        comment: comment
+        comment: comment,
+        google_play: google_play
     });
     purchase.save()
     .then(result=>{
