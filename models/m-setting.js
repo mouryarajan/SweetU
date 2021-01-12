@@ -25,6 +25,10 @@ const settingSchema = new Schema({
     gender_change_male: {
         type: Number,
         required: false
+    },
+    start_call_rate: {
+        type: Number,
+        required: false
     }
 });
 

@@ -497,6 +497,42 @@ exports.postAPIsLoginCheck = (req, res, next) => {
             }
         })
 }
+//check online user
+exports.postStartCall = async (req, res, next) => {
+    const uid = req.body.inputUserId;
+    const use = await User.findOne({ _id: uid });
+    if (!use) return res.status(201).json({ status: "false", message: "User not found" });
+    let online = 0;
+    if(use.user_isAuthorised){
+        online = await User.find({
+            _id: { $ne: uid },
+            is_Active: true,
+            user_isAuthorised:false
+        }).countDocuments();
+    }else{
+        online = await User.find({
+            is_Active: true,
+            _id: { $ne: uid }
+        }).countDocuments();
+    }
+    //console.log(online);
+    if(online<=0){
+        return res.status(201).json({ status: "false", message: "No user is online" });
+    }
+    const set = await settings.find();
+    let coin = set[0].start_call_rate;
+    if(use.user_coin>=coin){
+        use.user_coin = use.user_coin - coin;
+        use.save(data=>{
+            res.status(200).json({
+                status: true 
+            });
+        })
+    }else{
+        return res.status(201).json({ status: "false", message: "You don't have enough coins" });
+    }
+    //console.log(coin);
+}
 
 //Video call user list
 exports.postVideoCallList = async (req, res, next) => {

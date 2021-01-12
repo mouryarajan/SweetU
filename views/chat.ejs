@@ -45,12 +45,6 @@
             margin: 10px 0;
         }
 
-        /* Darker chat container */
-        .darker {
-            border-color: #ccc;
-            background-color: #ddd;
-        }
-
         /* Clear floats */
         .container::after {
             content: "";
@@ -85,6 +79,40 @@
             float: left;
             color: #999;
         }
+
+        .chat-tile {
+            text-align: right;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 0 10px 0px #ccc;
+            background-color: #ffffff;
+            border: none;
+            border-radius: 7rem;
+            min-height: 6rem;
+        }
+
+        .chat-tile.darker {
+            border-color: #ccc;
+            background-color: #27a5dc;
+            float: right;
+            text-align: left;
+        }
+
+        .chat-tile.darker .msg {
+            order: 1;
+            color: #ffffff;
+        }
+
+        .chat-tile.darker img {
+            order: 2;
+            box-shadow: 0 0 10px 0px rgba(255, 255, 255, 0.2);
+        }
+
+        .chat-tile .msg {
+            margin-bottom: 0;
+            width: 90%;
+        }
     </style>
 </head>
 
@@ -96,20 +124,57 @@
             <div id="wrapper">
                 <div class="main-content">
                     <div class="row row-inline-block small-spacing">
-                        <div class="col-md-12">
-                            <div class="box-content" style="height: 60rem; overflow: auto;">
-                                <div class="col-md-12 container">
-                                    <img src="/w3images/bandmember.jpg" alt="Avatar">
-                                    <p>Hello. How are you today?</p>
-                                    <span class="time-right">11:00</span>
+                        <div class="col-xs-12">
+                            <div class="box-content" style="display: flex;">
+                                <div class="col-xs-1">
+                                    <img src="/images/<%= image %>" alt="Avatar"
+                                        style="height: 5rem; width: 5rem; border-radius: 1rem;" class="right">
                                 </div>
-
-                                <div class="col-md-12 container darker">
-                                    <img src="/w3images/avatar_g2.jpg" alt="Avatar" class="right">
-                                    <p>Hey! I'm fine. Thanks for asking!</p>
-                                    <span class="time-left">11:01</span>
+                                <div class="col-xs-11" style="display: flex; align-items: center;">
+                                    <h4><%= name.toUpperCase() %></h4>
                                 </div>
                             </div>
+                            <!-- /.box-content -->
+                        </div>
+                        <div class="col-md-12">
+                            <div class="box-content row" style="height: 50rem; overflow: auto;">
+                                <% for(let n of data){ if(n.isAdmin){%>
+                                    <div class="col-md-10 container darker chat-tile">
+                                        <img src="/images/admin/admin-profile.png" alt="Avatar"
+                                            style="height: 4rem; width: 4rem;" class="right">
+                                        <p class="msg">
+                                            <%= n.message %>
+                                        </p>
+                                    </div>
+                                    <% } else{ %>
+                                        <div class="col-md-10 container chat-tile">
+                                            <img src="/images/<%= image %>" alt="Avatar"
+                                                style="height: 4rem; width: 4rem;">
+                                            <p class="msg">
+                                                <%= n.message %>
+                                            </p>
+                                        </div>
+                                        <% } }%>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="box-content">
+                                <form method="POST" action="/post-admin-chat">
+                                    <div class="col-xs-11">
+                                        <input type="text" class="form-control" name="inputMessage" id="inputMessage"
+                                            placeholder="Message..." />
+                                            <input type="hidden" class="form-control" value="<%= id %>" name="inputChatId" id="inputChatId"
+                                            placeholder="Message..." />
+                                            <input type="hidden" class="form-control" value="true" name="inputType" id="inputType"
+                                            placeholder="Message..." />
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <input type="submit" class="btn btn-primary waves-effect waves-light"
+                                            value="Send">
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- /.box-content -->
                         </div>
                     </div>
                     <!-- ================================================== -->

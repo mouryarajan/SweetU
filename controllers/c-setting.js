@@ -22,6 +22,7 @@ exports.postSetting = (req, res, next) => {
             result.gender_change_both = req.body.inputGenderChangeBoth;
             result.gender_change_female = req.body.inputGenderChangeFemale;
             result.gender_change_male = req.body.inputGenderChangeMale;
+            result.start_call_rate = req.body.inputStartCallRate;
             result.save();
             res.render('setting',{pageTitle:'Settings',result:result});
         }

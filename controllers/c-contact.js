@@ -58,6 +58,7 @@ exports.getChat = async (req, res, next) => {
         let z = false;
         for (let n of data){
             let drr = n.user.items;
+            //console.log(drr[drr.length-1]);
             for(let x of drr){
                 //console.log(n.userId.user_name);
                 if(x.isProblem){
@@ -74,6 +75,7 @@ exports.getChat = async (req, res, next) => {
                             }
                         }
                         if(z){
+                            z=false;
                             continue;
                         }else{
                             arr.push({
@@ -97,6 +99,7 @@ exports.getChat = async (req, res, next) => {
                             }
                         }
                         if(z){
+                            z=false;
                             continue;
                         }else{
                             arrr.push({
@@ -131,11 +134,35 @@ exports.getApiChat = async (req, res, next) => {
 exports.getChatDetails = async (req, res, next) => {
     const id = req.params.inputUserId;
     contact.findOne({_id: id})
+    .populate('userId',["user_image","user_name"])
     .then(data=>{
         arr = data.user.items;
         res.render('chat',{
             pageTitle: "Chat",
-            data: arr
+            data: arr,
+            image: data.userId.user_image,
+            name: data.userId.user_name,
+            id: id
         })
+    }).catch(err=>{console.log(err)});
+}
+
+exports.postAdminChat = async (req, res, next) => {
+    cid = req.body.inputChatId;
+    msg = req.body.inputMessage;
+    type = req.body.inputType;
+    contact.findOne({_id: cid})
+    .then(data=>{
+        arr = data.user.items;
+        arr.push({
+            message: msg,
+            isAdmin: true,
+            isProblem: type
+        });
+        data.user.items = arr;
+        data.save()
+        .then(result=>{
+            res.redirect('/get-chat-details/'+cid.toString());
+        }).catch(err=>{console.log(err)});
     }).catch(err=>{console.log(err)});
 }

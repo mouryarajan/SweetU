@@ -60,6 +60,7 @@ router.post('/api/update-status-ofline',  userController.postAPIUpdateStatusOfli
 
 router.post('/api/get-favourite-you',   userController.getFavouriteYou);
 router.post('/api/get-video-list', userController.postVideoCallList);
+router.post('/api/start-call', userController.postStartCall);
 
 router.post('/api/chat-coin', userController.postChatCoinDeduction);
 

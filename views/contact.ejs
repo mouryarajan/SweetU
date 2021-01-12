@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<meta name="description" content="" />
-	<meta name="author" content="" />
 
-	<title><%= pageTitle %></title>
+<head>
+	<title>
+		<%= pageTitle %>
+	</title>
 
 	<!-- Main Styles -->
 	<link rel="stylesheet" href="/styles/style.min.css" />
-	
+
 	<!-- Material Design Icon -->
 	<link rel="stylesheet" href="/fonts/material-design/css/materialdesignicons.css" />
 
@@ -23,107 +20,82 @@
 
 	<!-- Sweet Alert -->
 	<link rel="stylesheet" href="/plugin/sweet-alert/sweetalert.css" />
-	
+
 	<!-- iCheck -->
 	<link rel="stylesheet" href="/plugin/iCheck/skins/square/blue.css" />
 
 	<!-- Color Picker -->
 	<link rel="stylesheet" href="/color-switcher/color-switcher.min.css" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
 
 <body>
-    <%- include('includes/sidebar.ejs') %>
-    <!-- /.main-menu -->
+	<%- include('includes/sidebar.ejs') %>
+		<!-- /.main-menu -->
 
-    <%- include('includes/header.ejs') %>
-<div id="wrapper">
-	<div class="main-content">
-		<div class="row">
-			<div class="col-md-6 col-xs-12">
-				<div class="box">
-					<div class="box-header with-border">
-						<h3 class="box-title">Suggestions</h3>
-						<!-- /.box-tools -->
-					</div>
-					<!-- /.box-header -->
-					<div class="box-body no-padding">
-						<div class="table-responsive mailbox-messages">
-							<table class="table table-hover table-striped">
-								<tbody>
-                                    <% for(let n of suggestion){ %>
-									<tr class="">
-										<td style="text-align: center;"><img src="/images/<%= n.image %>" style="vertical-align: middle;width: 50px;height: 50px;border-radius: 50%;"></td>
-                                        <td class="mailbox-name"><%= n.name.toUpperCase() %></td>
-                                        <td class="mailbox-date" style="text-align: right;">5 mins ago</td>
-                                    </tr>
-                                    <% } %>
-								</tbody>
-							</table>
-							<!-- /.table -->
+		<%- include('includes/header.ejs') %>
+			<div id="wrapper">
+				<div class="main-content">
+					<div class="row small-spacing">
+						<div class="col-xs-12">
+							<div class="box-content">
+								<table id="example" class="table table-striped" style="width:100%">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>Profile</th>
+											<th>Name</th>
+											<th>Message</th>
+											<th>Date</th>
+										</tr>
+									</thead>
+									<tbody>
+										<% let count=1; for(let n of problem){ %>
+											<tr>
+												<td>
+													<%= count %>
+												</td>
+												<td><img src="/images/<%= n.image %>"
+														style="vertical-align: middle;width: 50px;height: 50px;border-radius: 50%;">
+												</td>
+												<td><a href="/get-chat-details/<%= n.id %>"></a>
+														<%= n.name.toUpperCase() %>
+													</a></td>
+												<td></td>
+												<td>5 mins ago</td>
+											</tr>
+											<%count++; } %>
+									</tbody>
+								</table>
+							</div>
+							<!-- /.box-content -->
 						</div>
-						<!-- /.mail-box-messages -->
+						<!-- /.col-xs-12 -->
 					</div>
+					<!-- /.row small-spacing -->
+					<%- include('includes/footer.ejs') %>
 				</div>
-				<!-- /. box -->
-            </div>
-            <div class="col-md-6 col-xs-12">
-				<div class="box">
-					<div class="box-header with-border">
-						<h3 class="box-title">Problems</h3>
-						<!-- /.box-tools -->
-					</div>
-					<!-- /.box-header -->
-					<div class="box-body no-padding">
-						<div class="table-responsive mailbox-messages">
-							<table class="table table-hover table-striped">
-								<tbody>
-									<% for(let n of problem){ %>
-                                        <tr class="">
-                                            <td style="text-align: center;"><img src="/images/<%= n.image %>" style="vertical-align: middle;width: 50px;height: 50px;border-radius: 50%;"></td>
-                                            <td class="mailbox-name"><a href="/get-chat-details/<%= n.id %>"><%= n.name.toUpperCase() %></a></td>
-                                            <td class="mailbox-date" style="text-align: right;">5 mins ago</td>
-                                        </tr>
-                                        <% } %>
-								</tbody>
-							</table>
-							<!-- /.table -->
-						</div>
-						<!-- /.mail-box-messages -->
-					</div>
-				</div>
-				<!-- /. box -->
-            </div>
-            
-			<!-- /.col-md-9 col-xs-12 -->
-		</div>
-		<!-- /.row -->		
-		<%- include('includes/footer.ejs') %>
-	</div>
-	<!-- /.main-content -->
-</div><!--/#wrapper -->
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!--[if lt IE 9]>
-		<script src="assets/script/html5shiv.min.js"></script>
-		<script src="assets/script/respond.min.js"></script>
-	<![endif]-->
-	<!-- 
-	================================================== -->
-	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="./assets/scripts/jquery.min.js"></script>
-	<script src="./assets/scripts/modernizr.min.js"></script>
-	<script src="/plugin/bootstrap/js/bootstrap.min.js"></script>
-	<script src="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
-	<script src="/plugin/nprogress/nprogress.js"></script>
-	<script src="/plugin/sweet-alert/sweetalert.min.js"></script>
-	<script src="/plugin/waves/waves.min.js"></script>
-	<!-- Full Screen Plugin -->
-	<script src="/plugin/fullscreen/jquery.fullscreen-min.js"></script>
+				<!-- /.main-content -->
+			</div>
+			<!-- ================================================== -->
+			<!-- Placed at the end of the document so the pages load faster -->
+			<script src="./assets/scripts/jquery.min.js"></script>
+			<script src="./assets/scripts/modernizr.min.js"></script>
+			<script src="/plugin/bootstrap/js/bootstrap.min.js"></script>
+			<script src="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+			<script src="/plugin/nprogress/nprogress.js"></script>
+			<script src="/plugin/sweet-alert/sweetalert.min.js"></script>
+			<script src="/plugin/waves/waves.min.js"></script>
+			<!-- Full Screen Plugin -->
+			<script src="/plugin/fullscreen/jquery.fullscreen-min.js"></script>
 
-	<!-- iCheck -->
-	<script src="/plugin/iCheck/icheck.min.js"></script>
-	<script src="./assets/scripts/mailbox.init.min.js"></script>
+			<!-- iCheck -->
+			<script src="/plugin/iCheck/icheck.min.js"></script>
+			<script src="./assets/scripts/mailbox.init.min.js"></script>
 
-	<script src="./assets/scripts/main.min.js"></script>
-	<script src="/color-switcher/color-switcher.min.js"></script>
+			<script src="./assets/scripts/main.min.js"></script>
+			<script src="/color-switcher/color-switcher.min.js"></script>
+
 </body>
+
 </html>

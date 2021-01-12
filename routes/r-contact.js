@@ -7,4 +7,6 @@ router.post('/api/get-contact-us', contactController.getApiChat);
 router.get('/get-problem', contactController.getChat);
 router.get('/get-chat-details/:inputUserId', contactController.getChatDetails);
 
+router.post('/post-admin-chat', contactController.postAdminChat);
+
 module.exports = router;
