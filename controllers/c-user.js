@@ -504,11 +504,13 @@ exports.postVideoCallList = async (req, res, next) => {
     const uid = req.body.inputUserId;
     const use = await User.findOne({ _id: uid });
     if (!use) return res.status(201).json({ status: "false", message: "User not found" });
+    const genderPreference = use.user_genderPreference;
     if (use.user_isAuthorised) {
         let itemPerPage = 1;
         User.find({
             is_Active: true,
             user_isAuthorised: false,
+            user_gender: genderPreference,
             _id: { $ne: uid }
         }).skip((page - 1) * itemPerPage)
             .limit(itemPerPage)
@@ -521,6 +523,7 @@ exports.postVideoCallList = async (req, res, next) => {
         let itemPerPage = 1;
         User.find({
             is_Active: true,
+            user_gender: genderPreference,
             _id: { $ne: uid }
         })
             .skip((page - 1) * itemPerPage)
@@ -531,8 +534,9 @@ exports.postVideoCallList = async (req, res, next) => {
                         data: data
                     })
                 } else {
-                    res.status(200).json({
-                        message: "No more users"
+                    res.status(201).json({
+                        message: "No more users",
+                        status: false
                     })
                 }
             }).catch(err => { console.log(err) });
@@ -1605,7 +1609,7 @@ exports.APIisAuthorised = (req, res, next) => {
     const id = req.body.inputUserId;
     if (!id) return res.status(201).json({ message: "Provide proper details" });
 
-    User.findOne({ _id: id }).select('user_isAuthorised')
+    User.findOne({ _id: id }).select('user_isAuthorised').select('id_subscribe')
         .then(data => {
             res.status(200).json({
                 data: data

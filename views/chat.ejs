@@ -35,6 +35,57 @@
     <link href='https://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/styles/chat.css" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+        /* Chat containers */
+        .container {
+            border: 2px solid #dedede;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        /* Darker chat container */
+        .darker {
+            border-color: #ccc;
+            background-color: #ddd;
+        }
+
+        /* Clear floats */
+        .container::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        /* Style images */
+        .container img {
+            float: left;
+            max-width: 60px;
+            width: 100%;
+            margin-right: 20px;
+            border-radius: 50%;
+        }
+
+        /* Style the right image */
+        .container img.right {
+            float: right;
+            margin-left: 20px;
+            margin-right: 0;
+        }
+
+        /* Style time text */
+        .time-right {
+            float: right;
+            color: #aaa;
+        }
+
+        /* Style time text */
+        .time-left {
+            float: left;
+            color: #999;
+        }
+    </style>
 </head>
 
 <body>
@@ -45,21 +96,18 @@
             <div id="wrapper">
                 <div class="main-content">
                     <div class="row row-inline-block small-spacing">
-                        <div class="col-xs-12">
-                            <div class='container' ng-cloak ng-app="chatApp">
-                                <div class='chatbox' ng-controller="MessageCtrl as chatMessage">
-                                    <div class="chatbox__messages" ng-repeat="message in messages">
-                                        <div class="chatbox__messages__user-message">
-                                            <div class="chatbox__messages__user-message--ind-message">
-                                                <p class="name">{{message.Name}}</p>
-                                                <br />
-                                                <p class="message">{{message.Message}}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <form>
-                                        <input type="text" placeholder="Enter your message">
-                                    </form>
+                        <div class="col-md-12">
+                            <div class="box-content" style="height: 60rem; overflow: auto;">
+                                <div class="col-md-12 container">
+                                    <img src="/w3images/bandmember.jpg" alt="Avatar">
+                                    <p>Hello. How are you today?</p>
+                                    <span class="time-right">11:00</span>
+                                </div>
+
+                                <div class="col-md-12 container darker">
+                                    <img src="/w3images/avatar_g2.jpg" alt="Avatar" class="right">
+                                    <p>Hey! I'm fine. Thanks for asking!</p>
+                                    <span class="time-left">11:01</span>
                                 </div>
                             </div>
                         </div>

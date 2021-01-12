@@ -9,6 +9,7 @@ exports.getDashBoard = async (req, res, next) => {
     const totalActive = await User.find({ is_Active: true }).countDocuments();
     const totalActiveMale = await User.find({ is_Active: true, user_gender: "Male" }).countDocuments();
     const totalActiveFemale = await User.find({ is_Active: true, user_gender: "Female" }).countDocuments();
+    const totalActiveAuthorized = await User.find({user_isAuthorised: true, is_Active: true}).countDocuments();
     var d = new Date(); // Today!
     d.setDate(d.getDate() - 1);
 
@@ -64,7 +65,8 @@ exports.getDashBoard = async (req, res, next) => {
         yseterdayTotalFemail:yseterdayTotalFemail,
         yseterdayTotalMale:yseterdayTotalMale,
         latestUser: latestUser,
-        latestMatch: latestMatch
+        latestMatch: latestMatch,
+        totalActiveAuthorized: totalActiveAuthorized
     });
 }
 

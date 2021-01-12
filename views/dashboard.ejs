@@ -142,9 +142,9 @@
 										<p class="text text-success"
 											style="display: block; text-align: left; margin-bottom: 0;">Female </p>
 										<h2 class="counter text-success" style="text-align: left;">
-											&nbsp;</h2>
+											<%= totalActiveAuthorized %></h2>
 										<p class="text text-success"
-											style="display: block; text-align: left; margin-bottom: 0;">&nbsp;</p>
+											style="display: block; text-align: left; margin-bottom: 0;">Authorized </p>
 									</div>
 									<!-- /#traffic-sparkline-chart-2 -->
 									<div class="right-content">
@@ -462,48 +462,50 @@
 								<h4 class="box-title">Latest Users</h4>
 								<!-- /.box-title -->
 								<div class="review-list">
-									<% function timeSince(date) { 
-											var seconds=Math.floor((new Date() - date) / 1000);
-											var interval=seconds / 31536000; if (interval> 1) {
-											return Math.floor(interval) + " years";
-											}
-											interval = seconds / 2592000;
-											if (interval > 1) {
-											return Math.floor(interval) + " months";
-											}
-											interval = seconds / 86400;
-											if (interval > 1) {
-											return Math.floor(interval) + " days";
-											}
-											interval = seconds / 3600;
-											if (interval > 1) {
-											return Math.floor(interval) + " hours";
-											}
-											interval = seconds / 60;
-											if (interval > 1) {
-											return Math.floor(interval) + " minutes";
-											}
-											return Math.floor(seconds) + " seconds";
+									<% function timeSince(date) { var seconds=Math.floor((new Date() - date) / 1000);
+										var interval=seconds / 31536000; if (interval> 1) {
+										return Math.floor(interval) + " years";
+										}
+										interval = seconds / 2592000;
+										if (interval > 1) {
+										return Math.floor(interval) + " months";
+										}
+										interval = seconds / 86400;
+										if (interval > 1) {
+										return Math.floor(interval) + " days";
+										}
+										interval = seconds / 3600;
+										if (interval > 1) {
+										return Math.floor(interval) + " hours";
+										}
+										interval = seconds / 60;
+										if (interval > 1) {
+										return Math.floor(interval) + " minutes";
+										}
+										return Math.floor(seconds) + " seconds";
 										}
 										for(let n of latestUser){ %>
-											<a  href="/user-detail/<%= n._id %>" style="color: black;">
-										<div class="review-item hclass" >
-											<div class="top">
-												<img class="avatar" src="/images/<%= n.user_image %>">
-												<div class="name" style="padding-left: 1rem;">
-													<%= n.user_name.toUpperCase() %>
+										<a href="/user-detail/<%= n._id %>" style="color: black;">
+											<div class="review-item hclass">
+												<div class="top">
+													<img class="avatar" src="/images/<%= n.user_image %>">
+													<div class="name" style="padding-left: 1rem;">
+														<%= n.user_name.toUpperCase() %>
+													</div>
+													<!-- /.name -->
+													<div class="date" style="text-align: left;">
+														<% let x=timeSince(n.createdAt) %>
+															<%= x %> ago
+													</div>
+													<!-- /.date -->
 												</div>
-												<!-- /.name -->
-												<div class="date" style="text-align: left;"><% let x = timeSince(n.createdAt) %><%= x %> ago</div>
-												<!-- /.date -->
+												<!-- /.top -->
+												<div class="desc description">
+													<%= n.user_about %>
+												</div>
+												<!-- /.desc -->
 											</div>
-											<!-- /.top -->
-											<div class="desc description">
-												<%= n.user_about %>
-											</div>
-											<!-- /.desc -->
-										</div>
-									</a>
+										</a>
 										<% } %>
 											<!-- /.review-item -->
 								</div>
@@ -516,48 +518,50 @@
 								<h4 class="box-title">Subscribed Users</h4>
 								<!-- /.box-title -->
 								<div class="review-list">
-									<% function timeSince(date) { 
-											var seconds=Math.floor((new Date() - date) / 1000);
-											var interval=seconds / 31536000; if (interval> 1) {
-											return Math.floor(interval) + " years";
-											}
-											interval = seconds / 2592000;
-											if (interval > 1) {
-											return Math.floor(interval) + " months";
-											}
-											interval = seconds / 86400;
-											if (interval > 1) {
-											return Math.floor(interval) + " days";
-											}
-											interval = seconds / 3600;
-											if (interval > 1) {
-											return Math.floor(interval) + " hours";
-											}
-											interval = seconds / 60;
-											if (interval > 1) {
-											return Math.floor(interval) + " minutes";
-											}
-											return Math.floor(seconds) + " seconds";
+									<% function timeSince(date) { var seconds=Math.floor((new Date() - date) / 1000);
+										var interval=seconds / 31536000; if (interval> 1) {
+										return Math.floor(interval) + " years";
+										}
+										interval = seconds / 2592000;
+										if (interval > 1) {
+										return Math.floor(interval) + " months";
+										}
+										interval = seconds / 86400;
+										if (interval > 1) {
+										return Math.floor(interval) + " days";
+										}
+										interval = seconds / 3600;
+										if (interval > 1) {
+										return Math.floor(interval) + " hours";
+										}
+										interval = seconds / 60;
+										if (interval > 1) {
+										return Math.floor(interval) + " minutes";
+										}
+										return Math.floor(seconds) + " seconds";
 										}
 										for(let n of latestUser){ %>
-											<a  href="/user-detail/<%= n._id %>" style="color: black;">
-										<div class="review-item hclass" >
-											<div class="top">
-												<img class="avatar" src="/images/<%= n.user_image %>">
-												<div class="name" style="padding-left: 1rem;">
-													<%= n.user_name.toUpperCase() %>
+										<a href="/user-detail/<%= n._id %>" style="color: black;">
+											<div class="review-item hclass">
+												<div class="top">
+													<img class="avatar" src="/images/<%= n.user_image %>">
+													<div class="name" style="padding-left: 1rem;">
+														<%= n.user_name.toUpperCase() %>
+													</div>
+													<!-- /.name -->
+													<div class="date" style="text-align: left;">
+														<% let x=timeSince(n.createdAt) %>
+															<%= x %> ago
+													</div>
+													<!-- /.date -->
 												</div>
-												<!-- /.name -->
-												<div class="date" style="text-align: left;"><% let x = timeSince(n.createdAt) %><%= x %> ago</div>
-												<!-- /.date -->
+												<!-- /.top -->
+												<div class="desc description">
+													<%= n.user_about %>
+												</div>
+												<!-- /.desc -->
 											</div>
-											<!-- /.top -->
-											<div class="desc description">
-												<%= n.user_about %>
-											</div>
-											<!-- /.desc -->
-										</div>
-									</a>
+										</a>
 										<% } %>
 											<!-- /.review-item -->
 								</div>
@@ -570,48 +574,50 @@
 								<h4 class="box-title">Latest Sub Users</h4>
 								<!-- /.box-title -->
 								<div class="review-list">
-									<% function timeSince(date) { 
-											var seconds=Math.floor((new Date() - date) / 1000);
-											var interval=seconds / 31536000; if (interval> 1) {
-											return Math.floor(interval) + " years";
-											}
-											interval = seconds / 2592000;
-											if (interval > 1) {
-											return Math.floor(interval) + " months";
-											}
-											interval = seconds / 86400;
-											if (interval > 1) {
-											return Math.floor(interval) + " days";
-											}
-											interval = seconds / 3600;
-											if (interval > 1) {
-											return Math.floor(interval) + " hours";
-											}
-											interval = seconds / 60;
-											if (interval > 1) {
-											return Math.floor(interval) + " minutes";
-											}
-											return Math.floor(seconds) + " seconds";
+									<% function timeSince(date) { var seconds=Math.floor((new Date() - date) / 1000);
+										var interval=seconds / 31536000; if (interval> 1) {
+										return Math.floor(interval) + " years";
+										}
+										interval = seconds / 2592000;
+										if (interval > 1) {
+										return Math.floor(interval) + " months";
+										}
+										interval = seconds / 86400;
+										if (interval > 1) {
+										return Math.floor(interval) + " days";
+										}
+										interval = seconds / 3600;
+										if (interval > 1) {
+										return Math.floor(interval) + " hours";
+										}
+										interval = seconds / 60;
+										if (interval > 1) {
+										return Math.floor(interval) + " minutes";
+										}
+										return Math.floor(seconds) + " seconds";
 										}
 										for(let n of latestUser){ %>
-											<a  href="/user-detail/<%= n._id %>" style="color: black;">
-										<div class="review-item hclass" >
-											<div class="top">
-												<img class="avatar" src="/images/<%= n.user_image %>">
-												<div class="name" style="padding-left: 1rem;">
-													<%= n.user_name.toUpperCase() %>
+										<a href="/user-detail/<%= n._id %>" style="color: black;">
+											<div class="review-item hclass">
+												<div class="top">
+													<img class="avatar" src="/images/<%= n.user_image %>">
+													<div class="name" style="padding-left: 1rem;">
+														<%= n.user_name.toUpperCase() %>
+													</div>
+													<!-- /.name -->
+													<div class="date" style="text-align: left;">
+														<% let x=timeSince(n.createdAt) %>
+															<%= x %> ago
+													</div>
+													<!-- /.date -->
 												</div>
-												<!-- /.name -->
-												<div class="date" style="text-align: left;"><% let x = timeSince(n.createdAt) %><%= x %> ago</div>
-												<!-- /.date -->
+												<!-- /.top -->
+												<div class="desc description">
+													<%= n.user_about %>
+												</div>
+												<!-- /.desc -->
 											</div>
-											<!-- /.top -->
-											<div class="desc description">
-												<%= n.user_about %>
-											</div>
-											<!-- /.desc -->
-										</div>
-									</a>
+										</a>
 										<% } %>
 											<!-- /.review-item -->
 								</div>
@@ -621,7 +627,7 @@
 						</div>
 						<!-- /.col-lg-4 col-xs-12 -->
 					</div>
-					
+
 					<!-- /.row -->
 					<%- include('includes/footer.ejs') %>
 				</div>
