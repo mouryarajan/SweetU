@@ -1624,7 +1624,8 @@ exports.postAPIsRandomUser = async (req, res, next) => {
                     d.user_coin = d.user_coin - fcost;
                     d.save(s => {
                         res.status(200).json({
-                            status: true
+                            status: true,
+                            message: "Gender Change Sucessfully!"
                         })
                     })
                 } else {
