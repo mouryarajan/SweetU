@@ -102,7 +102,10 @@
 												<label for="inputGender" class="control-label">Gender</label>
 												<div class="radio">
 													<input type="radio" value="Male" name="inputGender"
-														id="inputGenderMale" required=""  />
+														id="inputGenderMale" required="" <% if (editing || error) { %>
+															<% if(users.user_gender) %> 
+															checked 
+															<% } %>/>
 													<label for="inputGenderMale">Male</label>
 												</div>
 												<div class="radio">

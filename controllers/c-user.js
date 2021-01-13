@@ -1101,10 +1101,12 @@ exports.postCheckFavouriteUser = async (req, res, next) => {
     const uid = req.body.inputUserId;
     const fuid = req.body.inputFavouriteUserId;
     let status = false;
-    User.findOne({ _id: uid }).select('user_favrateLog')
+    const fid = await User.findOne({ google_id: fuid });
+    const fav = fid._id;
+    User.findOne({ google_id: uid }).select('user_favrateLog')
         .then(result => {
             for (let n of result.user_favrateLog.items) {
-                if (n.favouriteUserId === fuid) {
+                if (n.favouriteUserId === fav) {
                     status = true;
                 }
             }
