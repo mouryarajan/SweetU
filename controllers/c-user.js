@@ -1017,7 +1017,7 @@ exports.postAPIsCoin = (req, res, next) => { // Add to Coin Log
     const uId = req.body.inputUserId;
     const coin = req.body.inputCoin;
     const status = req.body.inputStatus;
-    if (status == true) {
+    if (status == "true") {
         User.findOne({ _id: uId })
             .then(async result => {
                 if (result) {
