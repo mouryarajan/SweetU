@@ -3,6 +3,7 @@ const router = express.Router();
 var admin = require("firebase-admin");
 const user = require('../models/m-user');
 const noti = require('../models/m-notification');
+const fileHelper = require('../util/file');
 
 var serviceAccount = require("../sweetu-6cb6e-firebase-adminsdk-26jna-c0cf9f09ac.json");
 //Firebase Credential
@@ -40,37 +41,9 @@ router.post('/send-notification-one', async (req, res, next) => {
         .then(data => {
             const title = req.body.inputTitle;
             const body = req.body.inputBody;
-            const s = req.body.image;
-            let image;
-            if (s) {
-                image = req.file;
-            }
             const type = req.body.type;
-            let d;
-            if (image) {
-                const x = image.filename;
-                const images = x;
-                d = new noti({
-                    title: title,
-                    body: body,
-                    image: images,
-                    sendto: "individual",
-                    type: type,
-                    userId: data._id,
-                    name: data.user_name
-                });
-            } else {
-                d = new noti({
-                    title: title,
-                    body: body,
-                    sendto: "individual",
-                    type: type,
-                    userId: data._id,
-                    name: data.user_name
-                });
-            }
             if (type == "email") {
-                if (image) {
+                if (req.file.filename) {
                     var mailOptions = {
                         from: 'sweetu.karon@gmail.com',
                         to: data.user_emailId,
@@ -78,8 +51,8 @@ router.post('/send-notification-one', async (req, res, next) => {
                         text: body,
                         attachments: [
                             {
-                                filename: s,
-                                path: "./images/" + s,
+                                filename: req.file.filename,
+                                path: "http://f598cf7e894e.ngrok.io/images/" + req.file.filename,
                                 cid: 'logo-sizeid',
                             },
                         ],
@@ -101,14 +74,12 @@ router.post('/send-notification-one', async (req, res, next) => {
                 });
             } else {
                 let message;
-                if (image) {
-                    const x = image.filename;
-                    const images = x;
+                if (req.file.filename) {
                     message = {
                         notification: {
                             title: title,
                             body: body,
-                            image: images
+                            image: "http://f598cf7e894e.ngrok.io/images/" + req.file.filename
                         }
                     };
                 } else {
@@ -123,10 +94,7 @@ router.post('/send-notification-one', async (req, res, next) => {
                 const registrationToken = data.notificationTocken;
                 admin.messaging().sendToDevice(registrationToken, message, options);
             }
-            d.save()
-                .then(data => {
-                    res.redirect('/get-notification');
-                }).catch(err => { console.log(err) });
+            res.redirect('/user-detail/' + uid);
         }).catch(err => { console.log(err) });
 });
 

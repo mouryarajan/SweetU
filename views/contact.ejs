@@ -58,10 +58,10 @@
 												<td><img src="/images/<%= n.image %>"
 														style="vertical-align: middle;width: 50px;height: 50px;border-radius: 50%;">
 												</td>
-												<td><a href="/get-chat-details/<%= n.id %>"></a>
+												<td><a href="/get-chat-details/<%= n.id %>">
 														<%= n.name.toUpperCase() %>
 													</a></td>
-												<td></td>
+												<td><%= n.message %></td>
 												<td>5 mins ago</td>
 											</tr>
 											<%count++; } %>

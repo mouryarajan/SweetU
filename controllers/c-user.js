@@ -507,12 +507,14 @@ exports.postStartCall = async (req, res, next) => {
         online = await User.find({
             _id: { $ne: uid },
             is_Active: true,
-            user_isAuthorised:false
+            user_isAuthorised:false,
+            user_genderPreference: use.user_genderPreference 
         }).countDocuments();
     }else{
         online = await User.find({
             is_Active: true,
-            _id: { $ne: uid }
+            _id: { $ne: uid },
+            user_genderPreference: use.user_genderPreference 
         }).countDocuments();
     }
     //console.log(online);

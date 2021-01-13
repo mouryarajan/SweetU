@@ -58,15 +58,26 @@ exports.getChat = async (req, res, next) => {
         let z = false;
         for (let n of data){
             let drr = n.user.items;
+            let drrr = [];
             //console.log(drr[drr.length-1]);
+            
+            //console.log(drrr);
             for(let x of drr){
                 //console.log(n.userId.user_name);
                 if(x.isProblem){
+                    for(let z of drr){
+                        if(!z.isAdmin){
+                            drrr.push({
+                                message: z.message
+                            })
+                        }
+                    }
                     if(isEmptyObject(arr)){
                         arr.push({
                             id: n._id,
                             name: n.userId.user_name,
-                            image: n.userId.user_image
+                            image: n.userId.user_image,
+                            message: drrr[drrr.length-1].message
                         });
                     }else{
                         for(let y of arr){
@@ -81,7 +92,8 @@ exports.getChat = async (req, res, next) => {
                             arr.push({
                                 id: n._id,
                                 name: n.userId.user_name,
-                                image: n.userId.user_image
+                                image: n.userId.user_image,
+                                message: drrr[drrr.length-1].message
                             });
                         }
                     }
