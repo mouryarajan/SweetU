@@ -1118,6 +1118,9 @@ exports.postCheckFavouriteUser = async (req, res, next) => {
             }else{
                 res.status(200).json({
                     status: true,
+                    id: fid._id,
+                    name:fid.user_name,
+                    about: fid.user_about,
                     message: "User Not In Favourite List"
                 });
             }
