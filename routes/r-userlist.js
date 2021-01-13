@@ -47,6 +47,7 @@ router.post('/api/coin',userController.postAPIsCoin);
 
 router.post('/api/add-favourite',userController.postAPIsFavourite);
 router.post('/api/get-favourite', userController.postAPIsGetFavourite);
+router.post('/api/check-favourite', userController.postCheckFavouriteUser);
 router.post('/api/remove-favourite', userController.postAPIsRemoveFavourite);
 router.post('/api/add-block', userController.postAPIsBlock);
 router.post('/api/get-block', userController.postAPIsGetBlock);

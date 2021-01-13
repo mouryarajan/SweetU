@@ -101,21 +101,14 @@ router.post('/send-notification-one', async (req, res, next) => {
 router.post('/send-notification', async (req, res, next) => {
     const title = req.body.inputTitle;
     const body = req.body.inputBody;
-    const s = req.body.image;
     const sen = req.body.sendto;
-    let image;
-    if (s) {
-        image = req.file;
-    }
     const type = req.body.type;
     let d;
-    if (image) {
-        const x = image.filename;
-        const images = x;
+    if (req.file.filename) {
         d = new noti({
             title: title,
             body: body,
-            image: images,
+            image: req.file.filename,
             sendto: sen,
             type: type
         });
@@ -139,13 +132,28 @@ router.post('/send-notification', async (req, res, next) => {
             data = await user.find({id_subscribe: true});
         }
         for (let n of data) {
-            var mailOptions = {
-                from: 'sweetu.karon@gmail.com',
-                to: n.user_emailId,
-                subject: title,
-                text: body
-            };
-
+            if (req.file.filename) {
+                var mailOptions = {
+                    from: 'sweetu.karon@gmail.com',
+                    to: n.user_emailId,
+                    subject: title,
+                    text: body,
+                    attachments: [
+                        {
+                            filename: req.file.filename,
+                            path: "http://f598cf7e894e.ngrok.io/images/" + req.file.filename,
+                            cid: 'logo-sizeid',
+                        },
+                    ],
+                };
+            }else{
+                var mailOptions = {
+                    from: 'sweetu.karon@gmail.com',
+                    to: n.user_emailId,
+                    subject: title,
+                    text: body
+                };
+            }
             transporter.sendMail(mailOptions, function (error, info) {
                 if (error) {
                     console.log(error);
@@ -157,15 +165,12 @@ router.post('/send-notification', async (req, res, next) => {
     } else {
         const data = await user.find({ isLogedIn: true });
         let message;
-        if (image) {
-            const x = image.filename;
-            const images = x;
-            console.log(images);
+        if (req.file.filename) {
             message = {
                 notification: {
                     title: title,
                     body: body,
-                    image: images
+                    image: "http://f598cf7e894e.ngrok.io/images/" + req.file.filename
                 }
             };
         } else {

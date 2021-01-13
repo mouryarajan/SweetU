@@ -503,34 +503,34 @@ exports.postStartCall = async (req, res, next) => {
     const use = await User.findOne({ _id: uid });
     if (!use) return res.status(201).json({ status: "false", message: "User not found" });
     let online = 0;
-    if(use.user_isAuthorised){
+    if (use.user_isAuthorised) {
         online = await User.find({
             _id: { $ne: uid },
             is_Active: true,
-            user_isAuthorised:false,
-            user_gender: use.user_genderPreference 
+            user_isAuthorised: false,
+            user_gender: use.user_genderPreference
         }).countDocuments();
-    }else{
+    } else {
         online = await User.find({
             is_Active: true,
             _id: { $ne: uid },
-            user_gender: use.user_genderPreference 
+            user_gender: use.user_genderPreference
         }).countDocuments();
     }
     //console.log(online);
-    if(online<=0){
+    if (online <= 0) {
         return res.status(201).json({ status: "false", message: "No user is online" });
     }
     const set = await settings.find();
     let coin = set[0].start_call_rate;
-    if(use.user_coin>=coin){
+    if (use.user_coin >= coin) {
         use.user_coin = use.user_coin - coin;
-        use.save(data=>{
+        use.save(data => {
             res.status(200).json({
-                status: true 
+                status: true
             });
         })
-    }else{
+    } else {
         return res.status(201).json({ status: "false", message: "You don't have enough coins" });
     }
     //console.log(coin);
@@ -1096,6 +1096,32 @@ exports.postChatCoinDeduction = async (req, res, next) => {
     }
 }
 
+//check if user is added to favourite
+exports.postCheckFavouriteUser = async (req, res, next) => {
+    const uid = req.body.inputUserId;
+    const fuid = req.body.inputFavouriteUserId;
+    let status = false;
+    User.findOne({ _id: uid }).select('user_favrateLog')
+        .then(result => {
+            for (let n of result.user_favrateLog.items) {
+                if (n.favouriteUserId === fuid) {
+                    status = true;
+                }
+            }
+            if (status) {
+                res.status(201).json({
+                    status: false,
+                    message: "User Already Added"
+                });
+            }else{
+                res.status(200).json({
+                    status: true,
+                    message: "User Not In Favourite List"
+                });
+            }
+        }).catch(err=>{console.log(err)});
+}
+
 //Adding Favourite User
 exports.postAPIsFavourite = async (req, res, next) => {
     const uid = req.body.inputUserId;
@@ -1579,8 +1605,8 @@ exports.postAPIUpdateStatusOfline = (req, res, next) => {
 }
 exports.postAPIsGenderPreference = async (req, res, next) => {
     const uId = req.body.inputUserId;
-    if(!uId) return res.status(201).json({message: "Provide Proper Details"});
-    const cost = await settings.findOne({_id:"5fbcc934e311361f6063a84d"});
+    if (!uId) return res.status(201).json({ message: "Provide Proper Details" });
+    const cost = await settings.findOne({ _id: "5fbcc934e311361f6063a84d" });
     User.findOne({ _id: uId })
         .then(result => {
             if (result) {
