@@ -1021,7 +1021,7 @@ exports.postAPIsCoin = (req, res, next) => { // Add to Coin Log
         User.findOne({ _id: uId })
             .then(async result => {
                 if (result) {
-                    result.user_coin = result.user_coin + coin;
+                    result.user_coin = result.user_coin + Number(coin);
                     const Coin = new coinss({
                         userId: result._id,
                         name: result.user_name,
