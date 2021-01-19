@@ -103,14 +103,17 @@
 												<div class="radio">
 													<input type="radio" value="Male" name="inputGender"
 														id="inputGenderMale" required="" <% if (editing || error) { %>
-															<% if(users.user_gender) %> 
+															<% if(users.user_gender == 'Male'){ %> 
 															checked 
-															<% } %>/>
+															<% } } %>/>
 													<label for="inputGenderMale">Male</label>
 												</div>
 												<div class="radio">
 													<input type="radio" value="Female" name="inputGender"
-														id="inputGenderFemale" required="" />
+														id="inputGenderFemale" required="" <% if (editing || error) { %>
+															<% if(users.user_gender == 'Female'){ %> 
+															checked 
+															<% } } %>/>
 													<label for="inputGenderFemale">Female</label>
 												</div>
 											</div>
@@ -119,12 +122,18 @@
 													Preference</label>
 												<div class="radio">
 													<input type="radio" value="Male" name="inputGenderPreference"
-														id="inputGenderPreferenceMale" required="" />
+														id="inputGenderPreferenceMale" required="" <% if (editing || error) { %>
+															<% if(users.user_genderPreference == 'Male'){ %> 
+															checked 
+															<% } } %>/> 
 													<label for="inputGenderPreferenceMale">Male</label>
 												</div>
 												<div class="radio">
 													<input type="radio" value="Female" name="inputGenderPreference"
-														id="inputGenderPreferenceFemale" required="" />
+														id="inputGenderPreferenceFemale" required="" <% if (editing || error) { %>
+															<% if(users.user_genderPreference == 'Female'){ %> 
+															checked 
+															<% } } %>/> 
 													<label for="inputGenderPreferenceFemale">Female</label>
 												</div>
 											</div>
@@ -136,19 +145,25 @@
 												<label for="inputStatus" class="control-label">Status</label>
 												<div class="radio">
 													<input type="radio" value="1" name="inputStatus"
-														id="inputStatusAuthorised" required="" />
+														id="inputStatusAuthorised" required="" <% if (editing || error) { %>
+															<% if(users.user_isAuthorised == true){ %> 
+															checked 
+															<% } } %>/> 
 													<label for="inputStatusAuthorised">Authorise</label>
 												</div>
 												<div class="radio">
 													<input type="radio" value="0" name="inputStatus"
-														id="inputStatusUnauthorised" required="" />
+														id="inputStatusUnauthorised" required="" <% if (editing || error) { %>
+															<% if(users.user_isAuthorised == false){ %> 
+															checked 
+															<% } } %>/> 
 													<label for="inputStatusUnauthorised">Unauthorise</label>
 												</div>
 											</div>
 											<div class="form-group col-sm-6">
 												<label for="inputImage" class="control-label">Image</label>
 												<input type="file" class="form-control" name="image"
-													value="<% if (editing || error) { %><%= users.user_image %><% } %>"
+													value="<% if (editing || error) { %> <%= users.user_image %> <% } %>"
 													id="inputImage" placeholder="Image" data-error="Upload Image"
 													required="" />
 												<div class="help-block with-errors">Upload Image</div>

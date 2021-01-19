@@ -15,7 +15,7 @@ const userSchema = new Schema({
       required: false,
    },
    user_age: {
-      type: Number,
+      type: String,
       required: false,
    },
    user_emailId: {
@@ -132,12 +132,21 @@ const userSchema = new Schema({
       endDate: {
          type: Date,
          required: false
+      },
+      days: {
+         type: Number,
+         required: false
       }
    },
    isLogedIn: {
       type: Boolean,
       required: true,
       default: false
+   },
+   isTalk: {
+      type: Boolean,
+      default: false,
+      required: true
    }
 }, { timestamps: true }
 );

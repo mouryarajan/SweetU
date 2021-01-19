@@ -29,6 +29,16 @@ const settingSchema = new Schema({
     start_call_rate: {
         type: Number,
         required: true
+    },
+    wallet: {
+        type: Boolean,
+        default: false,
+        required: true
+    },
+    earn_diamond: {
+        type: Boolean,
+        default: false,
+        required: true
     }
 });
 

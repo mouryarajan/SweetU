@@ -3,6 +3,7 @@ const express = require("express");
 const isAdmin = require('../middleware/is-admin');
 const verify = require('../middleware/verify-token');
 const userController = require('../controllers/c-user');
+const { user } = require("firebase-functions/lib/providers/auth");
 
 const router = express.Router();
 
@@ -64,6 +65,7 @@ router.post('/api/get-video-list', userController.postVideoCallList);
 router.post('/api/start-call', userController.postStartCall);
 
 router.post('/api/chat-coin', userController.postChatCoinDeduction);
+router.post('/api/call-details', userController.callDetails);
 
 router.post('/api/is-authorized', userController.APIisAuthorised);
 module.exports = router;

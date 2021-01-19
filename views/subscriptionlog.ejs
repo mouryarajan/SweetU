@@ -96,7 +96,9 @@
                                                     <%= d.duration %>
                                                 </td>
                                                 <td>
-                                                    <%= d.startDate %>
+                                                    <% var dat = d.createdAt.toString();
+													var x = dat.split(" "); %>
+													<%= x[2] %>&nbsp;<%= x[1] %>&nbsp;<%= x[3] %>
                                                 </td>
                                                 <td>
                                                     <a href="/user-detail/<%= d.userId %>"

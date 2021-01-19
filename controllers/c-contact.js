@@ -59,6 +59,7 @@ exports.getChat = async (req, res, next) => {
         for (let n of data){
             let drr = n.user.items;
             let drrr = [];
+
             //console.log(drr[drr.length-1]);
             
             //console.log(drrr);

@@ -47,11 +47,11 @@ exports.checkCoinVideoCall = async (req, res, next) => {
             data.save();
             res.status(200).json({
                 status: true
-            })
+            });
         }else{
             res.status(201).json({
                 status: false
-            })
+            });
         }
     }).catch(err=>{console.log(err)});
 }

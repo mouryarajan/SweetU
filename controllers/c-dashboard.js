@@ -79,6 +79,24 @@ exports.getEditor = (req, res, next) =>{
     }).catch(err=>{console.log(err)});
 }
 
+exports.getCommunityGuideLine = (req, res, next) => {
+    editor.findOne({_id:"5feae8e74724e221bc769777"})
+    .then(data=>{
+        if(data){
+            res.render('comunity',{pageTitle:'Community',data:data});
+        }
+    }).catch(err=>{console.log(err)});
+}
+
+exports.getTermsOfUse = (req, res, next) => {
+    editor.findOne({_id:"5feae8e74724e221bc769777"})
+    .then(data=>{
+        if(data){
+            res.render('terms',{pageTitle:'Terms',data:data});
+        }
+    }).catch(err=>{console.log(err)});
+}
+
 exports.postEditor = (req, res, next) => {
     const area = req.body.inputTextArea;
     const pid = req.body.pid;
@@ -107,6 +125,42 @@ exports.postEditor = (req, res, next) => {
     // })
 }
 
+exports.postCommunityGuideLine = (req, res, next) => {
+    const area = req.body.inputTextArea;
+    const pid = req.body.pid;
+    editor.findOne({_id: pid})
+    .then(data=>{
+        if(data){
+            let pdata = "<html><body>" + area + "</body></html>"
+            data.communityGuideLine = pdata
+            data.save()
+            .then(result=>{
+                if(result){
+                    res.redirect('/comunity');
+                }
+            }).catch(err=>{console.log(err)});
+        }
+    }).catch(err=>{console.log(err)});
+}
+
+exports.postTermsOfUse = (req, res, next) => {
+    const area = req.body.inputTextArea;
+    const pid = req.body.pid;
+    editor.findOne({_id: pid})
+    .then(data=>{
+        if(data){
+            let pdata = "<html><body>" + area + "</body></html>"
+            data.termsOfUse = pdata
+            data.save()
+            .then(result=>{
+                if(result){
+                    res.redirect('/terms');
+                }
+            }).catch(err=>{console.log(err)});
+        }
+    }).catch(err=>{console.log(err)});
+}
+
 //API
 
 exports.getPivacyAndPolicyAPI = (req, res, next) =>{
@@ -120,3 +174,28 @@ exports.getPivacyAndPolicyAPI = (req, res, next) =>{
         }
     }).catch(err=>{console.log(err)});
 }
+
+exports.getCommunityGuideLineAPI = (req, res, next) =>{
+    editor.findOne({_id:"5feae8e74724e221bc769777"})
+    .then(data=>{
+        if(data){
+            let a = data.communityGuideLine
+            res.status(200).json({data:a});
+        }else{
+            res.status(201).json({status:false, message: "Not found any data"});
+        }
+    }).catch(err=>{console.log(err)});
+}
+
+exports.getTermsOfUserAPI = (req, res, next) =>{
+    editor.findOne({_id:"5feae8e74724e221bc769777"})
+    .then(data=>{
+        if(data){
+            let a = data.termsOfUse
+            res.status(200).json({data:a});
+        }else{
+            res.status(201).json({status:false, message: "Not found any data"});
+        }
+    }).catch(err=>{console.log(err)});
+}
+

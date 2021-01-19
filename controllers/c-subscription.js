@@ -91,8 +91,20 @@ exports.getSubscriptionLog = (req, res, next) => {
 exports.getAPIsSubscription = (req, res, next) => {
     sub.find()
         .then(data => {
+            let a =[];
+            let y = 0;
+            for(let x of data){
+                a.push({
+                    name:x.name,
+                    amount: x.amount,
+                    duration: x.duration,
+                    description: x.description,
+                    count:y
+                });
+                y++;
+            }
             res.status(200).json({
-                data: data
+                data: a
             })
         }).catch(err => { console.log(err) });
 }
@@ -103,30 +115,29 @@ exports.postAPIsSubscriptionLog = (req, res, next) => {
     const slog = new subLog({
         userId: d.inputUserId,
         name: d.inputName,
-        amount: d.inputAmount,
-        duration: d.inputDuration
+        amount: Number(d.inputAmount),
+        duration: Number(d.inputDuration)
     });
     slog.save()
         .then(data => {
             user.findOne({ _id: d.inputUserId })
                 .then(result => {
+                    var currentDate = new Date()
                     var someDate = new Date();
                     var numberOfDaysToAdd = d.inputDuration;
                     someDate.setDate(someDate.getDate() + numberOfDaysToAdd);
-                    var dd = someDate.getDate();
-                    var mm = someDate.getMonth() + 1;
-                    var y = someDate.getFullYear();
-
-                    var someFormattedDate = dd + '/' + mm + '/' + y;
                     var subData = {
-                        startDate: someDate,
-                        endDate: someFormattedDate
+                        startDate: currentDate,
+                        endDate: someDate,
+                        days: d.inputDuration
                     }
                     result.id_subscribe = true;
                     result.subscription = subData;
                     result.save()
                         .then(rs => {
-                            res.status(200).json({ status: true });
+                            if(rs){
+                                res.status(200).json({ status: true });
+                            }
                         }).catch(err => { console.log(err) });
                 }).catch(err => { console.log(err) });
         }).catch(err => { console.log(err) });

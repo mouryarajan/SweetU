@@ -17,12 +17,22 @@ exports.postSetting = (req, res, next) => {
     .then(result=>{
         if(result){
             result.bonus_coin = req.body.inputCoin;
-            result.call_duration = req.body.inputWallet;
+            result.call_duration = req.body.inputCallDuration;
             result.call_rate = req.body.inputCallRate;
             result.gender_change_both = req.body.inputGenderChangeBoth;
             result.gender_change_female = req.body.inputGenderChangeFemale;
             result.gender_change_male = req.body.inputGenderChangeMale;
             result.start_call_rate = req.body.inputStartCallRate;
+            if(req.body.inputWallet=="true"){
+                result.wallet = true;
+            }else{
+                result.wallet = false;
+            }
+            if(req.body.inputEarn=="true"){
+                result.earn_diamond = true;
+            }else{
+                result.earn_diamond = false;
+            }
             result.save();
             res.render('setting',{pageTitle:'Settings',result:result});
         }

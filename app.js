@@ -79,6 +79,9 @@ app.use(
     multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')
 );
 
+//interval
+// setInterval();
+
 //saving session on serverside
 app.use(session({
     secret: 'my secret',

@@ -5,6 +5,14 @@ const editorSchema = new Schema({
     privacyAndPolicy: {
        type: String,
        required: true
+    },
+    communityGuideLine: {
+        type: String,
+        required: false
+    },
+    termsOfUse: {
+        type: String,
+        required: false
     }
 });
 
