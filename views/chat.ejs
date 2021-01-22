@@ -84,34 +84,38 @@
             text-align: right;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 0 10px 0px #ccc;
             background-color: #ffffff;
             border: none;
-            border-radius: 7rem;
-            min-height: 6rem;
+        }
+
+        .chat-tile .msg {
+            margin-bottom: 0;
+            max-width: 90%;
+            text-align: left;
+            box-shadow: 0 0 10px 0px #ccc;
+            padding: 1.2rem;
+            border-radius: 2rem;
+            border-bottom-left-radius: 0;
+            min-width: 6rem;
+            word-break: break-all;
         }
 
         .chat-tile.darker {
-            border-color: #ccc;
-            background-color: #27a5dc;
             float: right;
-            text-align: left;
+            justify-content: flex-end;
         }
 
         .chat-tile.darker .msg {
             order: 1;
             color: #ffffff;
+            background-color: #27a5dc;
+            border-bottom-left-radius: 2rem;
+            border-bottom-right-radius: 0;
         }
 
         .chat-tile.darker img {
             order: 2;
             box-shadow: 0 0 10px 0px rgba(255, 255, 255, 0.2);
-        }
-
-        .chat-tile .msg {
-            margin-bottom: 0;
-            width: 90%;
         }
     </style>
 </head>
@@ -131,7 +135,9 @@
                                         style="height: 5rem; width: 5rem; border-radius: 1rem;" class="right">
                                 </div>
                                 <div class="col-xs-11" style="display: flex; align-items: center;">
-                                    <h4><%= name.toUpperCase() %></h4>
+                                    <h4>
+                                        <%= name.toUpperCase() %>
+                                    </h4>
                                 </div>
                             </div>
                             <!-- /.box-content -->
@@ -163,10 +169,10 @@
                                     <div class="col-xs-11">
                                         <input type="text" class="form-control" name="inputMessage" id="inputMessage"
                                             placeholder="Message..." />
-                                            <input type="hidden" class="form-control" value="<%= id %>" name="inputChatId" id="inputChatId"
-                                            placeholder="Message..." />
-                                            <input type="hidden" class="form-control" value="true" name="inputType" id="inputType"
-                                            placeholder="Message..." />
+                                        <input type="hidden" class="form-control" value="<%= id %>" name="inputChatId"
+                                            id="inputChatId" placeholder="Message..." />
+                                        <input type="hidden" class="form-control" value="true" name="inputType"
+                                            id="inputType" placeholder="Message..." />
                                     </div>
                                     <div class="col-xs-1">
                                         <input type="submit" class="btn btn-primary waves-effect waves-light"

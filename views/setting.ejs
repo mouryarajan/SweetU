@@ -38,102 +38,150 @@
 
 <body>
 	<%- include('includes/sidebar.ejs') %>
-	<!-- /.main-menu -->
+		<!-- /.main-menu -->
 
-	<%- include('includes/header.ejs') %>
-		<!-- /.fixed-navbar -->
-<!-- /.fixed-navbar -->
+		<%- include('includes/header.ejs') %>
+			<!-- /.fixed-navbar -->
+			<!-- /.fixed-navbar -->
 
-<div id="wrapper">
-	<div class="main-content">
-		<div class="row">
-			<div class="col-lg-12 col-xs-12">
-				<div class="box-content card white">
-					<h4 class="box-title">Settings For New User</h4>
-					<!-- /.box-title -->
-					<div class="card-content">
-						<form method="POST" action="/settings" >
-						<label for="inputCoin">Coins</label>
-						<div class="input-group margin-bottom-20">
-							<input type="text" value="<%= result.bonus_coin %>" name="inputCoin" class="form-control" placeholder="Coin..." />
-                            <div class="input-group-btn"><button type="submit" class="btn btn-violet no-border waves-effect waves-light"><i class="fa fa-diamond text-white"></i></button></div>
+			<div id="wrapper">
+				<div class="main-content">
+					<div class="row">
+						<div class="col-lg-12 col-xs-12">
+							<div class="box-content card white">
+								<h4 class="box-title">Settings For New User</h4>
+								<!-- /.box-title -->
+								<div class="card-content">
+									<form class="row" method="POST" action="/settings">
+										<div class="col-md-4 col-lg-3">
+											<label for="inputCoin">Coins</label>
+											<div class="input-group margin-bottom-20">
+												<input type="text" value="<%= result.bonus_coin %>" name="inputCoin"
+													class="form-control" placeholder="Coin..." />
+											</div>
+										</div>
+										<div class="col-md-4 col-lg-3">
+											<label for="inputCoin">Call Duration</label>
+											<div class="input-group margin-bottom-20">
+												<input type="text" value="<%= result.call_duration %>"
+													name="inputCallDuration" class="form-control"
+													placeholder="Call Duration..." />
+												<!-- /.input-group-btn -->
+											</div>
+										</div>
+										<div class="col-md-4 col-lg-3">
+											<label for="inputCoin">Call Rate</label>
+											<div class="input-group margin-bottom-20">
+												<input type="text" value="<%= result.call_rate %>" name="inputCallRate"
+													class="form-control" placeholder="Call Rate..." />
+												<!-- /.input-group-btn -->
+											</div>
+										</div>
+										<div class="col-md-4 col-lg-3">
+											<label for="inputCoin">Start Call Rate</label>
+											<div class="input-group margin-bottom-20">
+												<input type="text" value="<%= result.start_call_rate %>"
+													name="inputStartCallRate" class="form-control"
+													placeholder="Call Rate..." />
+												<!-- /.input-group-btn -->
+											</div>
+										</div>
+										<div class="col-md-4 col-lg-3">
+											<label for="inputGender">Gender change cost for Both</label>
+											<div class="input-group margin-bottom-20">
+												<input type="text" value="<%= result.gender_change_both %>"
+													name="inputGenderChangeBoth" class="form-control"
+													placeholder="Gender Change Cost..." />
+												<!-- /.input-group-btn -->
+											</div>
+										</div>
+										<div class="col-md-4 col-lg-3">
+											<label for="inputGender">Gender change cost for Male</label>
+											<div class="input-group margin-bottom-20">
+												<input type="text" value="<%= result.gender_change_male %>"
+													name="inputGenderChangeMale" class="form-control"
+													placeholder="Gender Change Cost..." />
+												<!-- /.input-group-btn -->
+											</div>
+										</div>
+										<div class="col-md-4 col-lg-3">
+											<label for="inputGender">Gender change cost for Female</label>
+											<div class="input-group margin-bottom-20">
+												<input type="text" value="<%= result.gender_change_female %>"
+													name="inputGenderChangeFemale" class="form-control"
+													placeholder="Gender Change Cost..." />
+												<!-- /.input-group-btn -->
+											</div>
+										</div>
+										<div class="col-md-4 col-lg-3">
+											<label for="inputChatRate">Start Chat Rate</label>
+											<div class="input-group margin-bottom-20">
+												<input type="text" value="<%= result.chat_rate %>" name="inputChatRate"
+													class="form-control" placeholder="Gender Change Cost..." />
+												<!-- /.input-group-btn -->
+											</div>
+										</div>
+										<div class="col-md-4 col-lg-3">
+											<label for="inputGender">Wallet
+												Show/Hide</label>
+											<div class="input-group margin-bottom-20">
+												<input type="radio" name="inputWallet" value="true" <% if(result.wallet)
+													{%>
+												checked <% } %> /> Show&nbsp;&nbsp;
+													<input type="radio" name="inputWallet" value="false" <%
+														if(!result.wallet) {%> checked <% } %> />
+														Hide
+											</div>
+										</div>
+										<div class="col-md-4 col-lg-3">
+											<label for="inputGender">Earn Diamond Show/Hide</label>
+											<div class="input-group margin-bottom-20">
+												<input type="radio" name="inputEarn" value="true" <%
+													if(result.earn_diamond) {%> checked <% } %> />
+													Show&nbsp;&nbsp;
+													<input type="radio" name="inputEarn" value="false" <%
+														if(!result.earn_diamond) {%> checked <% } %> /> Hide
+														<!-- /.input-group-btn -->
+											</div>
+										</div>
+										<div class="col-md-6 col-lg-3 col-md-offset-3">
+											<button type="submit"
+												class="btn btn-success no-border waves-effect waves-light">submit
+											</button>
+										</div>
+									</form>
+								</div>
+								<!-- /.card-content -->
+							</div>
+							<!-- /.box-content card white -->
 						</div>
-						<label for="inputCoin">Call Duration</label>
-						<div class="input-group margin-bottom-20">
-							<input type="text" value="<%= result.call_duration %>" name="inputCallDuration" class="form-control" placeholder="Call Duration..." />
-							<div class="input-group-btn"><button type="submit" class="btn btn-success no-border waves-effect waves-light"><i class="fa fa-inr text-white"></i></button></div>
-                            <!-- /.input-group-btn -->
-						</div>
-						<label for="inputCoin">Call Rate</label>
-						<div class="input-group margin-bottom-20">
-							<input type="text" value="<%= result.call_rate %>" name="inputCallRate" class="form-control" placeholder="Call Rate..." />
-							<div class="input-group-btn"><button type="submit" class="btn btn-orange no-border waves-effect waves-light"><i class="fa fa-phone text-white"></i></button></div>
-                            <!-- /.input-group-btn -->
-						</div>
-						<label for="inputCoin">Start Call Rate</label>
-						<div class="input-group margin-bottom-20">
-							<input type="text" value="<%= result.start_call_rate %>" name="inputStartCallRate" class="form-control" placeholder="Call Rate..." />
-							<div class="input-group-btn"><button type="submit" class="btn btn-violet no-border waves-effect waves-light"><i class="fa fa-phone text-white"></i></button></div>
-                            <!-- /.input-group-btn -->
-						</div>
-						<label for="inputGender">Gender change cost for Both</label>
-						<div class="input-group margin-bottom-20">
-							<input type="text" value="<%= result.gender_change_both %>" name="inputGenderChangeBoth" class="form-control" placeholder="Gender Change Cost..." />
-							<div class="input-group-btn"><button type="submit" class="btn btn-success no-border waves-effect waves-light"><i class="fa fa-phone text-white"></i></button></div>
-                            <!-- /.input-group-btn -->
-						</div>
-						<label for="inputGender">Gender change cost for Male</label>
-						<div class="input-group margin-bottom-20">
-							<input type="text" value="<%= result.gender_change_male %>" name="inputGenderChangeMale" class="form-control" placeholder="Gender Change Cost..." />
-							<div class="input-group-btn"><button type="submit" class="btn btn-orange no-border waves-effect waves-light"><i class="fa fa-phone text-white"></i></button></div>
-                            <!-- /.input-group-btn -->
-						</div>
-						<label for="inputGender">Gender change cost for Female</label>
-						<div class="input-group margin-bottom-20">
-							<input type="text" value="<%= result.gender_change_female %>" name="inputGenderChangeFemale" class="form-control" placeholder="Gender Change Cost..." />
-							<div class="input-group-btn"><button type="submit" class="btn btn-violet no-border waves-effect waves-light"><i class="fa fa-phone text-white"></i></button></div>
-                            <!-- /.input-group-btn -->
-						</div>
-						<label for="inputGender">Wallet Show/Hide</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="inputGender">Earn Diamond Show/Hide</label>
-						<div class="input-group margin-bottom-20">
-							<input type="radio" name="inputWallet" value="true" <% if(result.wallet) {%> checked <% } %> /> Show&nbsp;&nbsp;
-							<input type="radio" name="inputWallet" value="false" <% if(!result.wallet) {%> checked <% } %> /> Hide&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<input type="radio" name="inputEarn" value="true" <% if(result.earn_diamond) {%> checked <% } %> /> Show&nbsp;&nbsp;
-							<input type="radio" name="inputEarn" value="false" <% if(!result.earn_diamond) {%> checked <% } %> /> Hide
-							<div class="input-group-btn"><button type="submit" class="btn btn-success no-border waves-effect waves-light"><i class="fa fa-phone text-white"></i></button></div>
-                            <!-- /.input-group-btn -->
-                        </div>
-                        </form>
+						<!-- /.col-lg-4 col-xs-12 -->
 					</div>
-					<!-- /.card-content -->
+					<%- include('includes/footer.ejs') %>
 				</div>
-				<!-- /.box-content card white -->
+				<!-- /.main-content -->
 			</div>
-			<!-- /.col-lg-4 col-xs-12 -->
-        </div>
-        <%- include('includes/footer.ejs') %>
-	</div>
-	<!-- /.main-content -->
-</div><!--/#wrapper -->
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!--[if lt IE 9]>
+			<!--/#wrapper -->
+			<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+			<!--[if lt IE 9]>
 		<script src="assets/script/html5shiv.min.js"></script>
 		<script src="assets/script/respond.min.js"></script>
 	<![endif]-->
-	<!-- 
+			<!-- 
 	================================================== -->
-	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="/scripts/jquery.min.js"></script>
-	<script src="/scripts/modernizr.min.js"></script>
-	<script src="/plugin/bootstrap/js/bootstrap.min.js"></script>
-	<script src="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
-	<script src="/plugin/nprogress/nprogress.js"></script>
-	<script src="/plugin/sweet-alert/sweetalert.min.js"></script>
-	<script src="/plugin/waves/waves.min.js"></script>
-	<!-- Full Screen Plugin -->
-	<script src="/plugin/fullscreen/jquery.fullscreen-min.js"></script>
+			<!-- Placed at the end of the document so the pages load faster -->
+			<script src="/scripts/jquery.min.js"></script>
+			<script src="/scripts/modernizr.min.js"></script>
+			<script src="/plugin/bootstrap/js/bootstrap.min.js"></script>
+			<script src="/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+			<script src="/plugin/nprogress/nprogress.js"></script>
+			<script src="/plugin/sweet-alert/sweetalert.min.js"></script>
+			<script src="/plugin/waves/waves.min.js"></script>
+			<!-- Full Screen Plugin -->
+			<script src="/plugin/fullscreen/jquery.fullscreen-min.js"></script>
 
-	<script src="/scripts/main.min.js"></script>
-	<script src="/color-switcher/color-switcher.min.js"></script>
+			<script src="/scripts/main.min.js"></script>
+			<script src="/color-switcher/color-switcher.min.js"></script>
 </body>
+
 </html>

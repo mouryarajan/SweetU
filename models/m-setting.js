@@ -39,6 +39,10 @@ const settingSchema = new Schema({
         type: Boolean,
         default: false,
         required: true
+    },
+    chat_rate: {
+        type: Number,
+        required: false
     }
 });
 

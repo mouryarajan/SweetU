@@ -3,6 +3,10 @@ const editor = require('../models/m-editor');
 const match = require('../models/m-match');
 
 exports.getDashBoard = async (req, res, next) => {
+    const data = await User.aggregate([
+        {$match:{user_gender:"Male"}}
+    ]);
+    console.log(data.totalMale);
     const total = await User.find().countDocuments();
     const totalFemale = await User.find({ user_gender: 'Female' }).countDocuments();
     const totalMale = await User.find({ user_gender: 'Male' }).countDocuments();

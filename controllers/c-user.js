@@ -9,6 +9,8 @@ const fs = require('fs');
 const mime = require('mime');
 const jwt = require('jsonwebtoken');
 const coinss = require('../models/m-coinlog');
+const match = require('../models/m-match');
+const userCoin = require('../models/m-usercoin');
 
 var nodemailer = require('nodemailer');
 
@@ -527,7 +529,7 @@ exports.postStartCall = async (req, res, next) => {
             user_gender: use.user_genderPreference
         }).countDocuments();
     }
-    //console.log(online);
+    console.log(online);
     if (online <= 0) {
         return res.status(201).json({ status: "false", message: "No user is online" });
     }
@@ -561,44 +563,104 @@ exports.postVideoCallList = async (req, res, next) => {
     const genderPreference = use.user_genderPreference;
     if (use.user_isAuthorised) {
         let itemPerPage = 1;
-        User.find({
-            is_Active: true,
-            user_isAuthorised: false,
-            user_gender: genderPreference,
-            _id: { $ne: uid }
-        }).skip((page - 1) * itemPerPage)
-            .limit(itemPerPage)
-            .then(data => {
-                if (!isEmptyObject(data)) {
-                    res.status(200).json({
-                        data: data
-                    })
-                } else {
-                    res.status(201).json({
-                        status: false
-                    })
-                }
-            }).catch(err => { console.log(err) });
+        if (genderPreference == "Both") {
+            User.find({
+                is_Active: true,
+                user_isAuthorised: false,
+                _id: { $ne: uid }
+            }).skip((page - 1) * itemPerPage)
+                .limit(itemPerPage)
+                .select('user_country')
+                .select('user_countryCode')
+                .select('user_image')
+                .select('user_gender')
+                .select('user_name')
+                .then(data => {
+                    if (!isEmptyObject(data)) {
+                        res.status(200).json({
+                            data: data
+                        })
+                    } else {
+                        res.status(201).json({
+                            status: false
+                        })
+                    }
+                }).catch(err => { console.log(err) });
+        } else {
+            User.find({
+                is_Active: true,
+                user_isAuthorised: false,
+                user_gender: genderPreference,
+                _id: { $ne: uid }
+            }).skip((page - 1) * itemPerPage)
+                .limit(itemPerPage)
+                .select('user_country')
+                .select('user_countryCode')
+                .select('user_image')
+                .select('user_gender')
+                .select('user_name')
+                .then(data => {
+                    if (!isEmptyObject(data)) {
+                        res.status(200).json({
+                            data: data
+                        })
+                    } else {
+                        res.status(201).json({
+                            status: false
+                        })
+                    }
+                }).catch(err => { console.log(err) });
+        }
     } else {
         let itemPerPage = 1;
-        User.find({
-            is_Active: true,
-            user_gender: genderPreference,
-            _id: { $ne: uid }
-        })
-            .skip((page - 1) * itemPerPage)
-            .limit(itemPerPage)
-            .then(data => {
-                if (!isEmptyObject(data)) {
-                    res.status(200).json({
-                        data: data
-                    })
-                } else {
-                    res.status(201).json({
-                        status: false
-                    })
-                }
-            }).catch(err => { console.log(err) });
+        if (genderPreference == "Both") {
+            User.find({
+                is_Active: true,
+                _id: { $ne: uid }
+            })
+                .skip((page - 1) * itemPerPage)
+                .limit(itemPerPage)
+                .select('user_country')
+                .select('user_countryCode')
+                .select('user_image')
+                .select('user_gender')
+                .select('user_name')
+                .then(data => {
+                    if (!isEmptyObject(data)) {
+                        res.status(200).json({
+                            data: data
+                        })
+                    } else {
+                        res.status(201).json({
+                            status: false
+                        })
+                    }
+                }).catch(err => { console.log(err) });
+        } else {
+            User.find({
+                is_Active: true,
+                user_gender: genderPreference,
+                _id: { $ne: uid }
+            })
+                .skip((page - 1) * itemPerPage)
+                .limit(itemPerPage)
+                .select('user_country')
+                .select('user_countryCode')
+                .select('user_image')
+                .select('user_gender')
+                .select('user_name')
+                .then(data => {
+                    if (!isEmptyObject(data)) {
+                        res.status(200).json({
+                            data: data
+                        })
+                    } else {
+                        res.status(201).json({
+                            status: false
+                        })
+                    }
+                }).catch(err => { console.log(err) });
+        }
     }
 }
 
@@ -1167,13 +1229,19 @@ exports.postChatCoinDeduction = async (req, res, next) => {
     const sid = req.body.inputSenderId;
     const rid = req.body.inputReceiverId;
     const coin = req.body.inputCoin;
+    const remark = req.body.inputRemark;
     let status = false;
-    //console.log(sid);
     const sender = await User.findOne({ google_id: sid });
     if (!sender) return res.status(201).json({ status: "false", message: "Sender not found" });
     const receiver = await User.findOne({ google_id: rid });
     if (!receiver) return res.status(201).json({ status: "false", message: "Receiver not found" });
-
+    const coinlog = new userCoin({
+        userId: sid,
+        coin: coin,
+        status: false,
+        remark: remark,
+        sendTo: rid
+    });
     if (sender.user_coin >= coin) {
         receiver.user_coin = receiver.user_coin + Number(coin);
         sender.user_coin = sender.user_coin - Number(coin);
@@ -1185,6 +1253,7 @@ exports.postChatCoinDeduction = async (req, res, next) => {
         if (receiver.user_isAuthorised) {
             await receiver.save();
         }
+        coinlog.save();
         await sender.save();
         if (status) {
             res.status(200).json({
@@ -1263,11 +1332,11 @@ exports.postAPIsFavourite = async (req, res, next) => {
 }
 
 //Removing Favourite User
-exports.postAPIsRemoveFavourite = (req, res, next) => {
+exports.postAPIsRemoveFavourite = async (req, res, next) => {
     const uid = req.body.inputUserId;
     const fuid = req.body.inputFavouriteUserId;
     User.findOne({ _id: uid })
-        .then(result => {
+        .then( async result => {
             if (result) {
                 let data = result.user_favrateLog.items;
                 if (isEmptyObject(data)) {
@@ -1276,7 +1345,10 @@ exports.postAPIsRemoveFavourite = (req, res, next) => {
                         status: "false"
                     })
                 } else {
+                    const fuser = await User.findOne({_id:fuid});
+                    let data1 = fuser.user_favrateYou.items;
                     let arr = [];
+                    let arrr = [];
                     for (let n of data) {
                         if (n.favouriteUserId != fuid) {
                             let x = n.favouriteUserId;
@@ -1285,8 +1357,18 @@ exports.postAPIsRemoveFavourite = (req, res, next) => {
                             })
                         }
                     }
+                    for (let n of data1) {
+                        if (n.favouriteUserId != uid) {
+                            let y = n.favouriteUserId;
+                            arrr.push({
+                                favouriteUserId: y
+                            })
+                        }
+                    }
+                    fuser.user_favrateYou.items = arrr;
                     //console.log(arr);
                     result.user_favrateLog.items = arr;
+                    fuser.save();
                     result.save()
                         .then(s => {
                             res.status(201).json({
