@@ -1,22 +1,39 @@
 const User = require('../models/m-user.js');
 const editor = require('../models/m-editor');
 const match = require('../models/m-match');
+const subscription = require('../models/m-subscriptionlog');
 
 exports.getDashBoard = async (req, res, next) => {
-    const data = await User.aggregate([
-        {$match:{user_gender:"Male"}}
-    ]);
-    console.log(data.totalMale);
+    //First Card 1
     const total = await User.find().countDocuments();
     const totalFemale = await User.find({ user_gender: 'Female' }).countDocuments();
     const totalMale = await User.find({ user_gender: 'Male' }).countDocuments();
+
+    //Second  Card Details 1
     const totalActive = await User.find({ is_Active: true }).countDocuments();
     const totalActiveMale = await User.find({ is_Active: true, user_gender: "Male" }).countDocuments();
     const totalActiveFemale = await User.find({ is_Active: true, user_gender: "Female" }).countDocuments();
     const totalActiveAuthorized = await User.find({user_isAuthorised: true, is_Active: true}).countDocuments();
+
+    //Third card 
+
+
+    //Fourth Card
+    let ms=0;let fs=0;let ts=0;
+    const totalSubscription = await subscription.find().populate('userId','user_gender');
+    for(let x of totalSubscription){
+        if(x.userId.user_gender=="Male"){
+            ms++;
+        }else{
+            fs++
+        }
+        ts++;
+    }
+
     var d = new Date(); // Today!
     d.setDate(d.getDate() - 1);
 
+    //total today
     const todayTotal = await User.find({
         createdAt: {
             $gte: new Date(new Date().setHours(00, 00, 00))
@@ -32,7 +49,7 @@ exports.getDashBoard = async (req, res, next) => {
             $gte: new Date(new Date().setHours(00, 00, 00))
         },user_gender: "Male"
     }).countDocuments();
-
+    //total yesterday
     const yseterdayTotal = await User.find({
         createdAt: {
             $gte: new Date(new Date(d).setHours(00, 00, 00)),
@@ -51,6 +68,42 @@ exports.getDashBoard = async (req, res, next) => {
             $lt: new Date(new Date().setHours(00, 00, 00))
         },user_gender: "Male"
     }).countDocuments();
+    //subscription today
+    const todaySubscription = await subscription.find({
+        createdAt: {
+            $gte: new Date(new Date().setHours(00, 00, 00))
+        }
+    }).populate('userId','user_gender');
+    let tts = 0;
+    let tms = 0;
+    let tfs = 0;
+    for(let x of todaySubscription){
+        if(x.userId.user_gender=="Male"){
+            tms++;
+        }else{
+            tfs++;
+        }
+        tts++;
+    }
+    //subscription yesterday
+    const yesterdaySubscription = await subscription.find({
+        createdAt: {
+            $gte: new Date(new Date(d).setHours(00, 00, 00)),
+            $lt: new Date(new Date().setHours(00, 00, 00))
+        }
+    }).populate('userId','user_gender');
+    let yts = 0;
+    let yms = 0;
+    let yfs = 0;
+    for(let x of yesterdaySubscription){
+        if(x.userId.user_gender=="Male"){
+            yms++;
+        }else{
+            yfs++;
+        }
+        yts++;
+    }
+
     const latestUser = await User.find().sort({createdAt: 'desc'}).limit(5)
     const latestMatch = await match.find().sort({createdAt: 'desc'}).limit(5)
 
@@ -59,18 +112,33 @@ exports.getDashBoard = async (req, res, next) => {
         total: total,
         totalFemale: totalFemale,
         totalMale: totalMale,
+
         totalActive: totalActive,
         totalActiveMale: totalActiveMale,
         totalActiveFemale: totalActiveFemale,
+
+        //Matched User Pending
+
+        totalSubscription:ts,
+        maleSubscription: ms,
+        femaleSubscription: fs,
+        todaySubscription:tts,
+        todayMaleSubscription:tms,
+        todayFemaleSubscription:tfs,
+        yesterdayTotal:yts,
+        yesterdayMaleTotal:yms,
+        yesterdayFemaleTotal:yfs,
+
         todayTotal: todayTotal,
         yseterdayTotal: yseterdayTotal,
         todayTotalFemail: todayTotalFemail,
         todayTotalMale:todayTotalMale,
         yseterdayTotalFemail:yseterdayTotalFemail,
         yseterdayTotalMale:yseterdayTotalMale,
+        totalActiveAuthorized: totalActiveAuthorized,
+        
         latestUser: latestUser,
         latestMatch: latestMatch,
-        totalActiveAuthorized: totalActiveAuthorized
     });
 }
 

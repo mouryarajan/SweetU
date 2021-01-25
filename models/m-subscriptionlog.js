@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const subSchema = new Schema({
     userId: {
-        type: String,
-        required: true
+        type: Schema.Types.ObjectId,
+        ref: 'tblusers'
     },
     name: {
         type: String,

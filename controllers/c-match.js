@@ -24,7 +24,6 @@ exports.postActive = (req, res, next) => {
     match.findOne({_id: d.inputMatchId})
     .then(data=>{
         data.isActive = d.inputStatus;
-        data.duration = d.inputDuration;
         data.coin = d.inputCoin;
         data.save()
         .then

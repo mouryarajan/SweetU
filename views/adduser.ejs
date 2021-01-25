@@ -30,6 +30,21 @@
 	<!-- Color Picker -->
 	<link rel="stylesheet" href="/color-switcher/color-switcher.min.css" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<style>
+		.d-flex {
+			display: flex;
+		}
+
+		.align-items-center {
+			align-items: center;
+		}
+
+		.profile-pic {
+			border-radius: 50%;
+			height: 5rem;
+			margin-right: 1rem;
+		}
+	</style>
 </head>
 
 <body>
@@ -79,12 +94,12 @@
 												<div class="help-block">Enter Email</div>
 											</div>
 											<div class="form-group col-sm-6">
-												<label for="inputAge" class="control-label">Age</label>
+												<label for="inputAge" class="control-label">BOB</label>
 												<input type="text" data-minlength="1"
 													value="<% if (editing || error) { %><%= users.user_age %><% } %>"
 													class="form-control" name="inputAge" id="inputAge"
 													placeholder="Enter Age" required="" />
-												<div class="help-block">Enter Age</div>
+												<div class="help-block">Enter DOB</div>
 											</div>
 										</div>
 									</div>
@@ -103,18 +118,18 @@
 												<div class="radio">
 													<input type="radio" value="Male" name="inputGender"
 														id="inputGenderMale" required="" <% if (editing || error) { %>
-															<% if(users.user_gender == 'Male'){ %> 
-															checked 
-															<% } } %>/>
-													<label for="inputGenderMale">Male</label>
+													<% if(users.user_gender=='Male' ){ %>
+														checked
+														<% } } %>/>
+															<label for="inputGenderMale">Male</label>
 												</div>
 												<div class="radio">
 													<input type="radio" value="Female" name="inputGender"
 														id="inputGenderFemale" required="" <% if (editing || error) { %>
-															<% if(users.user_gender == 'Female'){ %> 
-															checked 
-															<% } } %>/>
-													<label for="inputGenderFemale">Female</label>
+													<% if(users.user_gender=='Female' ){ %>
+														checked
+														<% } } %>/>
+															<label for="inputGenderFemale">Female</label>
 												</div>
 											</div>
 											<div class="form-group col-sm-6">
@@ -122,19 +137,30 @@
 													Preference</label>
 												<div class="radio">
 													<input type="radio" value="Male" name="inputGenderPreference"
-														id="inputGenderPreferenceMale" required="" <% if (editing || error) { %>
-															<% if(users.user_genderPreference == 'Male'){ %> 
-															checked 
-															<% } } %>/> 
-													<label for="inputGenderPreferenceMale">Male</label>
+														id="inputGenderPreferenceMale" required="" <% if (editing ||
+														error) { %>
+													<% if(users.user_genderPreference=='Male' ){ %>
+														checked
+														<% } } %>/>
+															<label for="inputGenderPreferenceMale">Male</label>
 												</div>
 												<div class="radio">
 													<input type="radio" value="Female" name="inputGenderPreference"
-														id="inputGenderPreferenceFemale" required="" <% if (editing || error) { %>
-															<% if(users.user_genderPreference == 'Female'){ %> 
-															checked 
-															<% } } %>/> 
-													<label for="inputGenderPreferenceFemale">Female</label>
+														id="inputGenderPreferenceFemale" required="" <% if (editing ||
+														error) { %>
+													<% if(users.user_genderPreference=='Female' ){ %>
+														checked
+														<% } } %>/>
+															<label for="inputGenderPreferenceFemale">Female</label>
+												</div>
+												<div class="radio">
+													<input type="radio" value="Both" name="inputGenderPreference"
+														id="inputGenderPreferenceFemale" required="" <% if (editing ||
+														error) { %>
+													<% if(users.user_genderPreference=='Both' ){ %>
+														checked
+														<% } } %>/>
+															<label for="inputGenderPreferenceFemale">Both</label>
 												</div>
 											</div>
 										</div>
@@ -145,34 +171,46 @@
 												<label for="inputStatus" class="control-label">Status</label>
 												<div class="radio">
 													<input type="radio" value="1" name="inputStatus"
-														id="inputStatusAuthorised" required="" <% if (editing || error) { %>
-															<% if(users.user_isAuthorised == true){ %> 
-															checked 
-															<% } } %>/> 
-													<label for="inputStatusAuthorised">Authorise</label>
+														id="inputStatusAuthorised" required="" <% if (editing || error)
+														{ %>
+													<% if(users.user_isAuthorised==true){ %>
+														checked
+														<% } } %>/>
+															<label for="inputStatusAuthorised">Authorise</label>
 												</div>
 												<div class="radio">
 													<input type="radio" value="0" name="inputStatus"
-														id="inputStatusUnauthorised" required="" <% if (editing || error) { %>
-															<% if(users.user_isAuthorised == false){ %> 
-															checked 
-															<% } } %>/> 
-													<label for="inputStatusUnauthorised">Unauthorise</label>
+														id="inputStatusUnauthorised" required="" <% if (editing ||
+														error) { %>
+													<% if(users.user_isAuthorised==false){ %>
+														checked
+														<% } } %>/>
+															<label for="inputStatusUnauthorised">Unauthorise</label>
 												</div>
 											</div>
 											<div class="form-group col-sm-6">
 												<label for="inputImage" class="control-label">Image</label>
-												<input type="file" class="form-control" name="image"
-													value="<% if (editing || error) { %> <%= users.user_image %> <% } %>"
-													id="inputImage" placeholder="Image" data-error="Upload Image"
-													required="" />
+												<div class="d-flex align-items-center">
+													<% if (editing || error) { %>
+														<% if (users.user_image) { %>
+															<img class="profile-pic"
+																style="border-radius: 50%; height: 5rem;"
+																src="/images/<%= users.user_image %>">
+															<% } } %>
+
+																<input type="file" class="form-control" name="image"
+																	value="<% if (editing || error) { %>https://tatriq.com/images/<%= users.user_image %> <% } %>"
+																	id="inputImage" placeholder="Image"
+																	data-error="Upload Image" />
+												</div>
 												<div class="help-block with-errors">Upload Image</div>
 											</div>
 										</div>
 									</div>
-										<button type="submit" class="btn btn-primary waves-effect waves-light" style="width: 20rem; height: 5rem; text-align: center;">
-											<% if (editing){ %> Update User <% }else{ %> Submit <% } %>
-										</button>
+									<button type="submit" class="btn btn-primary waves-effect waves-light"
+										style="width: 20rem; height: 5rem; text-align: center;">
+										<% if (editing){ %> Update User <% }else{ %> Submit <% } %>
+									</button>
 								</form>
 							</div>
 							<!-- /.box-content -->

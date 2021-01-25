@@ -23,10 +23,6 @@ var transporter = nodemailer.createTransport({
 });
 // const jwt = require('jsonweb~');
 
-function isEmptyObject(obj) {
-    return !Object.keys(obj).length;
-}
-
 exports.getUserList = (req, res, next) => {
     User.find().select('user_name').select('user_emailId').select('user_gender').select('user_isAuthorised').select('user_isBlock').select('createdAt')
         .sort({ createdAt: 'desc' })
@@ -208,7 +204,6 @@ exports.postUserEdit = (req, res, next) => {
     const user_gender = req.body.inputGender;
     const user_genderPreference = req.body.inputGenderPreference;
     const user_isAuthorised = req.body.inputStatus;
-    const user_type = req.body.inputType;
     const user_about = req.body.inputAbout;
     const user_image = req.file;
     const user_age = req.body.inputAge;
@@ -219,20 +214,19 @@ exports.postUserEdit = (req, res, next) => {
         user.user_gender = user_gender;
         user.user_genderPreference = user_genderPreference;
         user.user_isAuthorised = user_isAuthorised;
-        user.user_type = user_type;
         user.user_about = user_about;
         if (user_image) {
-            fileHelper.deleteFile(user.user_image);
-            user.user_image = user_image.path;
+            p = "G://SweetU//sd/SweetU//images//" + user.user_image;
+            fileHelper.deleteFile(p);
+            user.user_image = user_image.filename;
         }
         user.user_age = user_age;
-        return user.save();
-    })
-        .then(result => {
-            console.log('Updated Product');
-            res.redirect('/user-list');
-        })
-        .catch(err => console.log(err));
+        user.save()
+            .then(data => {
+                console.log('Updated Product');
+                res.redirect('/user-list');
+            });
+    }).catch(err => console.log(err));
 }
 
 //Block User Permanently
@@ -299,6 +293,9 @@ exports.unauthoriseUser = (req, res, next) => {
         .catch(err => { console.log(err) });
 }
 
+function isEmptyObject(obj) {
+    return !Object.keys(obj).length;
+}
 
 exports.getUser = (req, res, next) => {
     const uId = req.params.inputUserId.toString();
@@ -529,7 +526,6 @@ exports.postStartCall = async (req, res, next) => {
             user_gender: use.user_genderPreference
         }).countDocuments();
     }
-    console.log(online);
     if (online <= 0) {
         return res.status(201).json({ status: "false", message: "No user is online" });
     }
@@ -551,7 +547,6 @@ exports.postStartCall = async (req, res, next) => {
             return res.status(201).json({ status: "false", message: "You don't have enough coins" });
         }
     }
-    //console.log(coin);
 }
 
 //Video call user list
@@ -669,11 +664,11 @@ exports.postAPIsUserProfile = (req, res, next) => {
     User.findOne({ _id: uId })
         .then(result => {
             if (result) {
-                res.status(201).json({
+                res.status(200).json({
                     data: result
                 })
             } else {
-                res.status(200).json({
+                res.status(201).json({
                     data: "False"
                 })
             }
@@ -969,7 +964,7 @@ exports.postAPIsUserEdit = (req, res, next) => { //user update
                                 user_wallet: result.user_wallet,
                                 google_id: result.google_id
                             };
-                            res.status(201).json({
+                            res.status(200).json({
                                 message: "User Updated",
                                 status: true,
                                 data: x
@@ -987,7 +982,9 @@ exports.postAPIsUserEdit = (req, res, next) => { //user update
 
 }
 
-
+function isEmptyObject(obj) {
+    return !Object.keys(obj).length;
+}
 
 //Image Upload
 exports.postAPIsUserImage = (req, res, next) => {
@@ -1020,7 +1017,7 @@ exports.postAPIsUserImage = (req, res, next) => {
                     result.user_image = finalname;
                     result.save()
                         .then(d => {
-                            res.status(201).json({
+                            res.status(200).json({
                                 message: "Sucess",
                                 status: true
                             })
@@ -1050,7 +1047,7 @@ exports.postAPIsUserImage = (req, res, next) => {
                             re.user_image = finalname;
                             re.save()
                                 .then(d => {
-                                    res.status(201).json({
+                                    res.status(200).json({
                                         message: "Sucess",
                                         status: true
                                     })
@@ -1133,7 +1130,7 @@ exports.postAPIsCoin = (req, res, next) => { // Add to Coin Log
                         result.save()
                             .then(data => {
                                 if (data) {
-                                    res.status(201).json({
+                                    res.status(200).json({
                                         status: true
                                     })
                                 }
@@ -1154,7 +1151,7 @@ exports.callDetails = async (req, res, next) => {
     const uId = req.body.inputUserId;
     if (!uId) return res.status(201).json({ status: "false", message: "Provide Proper Details" });
     const sender = await User.findOne({ _id: uId }).select('user_coin').select('isTalk');
-    const set = await settings.findOne({ _id: "5fbcc934e311361f6063a84d" }).select('call_rate');
+    const set = await settings.findOne({ _id: "5fbcc934e311361f6063a84d" }).select('call_rate').select('call_duration');
     if (!sender) return res.status(201).json({ status: "false", message: "Sender not found" });
     let data = {
         coin: sender.user_coin,
@@ -1174,56 +1171,6 @@ exports.callDetails = async (req, res, next) => {
     }
 }
 
-//check if user is added to favourite
-exports.postCheckFavouriteUser = async (req, res, next) => {
-    const uid = req.body.inputUserId;
-    const fuid = req.body.inputFavouriteUserId;
-    let status = false;
-    const fid = await User.findOne({ google_id: fuid });
-    const fav = fid._id;
-    console.log(fav);
-    User.findOne({ google_id: uid }).select('user_favrateLog')
-        .then(result => {
-            for (let n of result.user_favrateLog.items) {
-                if (n.favouriteUserId == fav) {
-                    console.log(n.favouriteUserId);
-                    status = true;
-                }
-            }
-            if (status) {
-                res.status(201).json({
-                    status: false,
-                    message: "User Already Added"
-                });
-            } else {
-                res.status(200).json({
-                    status: true,
-                    id: fid._id,
-                    name: fid.user_name,
-                    about: fid.user_about,
-                    image: fid.user_image,
-                    message: "User Not In Favourite List"
-                });
-            }
-        }).catch(err => { console.log(err) });
-}
-// exports.postActive = (req, res, next) => {
-//     const d = req.body;
-//     match.findOne({_id: d.inputMatchId})
-//     .then(data=>{
-//         data.isActive = d.inputStatus;
-//         data.duration = d.inputDuration;
-//         data.coin = d.inputCoin;
-//         data.save()
-//         .then
-//         (result=>{
-//             res.status(200).json({
-//                 status: true
-//             });
-//         }).catch(err=>{console.log(err)});
-//     }).catch(err=>{console.log(err)});
-// }
-
 //Chat Coin deduction
 exports.postChatCoinDeduction = async (req, res, next) => {
     const sid = req.body.inputSenderId;
@@ -1242,6 +1189,14 @@ exports.postChatCoinDeduction = async (req, res, next) => {
         remark: remark,
         sendTo: rid
     });
+    if (remark == "Video Call") {
+        const maa = await match.findOne({ _id: req.body.inputMatchId });
+        if (maa) {
+            maa.isActive = false;
+            maa.coin = coin;
+            maa.save();
+        }
+    }
     if (sender.user_coin >= coin) {
         receiver.user_coin = receiver.user_coin + Number(coin);
         sender.user_coin = sender.user_coin - Number(coin);
@@ -1278,113 +1233,146 @@ exports.postChatCoinDeduction = async (req, res, next) => {
     }
 }
 
-//Adding Favourite User
-exports.postAPIsFavourite = async (req, res, next) => {
+//check if user is added to favourite
+exports.postCheckFavouriteUser = async (req, res, next) => {
     const uid = req.body.inputUserId;
     const fuid = req.body.inputFavouriteUserId;
     let status = false;
-    //console.log(funame);
-    User.findOne({ _id: uid }).select('user_favrateLog')
+    const fid = await User.findOne({ google_id: fuid });
+    const fav = fid._id;
+    User.findOne({ google_id: uid }).select('user_favrateLog')
         .then(result => {
             for (let n of result.user_favrateLog.items) {
-                if (n.favouriteUserId === fuid) {
+                if (n.favouriteUserId == fav) {
                     status = true;
                 }
             }
             if (status) {
                 res.status(201).json({
+                    status: false,
                     message: "User Already Added"
-                })
-            } else {
-                const arr = result.user_favrateLog.items;
-                User.findOne({ _id: fuid })
-                    .then(dataa => {
-                        let you = dataa.user_favrateYou.items;
-                        you.push({
-                            favouriteUserId: uid
-                        });
-                        dataa.user_favrateYou.items = you;
-                        dataa.save();
-                    }).catch(err => { console.log(err) });
-                //console.log(arr)
-                arr.push({
-                    favouriteUserId: fuid
                 });
-                result.user_favrateLog.items = arr;
-                result.save()
-                    .then(s => {
-                        if (s) {
-                            res.status(201).json({
-                                status: "true"
-                            })
-                        } else {
-                            res.status(201).json({
-                                status: "false"
-                            })
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
+            } else {
+                res.status(200).json({
+                    status: true,
+                    id: fid._id,
+                    name: fid.user_name,
+                    about: fid.user_about,
+                    image: fid.user_image,
+                    message: "User Not In Favourite List"
+                });
             }
+        }).catch(err => { console.log(err) });
+}
+
+//Adding Favourite User
+exports.postAPIsFavourite = async (req, res, next) => {
+    const uid = req.body.inputUserId;
+    const fuid = req.body.inputFavouriteUserId;
+    const remark = req.body.inputRemark;
+    let status = false;
+    let sender, receiver;
+    if (remark) {
+        sender = await User.findOne({ google_id: uid });
+        if (!sender) return res.status(201).json({ status: false, message: "User not available" });
+        receiver = await User.findOne({ google_id: fuid });
+        if (!receiver) return res.status(201).json({ status: false, message: "User not available" });
+    } else {
+        sender = await User.findOne({ _id: uid });
+        if (!sender) return res.status(201).json({ status: false, message: "User not available" });
+        receiver = await User.findOne({ _id: fuid });
+        if (!receiver) return res.status(201).json({ status: false, message: "User not available" });
+    }
+    for (let n of sender.user_favrateLog.items) {
+        if (n.favouriteUserId === receiver._id) {
+            status = true;
+        }
+    }
+    if (status) {
+        res.status(201).json({
+            message: "User Already Added"
         })
-        .catch(err => { console.log(err) });
+    } else {
+        let arr = sender.user_favrateLog.items;
+        let you = receiver.user_favrateYou.items;
+        you.push({
+            favouriteUserId: sender._id
+        });
+        receiver.user_favrateYou.items = you;
+        receiver.save();
+        arr.push({
+            favouriteUserId: receiver._id
+        });
+        sender.user_favrateLog.items = arr;
+        sender.save()
+            .then(s => {
+                if (s) {
+                    res.status(200).json({
+                        status: "true"
+                    })
+                } else {
+                    res.status(201).json({
+                        status: "false"
+                    })
+                }
+            }).catch(err => { console.log(err); });
+    }
 }
 
 //Removing Favourite User
 exports.postAPIsRemoveFavourite = async (req, res, next) => {
     const uid = req.body.inputUserId;
     const fuid = req.body.inputFavouriteUserId;
-    User.findOne({ _id: uid })
-        .then( async result => {
-            if (result) {
-                let data = result.user_favrateLog.items;
-                if (isEmptyObject(data)) {
-                    result.status(200).json({
-                        message: "You don't have any Favourite User",
-                        status: "false"
-                    })
-                } else {
-                    const fuser = await User.findOne({_id:fuid});
-                    let data1 = fuser.user_favrateYou.items;
-                    let arr = [];
-                    let arrr = [];
-                    for (let n of data) {
-                        if (n.favouriteUserId != fuid) {
-                            let x = n.favouriteUserId;
-                            arr.push({
-                                favouriteUserId: x
-                            })
-                        }
-                    }
-                    for (let n of data1) {
-                        if (n.favouriteUserId != uid) {
-                            let y = n.favouriteUserId;
-                            arrr.push({
-                                favouriteUserId: y
-                            })
-                        }
-                    }
-                    fuser.user_favrateYou.items = arrr;
-                    //console.log(arr);
-                    result.user_favrateLog.items = arr;
-                    fuser.save();
-                    result.save()
-                        .then(s => {
-                            res.status(201).json({
-                                message: "User Removed Sucessfuly",
-                                status: true
-                            })
-                        })
-                        .catch(err => { console.log(err) });
-                }
-            } else {
-                res.status(200).json({
-                    message: "User Not Found",
-                    status: false
+    const remark = req.body.inputRemark;
+    let sender, receiver;
+    if (remark) {
+        sender = await User.findOne({ google_id: uid });
+        if (!sender) return res.status(201).json({ status: false, message: "User not available" });
+        receiver = await User.findOne({ google_id: fuid });
+        if (!receiver) return res.status(201).json({ status: false, message: "User not available" });
+    } else {
+        sender = await User.findOne({ _id: uid });
+        if (!sender) return res.status(201).json({ status: false, message: "User not available" });
+        receiver = await User.findOne({ _id: fuid });
+        if (!receiver) return res.status(201).json({ status: false, message: "User not available" });
+    }
+    let data = sender.user_favrateLog.items;
+    if (isEmptyObject(data)) {
+        result.status(201).json({
+            message: "You don't have any Favourite User",
+            status: "false"
+        })
+    } else {
+        let data1 = receiver.user_favrateYou.items;
+        let arr = [];
+        let arrr = [];
+        for (let n of data) {
+            if (n.favouriteUserId != receiver._id) {
+                let x = n.favouriteUserId;
+                arr.push({
+                    favouriteUserId: x
                 })
             }
-        })
+        }
+        for (let n of data1) {
+            if (n.favouriteUserId != sender._id) {
+                let y = n.favouriteUserId;
+                arrr.push({
+                    favouriteUserId: y
+                })
+            }
+        }
+        receiver.user_favrateYou.items = arrr;
+        sender.user_favrateLog.items = arr;
+        receiver.save();
+        sender.save()
+            .then(s => {
+                res.status(200).json({
+                    message: "User Removed Sucessfuly",
+                    status: true
+                })
+            }).catch(err => { console.log(err) });
+    }
 }
 
 //Adding Block User
@@ -1500,7 +1488,7 @@ exports.postAPIsBlock = (req, res, next) => {
                 result.save()
                     .then(s => {
                         if (s) {
-                            res.status(201).json({
+                            res.status(200).json({
                                 status: "true"
                             })
                         } else {
@@ -1570,7 +1558,7 @@ exports.postAPIsRemoveBlock = async (req, res, next) => {
                     //const bdata = await block.findOne({userId:buid});
                     result.save()
                         .then(s => {
-                            res.status(201).json({
+                            res.status(200).json({
                                 message: "User Removed Sucessfuly",
                                 status: true
                             })
@@ -1711,7 +1699,7 @@ exports.postAPIsGetBlock = async (req, res, next) => {
                             user_countryCode: s.user_countryCode
                         });
                         if (y >= x) {
-                            res.status(201).json({
+                            res.status(200).json({
                                 data: arr
                             })
                         }
@@ -1733,7 +1721,7 @@ exports.postAPIUpdateStatusOnline = (req, res, next) => {
                 result.is_Active = true;
                 result.save()
                     .then(
-                        res.status(201).json({
+                        res.status(200).json({
                             status: true
                         })
                     )
@@ -1758,7 +1746,7 @@ exports.postAPIUpdateStatusOfline = (req, res, next) => {
                 result.is_Active = false;
                 result.save()
                     .then(
-                        res.status(201).json({
+                        res.status(200).json({
                             status: true
                         })
                     )
@@ -1772,12 +1760,6 @@ exports.postAPIUpdateStatusOfline = (req, res, next) => {
         })
     }
 }
-
-Date.prototype.addDays = function (days) {
-    var date = new Date(this.valueOf());
-    date.setDate(date.getDate() + days);
-    return date
-};
 
 exports.postAPIsGenderPreference = async (req, res, next) => {
     const uId = req.body.inputUserId;
@@ -1800,14 +1782,14 @@ exports.postAPIsGenderPreference = async (req, res, next) => {
                     user_coin: result.user_coin,
                     both: cost.gender_change_both,
                     male: cost.gender_change_male,
-                    female: cost.gender_change_female,
+                    female: cost.gender_change_female
                 };
                 res.status(200).json({
                     status: true,
                     data: data
                 })
             } else {
-                res.status(201).json({
+                res.status(200).json({
                     status: false
                 })
             }
@@ -1829,7 +1811,6 @@ exports.postAPIsRandomUser = async (req, res, next) => {
                 } else {
                     fcost = cost.gender_change_both;
                 }
-
                 if (d.user_coin >= fcost) {
                     d.user_genderPreference = gender;
                     d.user_coin = d.user_coin - fcost;
@@ -1851,9 +1832,7 @@ exports.postAPIsRandomUser = async (req, res, next) => {
                 })
             }
         })
-
 }
-
 
 exports.APIisAuthorised = async (req, res, next) => {
     const id = req.body.inputUserId;
