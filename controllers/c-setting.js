@@ -24,6 +24,7 @@ exports.postSetting = (req, res, next) => {
             result.gender_change_male = req.body.inputGenderChangeMale;
             result.start_call_rate = req.body.inputStartCallRate;
             result.chat_rate = req.body.inputChatRate;
+            result.regular_coin = req.body.inputRegularCoin;
             if(req.body.inputWallet=="true"){
                 result.wallet = true;
             }else{

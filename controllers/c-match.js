@@ -2,13 +2,15 @@ const match = require('../models/m-match');
 const user = require('../models/m-user');
 const se = require('../models/m-setting');
 
-exports.postMatch = (req, res, next) => {
+exports.postMatch = async (req, res, next) => {
     const d = req.body;
+    const sender = await user.findOne({google_id:d.inputSender});
+    const receiver = await user.findOne({google_id:d.inputReceiver});
     const Match = new match({
-        sender: d.inputSender,
-        senderName: d.inputSenderName,
-        receiver: d.inputReceiver,
-        receiverName: d.receiverName
+        sender: sender._id,
+        senderName: sender.user_name,
+        receiver: receiver._id,
+        receiverName: receiver._user_name
     });
     Match.save()
     .then(data=>{

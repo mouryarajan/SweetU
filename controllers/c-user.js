@@ -2,9 +2,7 @@ const User = require('../models/m-user.js');
 const settings = require('../models/m-setting');
 const country = require('../models/m-country');
 const block = require('../models/m-block');
-const date = require('date-and-time');
 const fileHelper = require('../util/file');
-const mongoose = require('mongoose');
 const fs = require('fs');
 const mime = require('mime');
 const jwt = require('jsonwebtoken');
@@ -21,8 +19,8 @@ var transporter = nodemailer.createTransport({
         pass: 'karon@rajantushar'
     }
 });
-// const jwt = require('jsonweb~');
 
+// const jwt = require('jsonweb~');
 exports.getUserList = (req, res, next) => {
     User.find().select('user_name').select('user_emailId').select('user_gender').select('user_isAuthorised').select('user_isBlock').select('createdAt')
         .sort({ createdAt: 'desc' })
@@ -93,10 +91,7 @@ exports.getSubscribedUserList = (req, res, next) => {
                 users: users,
                 pageTitle: 'Subscribed User'
             })
-        })
-        .catch(err => {
-            console.log(err);
-        });
+        }).catch(err => { console.log(err); });
 };
 
 exports.getAddUser = (req, res, next) => {
@@ -537,7 +532,7 @@ exports.postStartCall = async (req, res, next) => {
         });
     } else {
         if (use.user_coin >= coin) {
-            use.user_coin = use.user_coin - coin;
+            //use.user_coin = use.user_coin - coin;
             use.save(data => {
                 res.status(200).json({
                     status: true
@@ -565,11 +560,6 @@ exports.postVideoCallList = async (req, res, next) => {
                 _id: { $ne: uid }
             }).skip((page - 1) * itemPerPage)
                 .limit(itemPerPage)
-                .select('user_country')
-                .select('user_countryCode')
-                .select('user_image')
-                .select('user_gender')
-                .select('user_name')
                 .then(data => {
                     if (!isEmptyObject(data)) {
                         res.status(200).json({
@@ -589,11 +579,6 @@ exports.postVideoCallList = async (req, res, next) => {
                 _id: { $ne: uid }
             }).skip((page - 1) * itemPerPage)
                 .limit(itemPerPage)
-                .select('user_country')
-                .select('user_countryCode')
-                .select('user_image')
-                .select('user_gender')
-                .select('user_name')
                 .then(data => {
                     if (!isEmptyObject(data)) {
                         res.status(200).json({
@@ -615,11 +600,6 @@ exports.postVideoCallList = async (req, res, next) => {
             })
                 .skip((page - 1) * itemPerPage)
                 .limit(itemPerPage)
-                .select('user_country')
-                .select('user_countryCode')
-                .select('user_image')
-                .select('user_gender')
-                .select('user_name')
                 .then(data => {
                     if (!isEmptyObject(data)) {
                         res.status(200).json({
@@ -639,11 +619,6 @@ exports.postVideoCallList = async (req, res, next) => {
             })
                 .skip((page - 1) * itemPerPage)
                 .limit(itemPerPage)
-                .select('user_country')
-                .select('user_countryCode')
-                .select('user_image')
-                .select('user_gender')
-                .select('user_name')
                 .then(data => {
                     if (!isEmptyObject(data)) {
                         res.status(200).json({
@@ -703,220 +678,102 @@ exports.postAPIsUserAdd = (req, res, next) => { //user login
                 //console.log(con);
                 const inputCountryName = con.countryName;
                 const inputCountryCode = con.countryCode;
-                if (inputUserImage) {
-                    let im = inputUserImage;
-                    let sm = "data:image/jpeg;base64," + im;
-                    let matches = sm.match(/^data:([A-Za-z+\/]+);base64,(.+)$/);
-                    response = {}
-                    if (matches.length !== 3) {
-                        return res.status(201).json({
-                            status: false,
-                            message: "Image Not Uploaded"
-                        })
-                    }
-                    response.type = matches[1];
-                    response.data = new Buffer.from(matches[2], 'base64');
-                    let decodeImg = response;
-                    let imageBuffer = decodeImg.data;
-                    let type = decodeImg.type;
-                    let extension = mime.extension(type);
-                    let filename = Math.floor(100000 + Math.random() * 900000) + "image." + extension;
-                    let finalname = filename;
-                    //console.log(finalname);
-                    fs.writeFileSync("./images/" + filename, imageBuffer, 'utf8');
-                    settings.findOne({ _id: "5fbcc934e311361f6063a84d" })
-                        .then(result => {
-                            const user_coin = result.bonus_coin;
-                            const user_wallet = result.bonus_amount;
-                            const user_name = inputUserName;
-                            const user_emailId = inputUserEmailId;
-                            const user_gender = inputUserGender;
-                            const user_genderPreference = inputUserGenderPreference;
-                            const user_profession = inputUserProfession;
-                            const user_isAuthorised = null;
-                            const user_image = finalname;
-                            const user_type = null;
-                            const user_about = inputUserAbout;
-                            const user_country = inputCountryName;
-                            const user_age = inputUserAge;
-                            const user_countryCode = inputCountryCode;
-                            const google_id = googleId;
-                            const user = new User({
-                                user_name: user_name,
-                                user_about: user_about,
-                                user_age: user_age,
-                                user_emailId: user_emailId,
-                                user_profession: user_profession,
-                                user_gender: user_gender,
-                                user_image: user_image,
-                                user_country: user_country,
-                                user_countryCode: user_countryCode,
-                                user_genderPreference: user_genderPreference,
-                                user_isAuthorised: user_isAuthorised,
-                                user_type: user_type,
-                                user_coin: user_coin,
-                                user_wallet: user_wallet,
-                                is_Active: false,
-                                google_id: google_id,
-                                notificationTocken: notificationTocken,
-                                user_isAuthorised: false
-                            });
-
-                            user.save()
-                                .then(result => {
-                                    if (result) {
-                                        console.log("User Created");
-                                        var mailOptions = {
-                                            from: 'sweetu.karon@gmail.com',
-                                            to: user_emailId,
-                                            subject: 'Thanks for using Sweetu',
-                                            text: 'You are now member of sweet family'
-                                        };
-
-                                        transporter.sendMail(mailOptions, function (error, info) {
-                                            if (error) {
-                                                //console.log(error);
-                                            } else {
-                                                //console.log('Email sent: ' + info.response);
-                                            }
-                                        });
-                                        let data = {
-                                            user_isBlock: result.user_isBlock,
-                                            user_id: result._id.toString(),
-                                            user_name: result.user_name,
-                                            user_emailId: result.user_emailId,
-                                            user_image: result.user_image,
-                                            user_country: result.user_country,
-                                            user_about: result.user_about,
-                                            user_age: result.user_age,
-                                            user_profession: result.user_profession,
-                                            user_gender: result.user_gender,
-                                            user_genderPreference: result.user_genderPreference,
-                                            user_coin: result.user_coin,
-                                            user_wallet: result.user_wallet,
-                                            google_id: result.google_id,
-                                            user_isAuthorised: false
-                                        };
-                                        const token = jwt.sign({
-                                            userId: data.user_id,
-                                            user_emailId: data.user_emailId
-                                        }, process.env.TOKEN_SECRET);
-                                        res.json({
-                                            status: true,
-                                            data: data,
-                                            authToken: token
-                                        })
-                                    } else {
-                                        res.json({
-                                            status: false
-                                        })
-                                    }
-                                })
-                                .catch(err => {
-                                    console.log(err);
-                                });
-                        })
-                        .catch(err => {
-                            console.log(err);
+                settings.findOne({ _id: "5fbcc934e311361f6063a84d" })
+                    .then(result => {
+                        const user_coin = result.bonus_coin;
+                        const user_wallet = result.bonus_amount;
+                        const user_name = inputUserName;
+                        const user_emailId = inputUserEmailId;
+                        const user_gender = inputUserGender;
+                        const user_genderPreference = inputUserGenderPreference;
+                        const user_profession = inputUserProfession;
+                        const user_isAuthorised = false;
+                        const user_image = inputUserImage;
+                        const user_type = null;
+                        const user_about = inputUserAbout;
+                        const user_country = inputCountryName;
+                        const user_age = inputUserAge;
+                        const user_countryCode = inputCountryCode;
+                        const google_id = googleId;
+                        const user = new User({
+                            user_name: user_name,
+                            user_about: user_about,
+                            user_age: user_age,
+                            user_emailId: user_emailId,
+                            user_profession: user_profession,
+                            user_gender: user_gender,
+                            user_image: user_image,
+                            user_country: user_country,
+                            user_countryCode: user_countryCode,
+                            user_genderPreference: user_genderPreference,
+                            user_isAuthorised: user_isAuthorised,
+                            user_type: user_type,
+                            user_coin: user_coin,
+                            user_wallet: user_wallet,
+                            is_Active: false,
+                            google_id: google_id,
+                            notificationTocken: notificationTocken,
+                            user_isAuthorised: false
                         });
-                } else {
-                    settings.findOne({ _id: "5fbcc934e311361f6063a84d" })
-                        .then(result => {
-                            const user_coin = result.bonus_coin;
-                            const user_wallet = result.bonus_amount;
-                            const user_name = inputUserName;
-                            const user_emailId = inputUserEmailId;
-                            const user_gender = inputUserGender;
-                            const user_genderPreference = inputUserGenderPreference;
-                            const user_profession = inputUserProfession;
-                            const user_isAuthorised = null;
-                            const user_image = null;
-                            const user_type = null;
-                            const user_about = inputUserAbout;
-                            const user_country = inputCountryName;
-                            const user_age = inputUserAge;
-                            const user_countryCode = inputCountryCode;
-                            const google_id = googleId;
-                            const user = new User({
-                                user_name: user_name,
-                                user_about: user_about,
-                                user_age: user_age,
-                                user_emailId: user_emailId,
-                                user_profession: user_profession,
-                                user_gender: user_gender,
-                                user_image: user_image,
-                                user_country: user_country,
-                                user_countryCode: user_countryCode,
-                                user_genderPreference: user_genderPreference,
-                                user_isAuthorised: user_isAuthorised,
-                                user_type: user_type,
-                                user_coin: user_coin,
-                                user_wallet: user_wallet,
-                                is_Active: false,
-                                google_id: google_id,
-                                notificationTocken: notificationTocken,
-                                user_isAuthorised: false
-                            });
-                            //console.log(user);
-                            user.save()
-                                .then(result => {
-                                    if (result) {
-                                        console.log("User Created");
-                                        var mailOptions = {
-                                            from: 'sweetu.karon@gmail.com',
-                                            to: user_emailId,
-                                            subject: 'Thanks for using Sweetu',
-                                            text: 'You are now member of sweet family'
-                                        };
+                        //console.log(user);
+                        user.save()
+                            .then(result => {
+                                if (result) {
+                                    console.log("User Created");
+                                    var mailOptions = {
+                                        from: 'sweetu.karon@gmail.com',
+                                        to: user_emailId,
+                                        subject: 'Thanks for using Sweetu',
+                                        text: 'You are now member of sweet family'
+                                    };
 
-                                        transporter.sendMail(mailOptions, function (error, info) {
-                                            if (error) {
-                                                console.log(error);
-                                            } else {
-                                                console.log('Email sent: ' + info.response);
-                                            }
-                                        });
-                                        let data = {
-                                            user_isBlock: result.user_isBlock,
-                                            user_id: result._id,
-                                            user_name: result.user_name,
-                                            user_emailId: result.user_emailId,
-                                            user_image: result.user_image,
-                                            user_country: result.user_country,
-                                            user_about: result.user_about,
-                                            user_age: result.user_age,
-                                            user_profession: result.user_profession,
-                                            user_gender: result.user_gender,
-                                            user_genderPreference: result.user_genderPreference,
-                                            user_coin: result.user_coin,
-                                            user_wallet: result.user_wallet,
-                                            google_id: result.google_id,
-                                            user_isAuthorised: false
-                                        };
-                                        const token = jwt.sign({
-                                            userId: data.user_id,
-                                            user_emailId: data.user_emailId
-                                        }, process.env.TOKEN_SECRET);
-                                        console.log(data);
-                                        res.json({
-                                            status: true,
-                                            data: data,
-                                            authToken: token
-                                        })
-                                    } else {
-                                        res.json({
-                                            status: false
-                                        })
-                                    }
-                                })
-                                .catch(err => {
-                                    console.log(err);
-                                });
-                        })
-                        .catch(err => {
-                            console.log(err);
-                        });
-                }
+                                    transporter.sendMail(mailOptions, function (error, info) {
+                                        if (error) {
+                                            console.log(error);
+                                        } else {
+                                            console.log('Email sent: ' + info.response);
+                                        }
+                                    });
+                                    let data = {
+                                        user_isBlock: result.user_isBlock,
+                                        user_id: result._id,
+                                        user_name: result.user_name,
+                                        user_emailId: result.user_emailId,
+                                        user_image: result.user_image,
+                                        user_country: result.user_country,
+                                        user_about: result.user_about,
+                                        user_age: result.user_age,
+                                        user_profession: result.user_profession,
+                                        user_gender: result.user_gender,
+                                        user_genderPreference: result.user_genderPreference,
+                                        user_coin: result.user_coin,
+                                        user_wallet: result.user_wallet,
+                                        google_id: result.google_id,
+                                        user_isAuthorised: false
+                                    };
+                                    const token = jwt.sign({
+                                        userId: data.user_id,
+                                        user_emailId: data.user_emailId
+                                    }, process.env.TOKEN_SECRET);
+                                    console.log(data);
+                                    res.json({
+                                        status: true,
+                                        data: data,
+                                        authToken: token
+                                    })
+                                } else {
+                                    res.json({
+                                        status: false
+                                    })
+                                }
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
             }
         })
 }
@@ -989,72 +846,18 @@ function isEmptyObject(obj) {
 //Image Upload
 exports.postAPIsUserImage = (req, res, next) => {
     try {
-        //console.log('called');
         const uId = req.body.inputUserId;
         User.findOne({ _id: uId })
             .then(result => {
-                if (result.user_image != null) {
-                    fileHelper.deleteFile(result.user_image);
-                    let im = req.body.base64Image
-                    let sm = "data:image/jpeg;base64," + im;
-                    let matches = sm.match(/^data:([A-Za-z+\/]+);base64,(.+)$/);
-                    response = {}
-                    if (matches.length !== 3) {
-                        return res.status(201).json({
-                            message: "Failed ss"
-                        })
-                    }
-                    response.type = matches[1];
-                    response.data = new Buffer.from(matches[2], 'base64');
-                    let decodeImg = response;
-                    let imageBuffer = decodeImg.data;
-                    let type = decodeImg.type;
-                    let extension = mime.extension(type);
-                    let filename = Math.floor(100000 + Math.random() * 900000) + "image." + extension;
-                    let finalname = filename;
-                    //console.log(finalname);
-                    fs.writeFileSync("./images/" + filename, imageBuffer, 'utf8');
-                    result.user_image = finalname;
-                    result.save()
-                        .then(d => {
-                            res.status(200).json({
-                                message: "Sucess",
-                                status: true
-                            })
-                        })
-                } else {
-                    let im = req.body.base64Image
-                    let sm = "data:image/jpeg;base64," + im;
-                    let matches = sm.match(/^data:([A-Za-z+\/]+);base64,(.+)$/);
-                    response = {}
-                    if (matches.length !== 3) {
-                        return res.status(201).json({
-                            message: "Failed ss"
-                        })
-                    }
-                    response.type = matches[1];
-                    response.data = new Buffer.from(matches[2], 'base64');
-                    let decodeImg = response;
-                    let imageBuffer = decodeImg.data;
-                    let type = decodeImg.type;
-                    let extension = mime.extension(type);
-                    let filename = Math.floor(100000 + Math.random() * 900000) + "image." + extension;
-                    let finalname = filename;
-                    //console.log(finalname);
-                    fs.writeFileSync("./images/" + filename, imageBuffer, 'utf8');
-                    User.findOne({ _id: uId })
-                        .then(re => {
-                            re.user_image = finalname;
-                            re.save()
-                                .then(d => {
-                                    res.status(200).json({
-                                        message: "Sucess",
-                                        status: true
-                                    })
-                                })
-                        })
-                }
-            })
+                result.user_image = req.body.base64Image;
+                result.save()
+                .then(data=>{
+                    res.status(200).json({
+                        message: "Sucess",
+                        status: true
+                    })
+                }).catch(err=>{console.log(err)});
+            });
     } catch (e) {
         return res.status(201).json({
             message: "Failed",
@@ -1067,7 +870,7 @@ exports.postAPIsUserImage = (req, res, next) => {
 //Online User List
 exports.getAPIsOnlineUserList = (req, res, next) => { //user list
     const uId = req.body.inputUserId;
-    User.find({ is_Active: true, _id: { $nin: [uId] } }).select('user_name').select('user_image').select('user_country').select('user_countryCode').select('is_Active').sort({ user_coin: 'desc' }).sort({ createdAt: 'desc' })
+    User.find({ is_Active: true, _id: { $nin: [uId] } }).select('user_name').select('user_image').select('user_country').select('user_countryCode').select('is_Active').select('google_id').sort({ user_coin: 'desc' }).sort({ createdAt: 'desc' })
         .then(result => {
             res.status(200).json(
                 result
@@ -1108,10 +911,17 @@ exports.postAPIsCoin = (req, res, next) => { // Add to Coin Log
                         amount: req.body.inputAmount,
                         coin: coin
                     });
+                    const UserCoin = new userCoin({
+                        userId: uId,
+                        coin: coin,
+                        status: true,
+                        remark: "Purchased Coins"
+                    });
                     Coin.save()
                         .then(rs => {
                             result.save()
                                 .then(data => {
+                                    UserCoin.save();
                                     if (data) {
                                         res.status(200).json({
                                             status: true
@@ -1127,6 +937,13 @@ exports.postAPIsCoin = (req, res, next) => { // Add to Coin Log
                 if (result) {
                     if (coin < result.user_coin) {
                         result.user_coin = result.user_coin - coin;
+                        const UserCoin = new userCoin({
+                            userId: uId,
+                            coin: coin,
+                            status: true,
+                            remark: "Coins Used Someware"
+                        });
+                        UserCoin.save();
                         result.save()
                             .then(data => {
                                 if (data) {
@@ -1177,17 +994,46 @@ exports.postChatCoinDeduction = async (req, res, next) => {
     const rid = req.body.inputReceiverId;
     const coin = req.body.inputCoin;
     const remark = req.body.inputRemark;
+    const genderStatus = req.body.inputGenderStatus;
     let status = false;
+    const set = await settings.findOne();
     const sender = await User.findOne({ google_id: sid });
     if (!sender) return res.status(201).json({ status: "false", message: "Sender not found" });
     const receiver = await User.findOne({ google_id: rid });
     if (!receiver) return res.status(201).json({ status: "false", message: "Receiver not found" });
+
+    let coinlog1;
+    let gender = 0;
+    if (sender.user_genderPreference == "Male") {
+        gender = set.gender_change_male;
+    }
+    if (sender.user_genderPreference == "Female") {
+        gender = set.gender_change_female;
+    }
+    if (sender.user_genderPreference == "Both") {
+        gender = set.gender_change_both;
+    }
+
+    if (genderStatus == "true") {
+        coinlog1 = new userCoin({
+            userId: sender._id,
+            coin: gender,
+            status: false,
+            remark: "Gender change"
+        });
+    }
+    const coinlog2 = new userCoin({
+        userId: sender._id,
+        coin: set.start_call_rate,
+        status: false,
+        remark: "Start Call",
+    });
     const coinlog = new userCoin({
-        userId: sid,
+        userId: sender._id,
         coin: coin,
         status: false,
         remark: remark,
-        sendTo: rid
+        sendTo: receiver._id
     });
     if (remark == "Video Call") {
         const maa = await match.findOne({ _id: req.body.inputMatchId });
@@ -1197,9 +1043,16 @@ exports.postChatCoinDeduction = async (req, res, next) => {
             maa.save();
         }
     }
-    if (sender.user_coin >= coin) {
+    let finalcoin = coin + gender + Number(set.start_call_rate);
+    let scoin = coin + Number(set.start_call_rate);
+    if (sender.user_coin >= finalcoin) {
         receiver.user_coin = receiver.user_coin + Number(coin);
-        sender.user_coin = sender.user_coin - Number(coin);
+        if (genderStatus == "true") {
+            sender.user_coin = sender.user_coin - Number(finalcoin);
+            coinlog1.save();
+        } else {
+            sender.user_coin = sender.user_coin - Number(scoin);
+        }
         for (let n of sender.user_favrateLog.items) {
             if (n.favouriteUserId == receiver._id) {
                 status = true;
@@ -1209,7 +1062,10 @@ exports.postChatCoinDeduction = async (req, res, next) => {
             await receiver.save();
         }
         coinlog.save();
-        await sender.save();
+        coinlog2.save();
+        if (!sender.user_isAuthorised) {
+            await sender.save();
+        }
         if (status) {
             res.status(200).json({
                 status: true,
@@ -1272,7 +1128,7 @@ exports.postAPIsFavourite = async (req, res, next) => {
     const remark = req.body.inputRemark;
     let status = false;
     let sender, receiver;
-    if (remark) {
+    if (remark == "true") {
         sender = await User.findOne({ google_id: uid });
         if (!sender) return res.status(201).json({ status: false, message: "User not available" });
         receiver = await User.findOne({ google_id: fuid });
@@ -1325,7 +1181,7 @@ exports.postAPIsRemoveFavourite = async (req, res, next) => {
     const fuid = req.body.inputFavouriteUserId;
     const remark = req.body.inputRemark;
     let sender, receiver;
-    if (remark) {
+    if (remark == "true") {
         sender = await User.findOne({ google_id: uid });
         if (!sender) return res.status(201).json({ status: false, message: "User not available" });
         receiver = await User.findOne({ google_id: fuid });
@@ -1376,63 +1232,114 @@ exports.postAPIsRemoveFavourite = async (req, res, next) => {
 }
 
 //Adding Block User
-exports.postAPIsBlock = (req, res, next) => {
+exports.postAPIsBlock = async (req, res, next) => {
     const uid = req.body.inputUserId.toString();
     const fuid = req.body.inputBlockUserId;
     const remark = req.body.inputRemark;
+    const vatsal = req.body.inputVatsal;
+    let sender, receiver;
     let status = false;
     //console.log(funame);
-    User.findOne({ _id: uid }).select('user_blockLog').select('user_favrateLog').select('user_name').select('user_image')
-        .then(result => {
-            for (let n of result.user_blockLog.items) {
-                if (n.blockUserId === fuid) {
-                    status = "true";
-                }
-            }
-            if (status) {
-                res.status(201).json({
-                    status: "false"
+    if (vatsal) {
+        sender = await User.findOne({ google_id: uid });
+        if (!sender) return res.status(201).json({ status: false, message: "User not available" });
+        receiver = await User.findOne({ google_id: fuid });
+        if (!receiver) return res.status(201).json({ status: false, message: "User not available" });
+    } else {
+        sender = await User.findOne({ _id: uid });
+        if (!sender) return res.status(201).json({ status: false, message: "User not available" });
+        receiver = await User.findOne({ _id: fuid });
+        if (!receiver) return res.status(201).json({ status: false, message: "User not available" });
+    }
+    for (let n of sender.user_blockLog.items) {
+        if (n.blockUserId === receiver._id) {
+            status = "true";
+        }
+    }
+    if (status) {
+        res.status(201).json({
+            status: "false"
+        })
+    } else {
+        let arr = sender.user_blockLog.items;
+        let data = sender.user_favrateLog.items;
+        let arrr = [];
+        for (let n of data) {
+            if (n.favouriteUserId != receiver._id) {
+                let x = n.favouriteUserId;
+                arrr.push({
+                    favouriteUserId: x
                 })
-            } else {
-                const arr = result.user_blockLog.items;
-                let data = result.user_favrateLog.items;
-                //console.log(data);
-                let arrr = [];
-                for (let n of data) {
-                    if (n.favouriteUserId != fuid) {
-                        let x = n.favouriteUserId;
-                        arrr.push({
-                            favouriteUserId: x
-                        })
+            }
+        }
+        arr.push({
+            blockUserId: receiver._id,
+            remark: remark
+        });
+        sender.user_favrateLog.items = arrr;
+        sender.user_blockLog.items = arr;
+        block.findOne({ userId: fuid })
+            .then(bbdata => {
+                if (bbdata) {
+                    bbdata.totalBlock = bbdata.totalBlock + 1;
+                    let n = sender.user_name;
+                    let i = sender.user_image;
+                    //console.log(n);
+                    bbdata.blockedBy.users.push({
+                        id: sender._id,
+                        name: n,
+                        image: i
+                    });
+                    if (remark === "Nudity") {
+                        bbdata.nudity = bbdata.nudity + 1;
+                    } else if (remark === "False Gender") {
+                        bbdata.falseGender = bbdata.falseGender + 1;
+                    } else {
+                        bbdata.harassment = bbdata.harassment + 1;
                     }
-                }
-                //console.log(arr)
-                arr.push({
-                    blockUserId: fuid,
-                    remark: remark
-                });
-                result.user_favrateLog.items = arrr;
-                result.user_blockLog.items = arr;
-                block.findOne({ userId: fuid })
-                    .then(bbdata => {
-                        if (bbdata) {
-                            bbdata.totalBlock = bbdata.totalBlock + 1;
-                            let n = result.user_name;
-                            let i = result.user_image;
-                            //console.log(n);
-                            bbdata.blockedBy.users.push({
-                                id: uid,
-                                name: n,
-                                image: i
-                            });
-                            if (remark === "Nudity") {
-                                bbdata.nudity = bbdata.nudity + 1;
-                            } else if (remark === "False Gender") {
-                                bbdata.falseGender = bbdata.falseGender + 1;
+                    bbdata.save()
+                        .then(data => {
+                            if (data) {
+                                console.log("Block user added");
                             } else {
-                                bbdata.harassment = bbdata.harassment + 1;
+                                console.log("Problem in Block");
                             }
-                            bbdata.save()
+                        }).catch(err => { console.log(err) });
+                } else {
+                    let h = 0;
+                    let n = 0;
+                    let f = 0;
+                    if (remark === "Nudity") {
+                        n = 1;
+                    } else if (remark === "False Gender") {
+                        f = 1;
+                    } else {
+                        h = 1;
+                    }
+                    User.findOne({ _id: receiver._id }).select('user_name').select('user_image')
+                        .then(budata => {
+                            //console.log(budata);
+                            let s = sender.user_name;
+                            let i = sender.user_image;
+                            let j = budata.user_name;
+                            let k = budata.user_image;
+                            const Block = new block({
+                                userId: receiver._id,
+                                userName: j,
+                                userImage: k,
+                                blockedBy: {
+                                    users: [{
+                                        id: sender._id,
+                                        name: s,
+                                        image: i
+                                    }]
+                                },
+                                totalBlock: 1,
+                                harassment: h,
+                                nudity: n,
+                                falseGender: f
+                            })
+                            Block.save()
                                 .then(data => {
                                     if (data) {
                                         console.log("Block user added");
@@ -1440,89 +1347,54 @@ exports.postAPIsBlock = (req, res, next) => {
                                         console.log("Problem in Block");
                                     }
                                 }).catch(err => { console.log(err) });
-                        } else {
-                            let h = 0;
-                            let n = 0;
-                            let f = 0;
-                            if (remark === "Nudity") {
-                                n = 1;
-                            } else if (remark === "False Gender") {
-                                f = 1;
-                            } else {
-                                h = 1;
-                            }
-                            User.findOne({ _id: fuid }).select('user_name').select('user_image')
-                                .then(budata => {
-                                    //console.log(budata);
-                                    let s = result.user_name;
-                                    let i = result.user_image;
-                                    let j = budata.user_name;
-                                    let k = budata.user_image;
-                                    const Block = new block({
-                                        userId: fuid,
-                                        userName: j,
-                                        userImage: k,
-                                        blockedBy: {
-                                            users: [{
-                                                id: uid,
-                                                name: s,
-                                                image: i
-                                            }]
-                                        },
-                                        totalBlock: 1,
-                                        harassment: h,
-                                        nudity: n,
-                                        falseGender: f
-                                    })
-                                    Block.save()
-                                        .then(data => {
-                                            if (data) {
-                                                console.log("Block user added");
-                                            } else {
-                                                console.log("Problem in Block");
-                                            }
-                                        }).catch(err => { console.log(err) });
-                                }).catch(err => { console.log(err) });
-                        }
-                    }).catch(err => { console.log(err) });
-                result.save()
-                    .then(s => {
-                        if (s) {
-                            res.status(200).json({
-                                status: "true"
-                            })
-                        } else {
-                            res.status(201).json({
-                                status: "false"
-                            })
-                        }
+                        }).catch(err => { console.log(err) });
+                }
+            }).catch(err => { console.log(err) });
+        sender.save()
+            .then(s => {
+                if (s) {
+                    res.status(200).json({
+                        status: "true"
                     })
-                    .catch(err => {
-                        console.log(err);
-                    });
-            }
-
-
-        })
-        .catch(err => { console.log(err) });
+                } else {
+                    res.status(201).json({
+                        status: "false"
+                    })
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
 }
 
 //Remove Block User
-
 exports.postAPIsRemoveBlock = async (req, res, next) => {
     const uid = req.body.inputUserId;
     const buid = req.body.inputBlockUserId;
-    const bdata = await block.findOne({ userId: buid });
+    const vatsal = req.body.inputVatsal;
+    let sender, receiver;
+    if (vatsal) {
+        sender = await User.findOne({ google_id: uid });
+        if (!sender) return res.status(201).json({ status: false, message: "User not available" });
+        receiver = await User.findOne({ google_id: buid });
+        if (!receiver) return res.status(201).json({ status: false, message: "User not available" });
+    } else {
+        sender = await User.findOne({ _id: uid });
+        if (!sender) return res.status(201).json({ status: false, message: "User not available" });
+        receiver = await User.findOne({ _id: buid });
+        if (!receiver) return res.status(201).json({ status: false, message: "User not available" });
+    }
+
+    const bdata = await block.findOne({ userId: receiver._id });
     if (bdata) {
-        console.log(bdata);
         if (bdata.totalBlock === 1) {
             let x = bdata._id.toString();
-            console.log(x);
             block.findByIdAndDelete(x).then(d => { if (d) { console.log("removed") } }).catch(err => { console.log(err) });
         } else {
             let arr = [];
             for (let n of bdata.blockedBy.users) {
-                if (n.id != uid) {
+                if (n.id != sender._id) {
                     let x = n.id;
                     arr.push({
                         id: x
@@ -1534,7 +1406,7 @@ exports.postAPIsRemoveBlock = async (req, res, next) => {
             bdata.save()
         }
     }
-    User.findOne({ _id: uid })
+    User.findOne({ _id: sender._id })
         .then(result => {
             if (result) {
                 data = result.user_blockLog.items
@@ -1546,7 +1418,7 @@ exports.postAPIsRemoveBlock = async (req, res, next) => {
                 } else {
                     let arr = [];
                     for (let n of data) {
-                        if (n.blockUserId != buid) {
+                        if (n.blockUserId != receiver._id) {
                             let x = n.blockUserId;
                             arr.push({
                                 blockUserId: x
@@ -1813,7 +1685,7 @@ exports.postAPIsRandomUser = async (req, res, next) => {
                 }
                 if (d.user_coin >= fcost) {
                     d.user_genderPreference = gender;
-                    d.user_coin = d.user_coin - fcost;
+                    //d.user_coin = d.user_coin - fcost;
                     d.save(s => {
                         res.status(200).json({
                             status: true,
@@ -1845,4 +1717,51 @@ exports.APIisAuthorised = async (req, res, next) => {
                 setting: set
             });
         }).catch(err => { console.log(err) });
+}
+
+exports.stickerCoin = async (req, res, next) => {
+    let sid = req.body.inputSenderId;
+    let rid = req.body.inputReceiverId;
+    let coin = req.body.inputCoin;
+    let remark = req.body.inputRemark;
+    const sender = await User.findOne({ google_id: sid });
+    const receiver = await User.findOne({ google_id: rid });
+    if (!sender) return res.status(201).json({ message: "Sender not found" });
+    if (!receiver) return res.status(201).json({ message: "Receiver not found" });
+    if (sender.user_coin > coin) {
+        if (!sender.user_isAuthorised) {
+            sender.user_coin = sender.user_coin - coin;
+            let UserCoin = new userCoin({
+                userId: sender._id,
+                coin: coin,
+                status: false,
+                remark: "Send Sticker",
+                sendTo: receiver._id
+            })
+            UserCoin.save();
+            sender.save();
+            if (receiver.user_isAuthorised) {
+                let UserCoin = new userCoin({
+                    userId: receiver._id,
+                    coin: coin,
+                    status: true,
+                    remark: "Coin received as coin",
+                    sendTo: sender._id
+                })
+                UserCoin.save();
+                receiver.user_coin = receiver.user_coin + coin;
+                receiver.save();
+            }
+            res.status(200).json({
+                status: true
+            });
+        } else {
+            res.status(200).json({ status: true });
+        }
+    } else {
+        res.status(201).json({
+            status: false,
+            message: "You don't have enough coins"
+        });
+    }
 }

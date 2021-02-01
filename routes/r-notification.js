@@ -4,6 +4,7 @@ var admin = require("firebase-admin");
 const user = require('../models/m-user');
 const noti = require('../models/m-notification');
 const fileHelper = require('../util/file');
+const cron = require('node-cron');
 
 var serviceAccount = require("../sweetu-6cb6e-firebase-adminsdk-26jna-c0cf9f09ac.json");
 //Firebase Credential
@@ -29,7 +30,7 @@ const notification_options = {
 };
 
 router.get('/get-notification', (req, res, next) => {
-    noti.find().sort({createdAt: 'desc'})
+    noti.find().sort({ createdAt: 'desc' })
         .then(data => {
             res.render('notification', { data: data, pageTitle: "Notifications" });
         }).catch(err => { console.log(err) });
@@ -122,14 +123,14 @@ router.post('/send-notification', async (req, res, next) => {
     }
     if (type == "email") {
         let data;
-        if(sen == "all"){
+        if (sen == "all") {
             data = await user.find();
         }
-        if(sen == "authorised"){
-            data = await user.find({user_isAuthorised: true});
+        if (sen == "authorised") {
+            data = await user.find({ user_isAuthorised: true });
         }
-        if(sen == "subscribe"){
-            data = await user.find({id_subscribe: true});
+        if (sen == "subscribe") {
+            data = await user.find({ id_subscribe: true });
         }
         for (let n of data) {
             if (req.file.filename) {
@@ -146,7 +147,7 @@ router.post('/send-notification', async (req, res, next) => {
                         },
                     ],
                 };
-            }else{
+            } else {
                 var mailOptions = {
                     from: 'sweetu.karon@gmail.com',
                     to: n.user_emailId,
@@ -191,6 +192,43 @@ router.post('/send-notification', async (req, res, next) => {
         .then(data => {
             res.redirect('/get-notification');
         }).catch(err => { console.log(err) });
+});
+
+//FireBase Schedular
+// cron.schedule("0 1 * * * *", function(){
+//     var db=admin.database();
+//     var userRef=db.ref("users");
+//     userRef.once('value',function(snap){
+//     res.status(200).json({"users":snap.val()});
+// });
+const db = admin.firestore();
+const isValueExistInArray = (arr, name) => {
+    const { length } = arr;
+    const id = length + 1;
+    const found = arr.some(el => el.x === name);
+    if (!found) arr.push({ id, username: name });
+    return arr;
+}
+
+cron.schedule("30 * * * * *", async (req, res, next) => {
+    const userRef = db.collection('users');
+    const snapshot = await userRef.where('state', '==', 1).get();
+    const userData = await user.find({ is_Active: true }).select('is_Active').select('google_id');
+    let arr = [];
+    snapshot.forEach(doc => {
+        let x = doc.id;
+        arr.push(x);
+    });
+    if (userData.length > arr.length) {
+        for(let x of userData){
+            if(arr.includes(x.google_id)){
+                continue;
+            }else{
+                x.is_Active = false;
+                x.save();
+            }
+        }
+    }
 });
 
 module.exports = router;

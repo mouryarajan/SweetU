@@ -20,6 +20,16 @@ var flash = require('connect-flash');
 
 var multer = require('multer');
 
+var cron = require('node-cron');
+
+var user = require('./models/m-user');
+
+var compression = require('compression');
+
+var setting = require('./models/m-setting');
+
+var userCoin = require('./models/m-usercoin');
+
 dotenv.config();
 var store = new MongoDbStore({
   uri: process.env.DB_CONNECT,
@@ -53,6 +63,7 @@ var fileFilter = function fileFilter(req, file, cb) {
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
+app.use(compression());
 
 var admins = require('./models/m-admin');
 
@@ -88,6 +99,8 @@ var chatRoutes = require('./routes/r-chat');
 
 var contactRoutes = require('./routes/r-contact');
 
+var userCoinRoutes = require('./routes/r-userCoin');
+
 app.use(express["static"](path.join(__dirname, 'assets')));
 app.use('/images', express["static"](path.join(__dirname, 'images')));
 app.use(bodyParser.urlencoded({
@@ -98,9 +111,7 @@ app.use(bodyParser.json());
 app.use(multer({
   storage: fileStorage,
   fileFilter: fileFilter
-}).single('image')); //interval
-// setInterval();
-//saving session on serverside
+}).single('image')); //saving session on serverside
 
 app.use(session({
   secret: 'my secret',
@@ -122,6 +133,111 @@ app.use(function (req, res, next) {
     console.log(err);
   });
 });
+cron.schedule("0 1 * * * *", function () {
+  user.find().then(function (data) {
+    if (data) {
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var x = _step.value;
+
+          if (x.id_subscribe) {
+            var d = new Date();
+
+            if (x.subscription.endDate < d) {
+              //console.log("Scheduler call")
+              x.id_subscribe = false;
+              x.save();
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+    }
+  })["catch"](function (err) {
+    console.log(err);
+  });
+});
+cron.schedule("0 1 * * * *", function _callee() {
+  var set;
+  return regeneratorRuntime.async(function _callee$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          _context.next = 2;
+          return regeneratorRuntime.awrap(setting.findOne());
+
+        case 2:
+          set = _context.sent;
+          user.find({
+            id_subscribe: true
+          }).then(function (use) {
+            var _iteratorNormalCompletion2 = true;
+            var _didIteratorError2 = false;
+            var _iteratorError2 = undefined;
+
+            try {
+              for (var _iterator2 = use[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                var x = _step2.value;
+                x.user_coin = x.user_coin + set.regular_coin;
+                x.save();
+              }
+            } catch (err) {
+              _didIteratorError2 = true;
+              _iteratorError2 = err;
+            } finally {
+              try {
+                if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+                  _iterator2["return"]();
+                }
+              } finally {
+                if (_didIteratorError2) {
+                  throw _iteratorError2;
+                }
+              }
+            }
+          })["catch"](function (err) {
+            console.log(err);
+          });
+
+        case 4:
+        case "end":
+          return _context.stop();
+      }
+    }
+  });
+});
+cron.schedule("59 * * * * *", function _callee2() {
+  return regeneratorRuntime.async(function _callee2$(_context2) {
+    while (1) {
+      switch (_context2.prev = _context2.next) {
+        case 0:
+          userCoin.deleteMany({
+            coin: 0
+          }).then(function (data) {});
+
+        case 1:
+        case "end":
+          return _context2.stop();
+      }
+    }
+  });
+});
 app.use(loginRoutes);
 app.use(adminRoutes);
 app.use(userRoutes);
@@ -137,7 +253,8 @@ app.use(notificationRoutes);
 app.use(subRoutes);
 app.use(matchRoutes);
 app.use(chatRoutes);
-app.use(contactRoutes); //404 Page
+app.use(contactRoutes);
+app.use(userCoinRoutes); //404 Page
 
 app.use(function (req, res, next) {
   res.status(404).render('404', {
@@ -149,7 +266,13 @@ mongoose.connect(process.env.DB_CONNECT, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(function (result) {
-  app.listen(process.env.PORT || 3000);
+  var server = app.listen(process.env.PORT || 3000);
+
+  var io = require('socket.io')(server);
+
+  io.on('connection', function (socket) {
+    console.log("Client Connected");
+  });
 })["catch"](function (err) {
   console.log(err);
 });

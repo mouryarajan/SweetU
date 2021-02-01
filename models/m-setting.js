@@ -43,6 +43,10 @@ const settingSchema = new Schema({
     chat_rate: {
         type: Number,
         required: false
+    },
+    regular_coin: {
+        type: Number,
+        required: false
     }
 });
 

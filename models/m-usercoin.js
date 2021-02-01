@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const userCoinSchema = new Schema({
     userId: {
         type: Schema.Types.ObjectId,
-        ref: 'tblusers'
+        ref: 'tblusers',
+        required: false
     },
     coin: {
         type: Number,
@@ -20,8 +21,9 @@ const userCoinSchema = new Schema({
     },
     sendTo: {
         type: Schema.Types.ObjectId,
-        ref: 'tblusers'
+        ref: 'tblusers',
+        required: false
     }
 },{ timestamps: true });
 
-module.exports = mongoose.model('tblusercoin', userCoinSchema);
+module.exports = mongoose.model('tblusercoins', userCoinSchema);

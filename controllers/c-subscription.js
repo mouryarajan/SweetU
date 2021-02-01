@@ -2,6 +2,7 @@ const sub = require('../models/m-subscription');
 const subLog = require('../models/m-subscriptionlog');
 const user = require('../models/m-user');
 const coinss = require('../models/m-coinlog');
+const userCoin = require('../models/m-usercoin');
 
 exports.postSubscription = (req, res, next) => {
     const d = req.body;

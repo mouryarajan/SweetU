@@ -94,12 +94,12 @@
 								<div class="content widget-stat">
 									<div class="left-content">
 										<h2 class="counter text-orange" style="text-align: left;">
-											<%= totalMale %>
+											<%= data.totalMale %>
 										</h2>
 										<p class="text text-orange"
 											style="display: block; text-align: left; margin-bottom: 0;">Male </p>
 										<h2 class="counter text-orange" style="text-align: left;">
-											<%= totalFemale %>
+											<%= data.totalFemale %>
 										</h2>
 										<p class="text text-orange"
 											style="display: block; text-align: left; margin-bottom: 0;">Female </p>
@@ -111,7 +111,7 @@
 									<!-- /#traffic-sparkline-chart-3 -->
 									<div class="right-content">
 										<h2 class="counter text-orange">
-											<%= total %>
+											<%= data.total %>
 										</h2>
 										<!-- /.counter -->
 										<p class="text text-orange">Total</p>
@@ -131,25 +131,25 @@
 								<div class="content widget-stat">
 									<div class="left-content">
 										<h2 class="counter text-success" style="text-align: left;">
-											<%= totalActiveMale %>
+											<%= data.totalActiveMale %>
 										</h2>
 										<p class="text text-success"
 											style="display: block; text-align: left; margin-bottom: 0;">Male </p>
 
 										<h2 class="counter text-success" style="text-align: left;">
-											<%= totalActiveFemale %>
+											<%= data.totalActiveFemale %>
 										</h2>
 										<p class="text text-success"
 											style="display: block; text-align: left; margin-bottom: 0;">Female </p>
 										<h2 class="counter text-success" style="text-align: left;">
-											<%= totalActiveAuthorized %></h2>
+											<%= data.totalActiveAuthorized %></h2>
 										<p class="text text-success"
 											style="display: block; text-align: left; margin-bottom: 0;">Authorized </p>
 									</div>
 									<!-- /#traffic-sparkline-chart-2 -->
 									<div class="right-content">
 										<h2 class="counter text-success">
-											<%= totalActive %>
+											<%= data.totalActive %>
 										</h2>
 										<!-- /.counter -->
 										<p class="text text-success">Users</p>
@@ -164,13 +164,13 @@
 						<!-- /.col-sm-6 col-lg-3 col-xs-12 -->
 						<div class="col-sm-6 col-lg-3 col-xs-12">
 							<div class="box-content rajan">
-								<h4 class="box-title text-info">Matched User</h4>
+								<h4 class="box-title text-info">Matched User - Live</h4>
 								<!-- /.dropdown js__dropdown -->
 								<div class="content widget-stat">
 									<div class="left-content">
 										<div>
 											<h2 class="counter text-info" style="text-align: left;">
-												<%= totalActiveMale %>
+												<%= data.totalMaleToFemale %>
 											</h2>
 											<p class="text text-info"
 												style="display: block; text-align: left; margin-bottom: 0;">Male -
@@ -178,7 +178,7 @@
 										</div>
 										<div>
 											<h2 class="counter text-info" style="text-align: left;">
-												<%= totalActiveFemale %>
+												<%= data.totalMaleToMale %>
 											</h2>
 											<p class="text text-info"
 												style="display: block; text-align: left; margin-bottom: 0;">Male - Male
@@ -186,7 +186,7 @@
 										</div>
 										<div>
 											<h2 class="counter text-info" style="text-align: left;">
-												<%= totalActiveFemale %>
+												<%= data.totalFemaleToFemale %>
 											</h2>
 											<p class="text text-info margin-bottom: 0;"
 												style="display: block; text-align: left;  margin-bottom: 0;">Female -
@@ -195,9 +195,9 @@
 									</div>
 									<!-- /#traffic-sparkline-chart-1 -->
 									<div class="right-content">
-										<h2 class="counter text-info">278</h2>
+										<h2 class="counter text-info"><%= data.totalMatch %></h2>
 										<!-- /.counter -->
-										<p class="text text-info">Users</p>
+										<p class="text text-info">Total</p>
 										<!-- /.text -->
 									</div>
 									<!-- .right-content -->
@@ -218,12 +218,12 @@
 								<div class="content widget-stat">
 									<div class="left-content ">
 										<h2 class="counter text-orange" style="text-align: left;">
-											<%= maleSubscription %>
+											<%= data.totalMaleSubscription %>
 										</h2>
 										<p class="text text-orange"
 											style="display: block; text-align: left; margin-bottom: 0;">Male </p>
 										<h2 class="counter text-orange" style="text-align: left;">
-											<%= femaleSubscription %>
+											<%= data.totalFemaleSubscription %>
 										</h2>
 										<p class="text text-orange"
 											style="display: block; text-align: left; margin-bottom: 0;">Female </p>
@@ -234,9 +234,9 @@
 									</div>
 									<!-- /#traffic-sparkline-chart-3 -->
 									<div class="right-content">
-										<h2 class="counter text-orange"><%= totalSubscription %></h2>
+										<h2 class="counter text-orange"><%= data.totalSubscription %></h2>
 										<!-- /.counter -->
-										<p class="text text-orange">Purchase</p>
+										<p class="text text-orange">Subscription</p>
 										<!-- /.text -->
 									</div>
 									<!-- .right-content -->
@@ -258,19 +258,19 @@
 									<p class="text text-white"
 										style="font-size: 2rem;font-weight: bold;padding-bottom: 1rem;">Today</p>
 									<h1 class="counter" style="font-size:1.5rem ;text-align: left;">
-										<%= todayTotal %>
+										<%= data.todayTotal %>
 									</h1>
 									<p class="text text-white"
 										style="display: block; text-align: left; margin-bottom: 0;font-size: 1.5rem; padding-bottom: 1rem;">
 										Total </p>
 									<h1 class="counter" style="font-size:1.5rem ;text-align: left;">
-										<%= todayTotalMale %>
+										<%= data.todayTotalMale %>
 									</h1>
 									<p class="text text-white"
 										style="display: block; text-align: left; margin-bottom: 0;font-size: 1.5rem; padding-bottom: 1rem;">
 										Male </p>
 									<h1 class="counter" style="font-size:1.5rem ;text-align: left;">
-										<%= todayTotalFemail %>
+										<%= data.todayTotalFemale %>
 									</h1>
 									<p class="text text-white"
 										style="display: block; text-align: left; margin-bottom: 0;font-size: 1.5rem;">
@@ -280,19 +280,19 @@
 									<p class="text text-white"
 										style="font-size: 2rem;font-weight: bold;padding-bottom: 1rem;">Yesterday</p>
 									<h1 class="counter" style="font-size:1.5rem ;text-align: right;">
-										<%= yseterdayTotal %>
+										<%= data.yseterdayTotal %>
 									</h1>
 									<p class="text text-white"
 										style="display: block; text-align: right; margin-bottom: 0;font-size: 1.5rem; padding-bottom: 1rem;">
 										Total </p>
 									<h1 class="counter" style="font-size:1.5rem ;text-align: right;">
-										<%= yseterdayTotalMale %>
+										<%= data.yseterdayTotalMale %>
 									</h1>
 									<p class="text text-white"
 										style="display: block; text-align: right; margin-bottom: 0;font-size: 1.5rem; padding-bottom: 1rem;">
 										Male </p>
 									<h1 class="counter" style="font-size:1.5rem ;text-align: right;">
-										<%= yseterdayTotalFemail %>
+										<%= data.yseterdayTotalFemale %>
 									</h1>
 									<p class="text text-white"
 										style="display: block; text-align: right; margin-bottom: 0;font-size: 1.5rem;">
@@ -312,19 +312,19 @@
 									<p class="text text-white"
 										style="font-size: 2rem;font-weight: bold;padding-bottom: 1rem;">Today</p>
 									<h1 class="counter" style="font-size:1.5rem ;text-align: left;">
-										<%= todayTotal %>
+										<%= data.todayTotalMatch %>
 									</h1>
 									<p class="text text-white"
 										style="display: block; text-align: left; margin-bottom: 0;font-size: 1.5rem; padding-bottom: 1rem;">
 										Total </p>
 									<h1 class="counter" style="font-size:1.5rem ;text-align: left;">
-										<%= todayTotal %>
+										<%= data.todayMaleMatch %>
 									</h1>
 									<p class="text text-white"
 										style="display: block; text-align: left; margin-bottom: 0;font-size: 1.5rem; padding-bottom: 1rem;">
 										Male </p>
 									<h1 class="counter" style="font-size:1.5rem ;text-align: left;">
-										<%= todayTotal %>
+										<%= data.todayFemaleMatch %>
 									</h1>
 									<p class="text text-white"
 										style="display: block; text-align: left; margin-bottom: 0;font-size: 1.5rem;">
@@ -334,19 +334,19 @@
 									<p class="text text-white"
 										style="font-size: 2rem;font-weight: bold;padding-bottom: 1rem;">Yesterday</p>
 									<h1 class="counter" style="font-size:1.5rem ;text-align: right;">
-										<%= todayTotal %>
+										<%= data.yesterdayTotalMatch %>
 									</h1>
 									<p class="text text-white"
 										style="display: block; text-align: right; margin-bottom: 0;font-size: 1.5rem; padding-bottom: 1rem;">
 										Total </p>
 									<h1 class="counter" style="font-size:1.5rem ;text-align: right;">
-										<%= todayTotal %>
+										<%= data.yesterdayMaleMatch %>
 									</h1>
 									<p class="text text-white"
 										style="display: block; text-align: right; margin-bottom: 0;font-size: 1.5rem; padding-bottom: 1rem;">
 										Male </p>
 									<h1 class="counter" style="font-size:1.5rem ;text-align: right;">
-										<%= todayTotal %>
+										<%= data.yesterdayFemaleMatch %>
 									</h1>
 									<p class="text text-white"
 										style="display: block; text-align: right; margin-bottom: 0;font-size: 1.5rem;">
@@ -365,19 +365,19 @@
 									<p class="text text-white"
 										style="font-size: 2rem;font-weight: bold;padding-bottom: 1rem;">Today</p>
 									<h1 class="counter" style="font-size:1.5rem ;text-align: left;">
-										<%= todaySubscription %>
+										<%= data.todayTotalSubscription %>
 									</h1>
 									<p class="text text-white"
 										style="display: block; text-align: left; margin-bottom: 0;font-size: 1.5rem; padding-bottom: 1rem;">
 										Total </p>
 									<h1 class="counter" style="font-size:1.5rem ;text-align: left;">
-										<%= todayMaleSubscription %>
+										<%= data.todayMaleSubscription %>
 									</h1>
 									<p class="text text-white"
 										style="display: block; text-align: left; margin-bottom: 0;font-size: 1.5rem; padding-bottom: 1rem;">
 										Male </p>
 									<h1 class="counter" style="font-size:1.5rem ;text-align: left;">
-										<%= todayFemaleSubscription %>
+										<%= data.todayFemaleSubscription %>
 									</h1>
 									<p class="text text-white"
 										style="display: block; text-align: left; margin-bottom: 0;font-size: 1.5rem;">
@@ -387,19 +387,19 @@
 									<p class="text text-white"
 										style="font-size: 2rem;font-weight: bold;padding-bottom: 1rem;">Yesterday</p>
 									<h1 class="counter" style="font-size:1.5rem ;text-align: right;">
-										<%= yesterdayTotal %>
+										<%= data.yesterdayTotalSubscription %>
 									</h1>
 									<p class="text text-white"
 										style="display: block; text-align: right; margin-bottom: 0;font-size: 1.5rem; padding-bottom: 1rem;">
 										Total </p>
 									<h1 class="counter" style="font-size:1.5rem ;text-align: right;">
-										<%= yesterdayMaleTotal %>
+										<%= data.yesterdayMaleSubscription %>
 									</h1>
 									<p class="text text-white"
 										style="display: block; text-align: right; margin-bottom: 0;font-size: 1.5rem; padding-bottom: 1rem;">
 										Male </p>
 									<h1 class="counter" style="font-size:1.5rem ;text-align: right;">
-										<%= yesterdayFemaleTotal %>
+										<%= data.yesterdayFemaleSubscription %>
 									</h1>
 									<p class="text text-white"
 										style="display: block; text-align: right; margin-bottom: 0;font-size: 1.5rem;">

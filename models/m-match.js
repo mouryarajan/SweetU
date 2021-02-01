@@ -3,16 +3,16 @@ const Schema = mongoose.Schema;
 
 const matchSchema = new Schema({
     sender: {
-        type: String,
-        required: true
+        type: Schema.Types.ObjectId,
+        ref: 'tblusers',
     },
     senderName: {
         type: String,
         required: true
     },
     receiver: {
-        type: String,
-        required: true
+        type: Schema.Types.ObjectId,
+        ref: 'tblusers',
     },
     receiverName: {
         type: String,

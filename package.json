@@ -13,6 +13,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
     "connect-flash": "^0.1.1",
     "connect-mongodb-session": "^2.4.1",
     "cors": "^2.8.5",
@@ -36,16 +37,19 @@
     "mongoose": "^5.10.15",
     "morgan": "^1.10.0",
     "multer": "^1.4.2",
+    "node-cron": "^2.0.3",
     "node-fetch": "^2.6.1",
     "nodemailer": "^6.4.17",
     "nodemon": "^2.0.7",
     "passport": "^0.4.1",
     "paytmchecksum": "^1.5.0",
     "regex": "^0.1.1",
+    "socket.io": "^3.1.0",
     "to": "^0.2.9",
     "update": "^0.7.4",
     "uuid": "^8.3.2",
-    "web-push": "^3.4.4"
+    "web-push": "^3.4.4",
+    "yargs-parser": "^20.2.4"
   },
   "devDependencies": {}
 }

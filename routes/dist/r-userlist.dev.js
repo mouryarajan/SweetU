@@ -53,4 +53,5 @@ router.post('/api/start-call', userController.postStartCall);
 router.post('/api/chat-coin', userController.postChatCoinDeduction);
 router.post('/api/call-details', userController.callDetails);
 router.post('/api/is-authorized', userController.APIisAuthorised);
+router.post('/api/sticker-coin-deduction', userController.stickerCoin);
 module.exports = router;
