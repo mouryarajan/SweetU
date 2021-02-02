@@ -6,14 +6,22 @@ exports.postMatch = async (req, res, next) => {
     const d = req.body;
     const sender = await user.findOne({google_id:d.inputSender});
     const receiver = await user.findOne({google_id:d.inputReceiver});
+    sender.match = sender.match + 1;
+    receiver.match = receiver.match + 1;
+    if(!sender.isTalk){
+        sender.isTalk = true;
+        await sender.save();
+    }
     const Match = new match({
         sender: sender._id,
         senderName: sender.user_name,
         receiver: receiver._id,
-        receiverName: receiver._user_name
+        receiverName: receiver.user_name
     });
     Match.save()
     .then(data=>{
+        sender.save();
+        receiver.save();
         res.status(200).json({
             status: true,
             id: data._id 

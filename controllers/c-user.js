@@ -515,11 +515,18 @@ exports.postStartCall = async (req, res, next) => {
             }).countDocuments();
         }
     } else {
-        online = await User.find({
-            is_Active: true,
-            _id: { $ne: uid },
-            user_gender: use.user_genderPreference
-        }).countDocuments();
+        if (use.user_genderPreference == "Both") {
+            online = await User.find({
+                is_Active: true,
+                _id: { $ne: uid }
+            }).countDocuments();
+        } else {
+            online = await User.find({
+                is_Active: true,
+                _id: { $ne: uid },
+                user_gender: use.user_genderPreference
+            }).countDocuments();
+        }
     }
     if (online <= 0) {
         return res.status(201).json({ status: "false", message: "No user is online" });
@@ -558,7 +565,9 @@ exports.postVideoCallList = async (req, res, next) => {
                 is_Active: true,
                 user_isAuthorised: false,
                 _id: { $ne: uid }
-            }).skip((page - 1) * itemPerPage)
+            })
+                .select('user_name user_image google_id user_countryCode user_country')
+                .skip((page - 1) * itemPerPage)
                 .limit(itemPerPage)
                 .then(data => {
                     if (!isEmptyObject(data)) {
@@ -577,7 +586,9 @@ exports.postVideoCallList = async (req, res, next) => {
                 user_isAuthorised: false,
                 user_gender: genderPreference,
                 _id: { $ne: uid }
-            }).skip((page - 1) * itemPerPage)
+            })
+                .select('user_name user_image google_id user_countryCode user_country')
+                .skip((page - 1) * itemPerPage)
                 .limit(itemPerPage)
                 .then(data => {
                     if (!isEmptyObject(data)) {
@@ -597,7 +608,7 @@ exports.postVideoCallList = async (req, res, next) => {
             User.find({
                 is_Active: true,
                 _id: { $ne: uid }
-            })
+            }).select('user_name user_image google_id user_countryCode user_country')
                 .skip((page - 1) * itemPerPage)
                 .limit(itemPerPage)
                 .then(data => {
@@ -616,7 +627,7 @@ exports.postVideoCallList = async (req, res, next) => {
                 is_Active: true,
                 user_gender: genderPreference,
                 _id: { $ne: uid }
-            })
+            }).select('user_name user_image google_id user_countryCode user_country')
                 .skip((page - 1) * itemPerPage)
                 .limit(itemPerPage)
                 .then(data => {
@@ -755,7 +766,7 @@ exports.postAPIsUserAdd = (req, res, next) => { //user login
                                         userId: data.user_id,
                                         user_emailId: data.user_emailId
                                     }, process.env.TOKEN_SECRET);
-                                    console.log(data);
+                                    //console.log(data);
                                     res.json({
                                         status: true,
                                         data: data,
@@ -851,12 +862,12 @@ exports.postAPIsUserImage = (req, res, next) => {
             .then(result => {
                 result.user_image = req.body.base64Image;
                 result.save()
-                .then(data=>{
-                    res.status(200).json({
-                        message: "Sucess",
-                        status: true
-                    })
-                }).catch(err=>{console.log(err)});
+                    .then(data => {
+                        res.status(200).json({
+                            message: "Sucess",
+                            status: true
+                        })
+                    }).catch(err => { console.log(err) });
             });
     } catch (e) {
         return res.status(201).json({
@@ -917,23 +928,22 @@ exports.postAPIsCoin = (req, res, next) => { // Add to Coin Log
                         status: true,
                         remark: "Purchased Coins"
                     });
-                    Coin.save()
-                        .then(rs => {
-                            result.save()
-                                .then(data => {
-                                    UserCoin.save();
-                                    if (data) {
-                                        res.status(200).json({
-                                            status: true
-                                        })
-                                    }
-                                }).catch(err => { console.log(err) });
-                        }).catch(err => { console.log(err) });
+                    await Coin.save();
+                    await result.save();
+                    await UserCoin.save();
+                    res.status(200).json({
+                        status: true
+                    })
+                } else {
+                    res.status(201).json({
+                        status: false,
+                        message: "User Not Found"
+                    })
                 }
             })
     } else {
         User.findOne({ _id: uId })
-            .then(result => {
+            .then(async result => {
                 if (result) {
                     if (coin < result.user_coin) {
                         result.user_coin = result.user_coin - coin;
@@ -943,15 +953,11 @@ exports.postAPIsCoin = (req, res, next) => { // Add to Coin Log
                             status: true,
                             remark: "Coins Used Someware"
                         });
-                        UserCoin.save();
-                        result.save()
-                            .then(data => {
-                                if (data) {
-                                    res.status(200).json({
-                                        status: true
-                                    })
-                                }
-                            }).catch(err => { console.log(err) });
+                        await UserCoin.save();
+                        await result.save();
+                        res.status(200).json({
+                            status: true
+                        })
                     } else {
                         res.status(201).json({
                             status: false,
@@ -990,102 +996,115 @@ exports.callDetails = async (req, res, next) => {
 
 //Chat Coin deduction
 exports.postChatCoinDeduction = async (req, res, next) => {
-    const sid = req.body.inputSenderId;
-    const rid = req.body.inputReceiverId;
-    const coin = req.body.inputCoin;
-    const remark = req.body.inputRemark;
-    const genderStatus = req.body.inputGenderStatus;
-    let status = false;
-    const set = await settings.findOne();
-    const sender = await User.findOne({ google_id: sid });
-    if (!sender) return res.status(201).json({ status: "false", message: "Sender not found" });
-    const receiver = await User.findOne({ google_id: rid });
-    if (!receiver) return res.status(201).json({ status: "false", message: "Receiver not found" });
+    try {
+        const sid = req.body.inputSenderId;
+        const rid = req.body.inputReceiverId;
+        const coin = Number(req.body.inputCoin);
+        const remark = req.body.inputRemark;
+        const genderStatus = req.body.inputGenderStatus;
+        let status = false;
 
-    let coinlog1;
-    let gender = 0;
-    if (sender.user_genderPreference == "Male") {
-        gender = set.gender_change_male;
-    }
-    if (sender.user_genderPreference == "Female") {
-        gender = set.gender_change_female;
-    }
-    if (sender.user_genderPreference == "Both") {
-        gender = set.gender_change_both;
-    }
+        const set = await settings.findOne();
+        const sender = await User.findOne({ google_id: sid });
+        if (!sender) return res.status(201).json({ status: "false", message: "Sender not found" });
+        const receiver = await User.findOne({ google_id: rid });
+        if (!receiver) return res.status(201).json({ status: "false", message: "Receiver not found" });
 
-    if (genderStatus == "true") {
-        coinlog1 = new userCoin({
+        let coinlog1;
+        let gender = 0;
+        if (sender.user_genderPreference == "Male") {
+            gender = set.gender_change_male;
+        }
+        if (sender.user_genderPreference == "Female") {
+            gender = set.gender_change_female;
+        }
+        if (sender.user_genderPreference == "Both") {
+            gender = set.gender_change_both;
+        }
+
+        if (genderStatus == "true" || genderStatus == true) {
+            coinlog1 = new userCoin({
+                userId: sender._id,
+                coin: gender,
+                status: false,
+                remark: "Gender change"
+            });
+        }
+        const coinlog2 = new userCoin({
             userId: sender._id,
-            coin: gender,
+            coin: set.start_call_rate,
             status: false,
-            remark: "Gender change"
+            remark: "Start Call",
         });
-    }
-    const coinlog2 = new userCoin({
-        userId: sender._id,
-        coin: set.start_call_rate,
-        status: false,
-        remark: "Start Call",
-    });
-    const coinlog = new userCoin({
-        userId: sender._id,
-        coin: coin,
-        status: false,
-        remark: remark,
-        sendTo: receiver._id
-    });
-    if (remark == "Video Call") {
-        const maa = await match.findOne({ _id: req.body.inputMatchId });
-        if (maa) {
-            maa.isActive = false;
-            maa.coin = coin;
-            maa.save();
-        }
-    }
-    let finalcoin = coin + gender + Number(set.start_call_rate);
-    let scoin = coin + Number(set.start_call_rate);
-    if (sender.user_coin >= finalcoin) {
-        receiver.user_coin = receiver.user_coin + Number(coin);
-        if (genderStatus == "true") {
-            sender.user_coin = sender.user_coin - Number(finalcoin);
-            coinlog1.save();
-        } else {
-            sender.user_coin = sender.user_coin - Number(scoin);
-        }
-        for (let n of sender.user_favrateLog.items) {
-            if (n.favouriteUserId == receiver._id) {
-                status = true;
+        const coinlog = new userCoin({
+            userId: sender._id,
+            coin: coin,
+            status: false,
+            remark: remark,
+            sendTo: receiver._id
+        });
+        if (remark == "Video Call") {
+            const maa = await match.findOne({ _id: req.body.inputMatchId });
+            if (maa) {
+                maa.isActive = false;
+                maa.coin = coin;
+                maa.save();
+            } else {
+                console.log("Not Found");
             }
         }
-        if (receiver.user_isAuthorised) {
-            await receiver.save();
-        }
-        coinlog.save();
-        coinlog2.save();
-        if (!sender.user_isAuthorised) {
-            await sender.save();
-        }
-        if (status) {
-            res.status(200).json({
-                status: true,
-                favStatus: true
-            });
+        let finalcoin = coin + gender + Number(set.start_call_rate);
+        let scoin = coin + Number(set.start_call_rate);
+
+        if (sender.user_coin >= finalcoin) {
+            receiver.user_coin = receiver.user_coin + Number(coin);
+            if (genderStatus == "true") {
+                sender.user_coin = sender.user_coin - Number(finalcoin);
+            } else {
+                sender.user_coin = sender.user_coin - Number(scoin);
+            }
+            for (let n of sender.user_favrateLog.items) {
+                if (n.favouriteUserId == receiver._id) {
+                    status = true;
+                }
+            }
+            if (receiver.user_isAuthorised) {
+                await receiver.save();
+            }
+
+            if (sender.user_isAuthorised == false) {
+                sender.save();
+                if (genderStatus == "true" || genderStatus == true) {
+                    await coinlog1.save();
+                }
+                coinlog.save();
+                coinlog2.save();
+            }
+            if (status == true || status == "true") {
+                res.status(200).json({
+                    status: true,
+                    favStatus: true
+                });
+            } else {
+                res.status(200).json({
+                    status: true,
+                    favStatus: false,
+                    id: receiver._id,
+                    name: receiver.user_name,
+                    about: receiver.user_about,
+                    image: receiver.user_image,
+                    message: "User Not In Favourite List"
+                });
+            }
         } else {
-            res.status(200).json({
-                status: true,
-                favStatus: false,
-                id: receiver._id,
-                name: receiver.user_name,
-                about: receiver.user_about,
-                image: receiver.user_image,
-                message: "User Not In Favourite List"
-            });
+            res.status(201).json({
+                status: "false",
+                message: "Don't have enough coins"
+            })
         }
-    } else {
-        res.status(201).json({
-            status: "false"
-        })
+    } catch (e) {
+        consolelog(e);
+        res.status(201).json({ message: e , status: false});
     }
 }
 

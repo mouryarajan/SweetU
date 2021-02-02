@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const coinSchema = new Schema({
     userId: {
-        type: String,
-        required: true
+        type: Schema.Types.ObjectId,
+        ref: 'tblusers'
     },
     name: {
         type: String,

@@ -202,13 +202,6 @@ router.post('/send-notification', async (req, res, next) => {
 //     res.status(200).json({"users":snap.val()});
 // });
 const db = admin.firestore();
-const isValueExistInArray = (arr, name) => {
-    const { length } = arr;
-    const id = length + 1;
-    const found = arr.some(el => el.x === name);
-    if (!found) arr.push({ id, username: name });
-    return arr;
-}
 
 cron.schedule("30 * * * * *", async (req, res, next) => {
     const userRef = db.collection('users');
@@ -220,6 +213,7 @@ cron.schedule("30 * * * * *", async (req, res, next) => {
         arr.push(x);
     });
     if (userData.length > arr.length) {
+        console.log("hello");
         for(let x of userData){
             if(arr.includes(x.google_id)){
                 continue;

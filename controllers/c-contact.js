@@ -138,7 +138,12 @@ exports.getApiChat = async (req, res, next) => {
     const id = req.body.inputUserId;
     if(!id) return res.status(201).json({message: "Provide proper input"});
     let data = await contact.findOne({userId: id});
-    let arr = data.user.items;
+    let arr=[];
+    if(data){
+        arr = data.user.items;
+    }else{
+        arr=[];
+    }
     res.status(200).json({
         data: arr
     });

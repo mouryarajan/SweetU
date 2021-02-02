@@ -444,7 +444,12 @@
 										<a href="/user-detail/<%= n._id %>" style="color: black;">
 											<div class="review-item hclass">
 												<div class="top">
+													<% let im = n.user_image.toString(); let imgs = im.split(':'); %>
+													<% if(imgs[0]=="https"){ %>
+														<img class="avatar" src="<%= n.user_image %>">
+													<% }else{ %>
 													<img class="avatar" src="/images/<%= n.user_image %>">
+													<% } %>
 													<div class="name" style="padding-left: 1rem;">
 														<%= n.user_name.toUpperCase() %>
 													</div>
@@ -496,13 +501,19 @@
 										}
 										return Math.floor(seconds) + " seconds";
 										}
-										for(let n of latestUser){ %>
+										for(let n of subscribedUser){ %>
 										<a href="/user-detail/<%= n._id %>" style="color: black;">
 											<div class="review-item hclass">
 												<div class="top">
-													<img class="avatar" src="/images/<%= n.user_image %>">
+													<% let im = n.userId.user_image.toString(); let imgs = im.split(':'); %>
+													<% if(imgs[0]=="https"){ %>
+														<img class="avatar" src="<%= n.userId.user_image %>">
+													<% }else{ %>
+														<img class="avatar" src="/images/<%= n.user_image %>">
+													<% } %>
+													
 													<div class="name" style="padding-left: 1rem;">
-														<%= n.user_name.toUpperCase() %>
+														<%= n.name.toUpperCase() %>
 													</div>
 													<!-- /.name -->
 													<div class="date" style="text-align: left;">
@@ -513,7 +524,7 @@
 												</div>
 												<!-- /.top -->
 												<div class="desc description">
-													<%= n.user_about %>
+													<%= n.userId.user_about %>
 												</div>
 												<!-- /.desc -->
 											</div>
@@ -527,7 +538,7 @@
 						</div>
 						<div class="col-lg-4 col-xs-12">
 							<div class="box-content">
-								<h4 class="box-title">Latest Sub Users</h4>
+								<h4 class="box-title">Recent Redeem Log</h4>
 								<!-- /.box-title -->
 								<div class="review-list">
 									<% function timeSince(date) { var seconds=Math.floor((new Date() - date) / 1000);
@@ -552,13 +563,18 @@
 										}
 										return Math.floor(seconds) + " seconds";
 										}
-										for(let n of latestUser){ %>
-										<a href="/user-detail/<%= n._id %>" style="color: black;">
+										for(let n of redeemLog){ %>
+										<a href="/user-detail/<%= n.userId._id %>" style="color: black;">
 											<div class="review-item hclass">
 												<div class="top">
-													<img class="avatar" src="/images/<%= n.user_image %>">
+													<% let im = n.userId.user_image.toString(); let imgs = im.split(':'); %>
+													<% if(imgs[0]=="https"){ %>
+														<img class="avatar" src="<%= n.userId.user_image %>">
+													<% }else{ %>
+														<img class="avatar" src="/images/<%= n.userId.user_image %>">
+													<% } %>
 													<div class="name" style="padding-left: 1rem;">
-														<%= n.user_name.toUpperCase() %>
+														<%= n.name.toUpperCase() %>
 													</div>
 													<!-- /.name -->
 													<div class="date" style="text-align: left;">
@@ -569,7 +585,7 @@
 												</div>
 												<!-- /.top -->
 												<div class="desc description">
-													<%= n.user_about %>
+													<%= n.userId.user_about %>
 												</div>
 												<!-- /.desc -->
 											</div>

@@ -27,13 +27,28 @@ exports.postMatch = function _callee(req, res, next) {
 
         case 6:
           receiver = _context.sent;
+          sender.match = sender.match + 1;
+          receiver.match = receiver.match + 1;
+
+          if (sender.isTalk) {
+            _context.next = 13;
+            break;
+          }
+
+          sender.isTalk = true;
+          _context.next = 13;
+          return regeneratorRuntime.awrap(sender.save());
+
+        case 13:
           Match = new match({
             sender: sender._id,
             senderName: sender.user_name,
             receiver: receiver._id,
-            receiverName: receiver._user_name
+            receiverName: receiver.user_name
           });
           Match.save().then(function (data) {
+            sender.save();
+            receiver.save();
             res.status(200).json({
               status: true,
               id: data._id
@@ -42,7 +57,7 @@ exports.postMatch = function _callee(req, res, next) {
             console.log(err);
           });
 
-        case 9:
+        case 15:
         case "end":
           return _context.stop();
       }

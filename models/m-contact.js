@@ -27,4 +27,4 @@ const contactSchema = new Schema({
     }
 }, { timestamps: true });
 
-module.exports = mongoose.model('tblcontact', contactSchema);
+module.exports = mongoose.model('tblcontacts', contactSchema);

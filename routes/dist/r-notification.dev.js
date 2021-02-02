@@ -382,20 +382,6 @@ router.post('/send-notification', function _callee2(req, res, next) {
 // });
 
 var db = admin.firestore();
-
-var isValueExistInArray = function isValueExistInArray(arr, name) {
-  var length = arr.length;
-  var id = length + 1;
-  var found = arr.some(function (el) {
-    return el.x === name;
-  });
-  if (!found) arr.push({
-    id: id,
-    username: name
-  });
-  return arr;
-};
-
 cron.schedule("30 * * * * *", function _callee3(req, res, next) {
   var userRef, snapshot, userData, arr, _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, x;
 
@@ -423,79 +409,80 @@ cron.schedule("30 * * * * *", function _callee3(req, res, next) {
           });
 
           if (!(userData.length > arr.length)) {
-            _context3.next = 40;
+            _context3.next = 41;
             break;
           }
 
+          console.log("hello");
           _iteratorNormalCompletion3 = true;
           _didIteratorError3 = false;
           _iteratorError3 = undefined;
-          _context3.prev = 13;
+          _context3.prev = 14;
           _iterator3 = userData[Symbol.iterator]();
 
-        case 15:
+        case 16:
           if (_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done) {
-            _context3.next = 26;
+            _context3.next = 27;
             break;
           }
 
           x = _step3.value;
 
           if (!arr.includes(x.google_id)) {
-            _context3.next = 21;
+            _context3.next = 22;
             break;
           }
 
-          return _context3.abrupt("continue", 23);
+          return _context3.abrupt("continue", 24);
 
-        case 21:
+        case 22:
           x.is_Active = false;
           x.save();
 
-        case 23:
+        case 24:
           _iteratorNormalCompletion3 = true;
-          _context3.next = 15;
+          _context3.next = 16;
           break;
 
-        case 26:
-          _context3.next = 32;
+        case 27:
+          _context3.next = 33;
           break;
 
-        case 28:
-          _context3.prev = 28;
-          _context3.t0 = _context3["catch"](13);
+        case 29:
+          _context3.prev = 29;
+          _context3.t0 = _context3["catch"](14);
           _didIteratorError3 = true;
           _iteratorError3 = _context3.t0;
 
-        case 32:
-          _context3.prev = 32;
+        case 33:
           _context3.prev = 33;
+          _context3.prev = 34;
 
           if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
             _iterator3["return"]();
           }
 
-        case 35:
-          _context3.prev = 35;
+        case 36:
+          _context3.prev = 36;
 
           if (!_didIteratorError3) {
-            _context3.next = 38;
+            _context3.next = 39;
             break;
           }
 
           throw _iteratorError3;
 
-        case 38:
-          return _context3.finish(35);
-
         case 39:
-          return _context3.finish(32);
+          return _context3.finish(36);
 
         case 40:
+          return _context3.finish(33);
+
+        case 41:
         case "end":
           return _context3.stop();
       }
     }
-  }, null, null, [[13, 28, 32, 40], [33,, 35, 39]]);
+  }, null, null, [[14, 29, 33, 41], [34,, 36, 40]]);
 });
 module.exports = router;

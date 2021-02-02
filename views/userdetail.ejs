@@ -8,7 +8,7 @@
 	<meta name="description" content="" />
 	<meta name="author" content="" />
 
-	<title>Profile - Zeiss Template</title>
+	<title>User Detail</title>
 
 	<!-- Main Styles -->
 	<link rel="stylesheet" href="/styles/style.min.css" />
@@ -40,8 +40,14 @@
 						<div class="col-md-3 col-xs-12">
 							<div class="box-content bordered primary margin-bottom-20">
 								<div class="profile-avatar">
+									<% let im = user.user_image.toString(); let imgs = im.split(':'); %>
+									<% if(imgs[0]=="https"){ %>
+										<img style="height:200px; width:100%; object-fit: cover;"
+										src="<%= user.user_image %>" alt="" />
+									<% }else{ %>
 									<img style="height:200px; width:100%; object-fit: cover;"
 										src="/images/<%= user.user_image %>" alt="" />
+									<% } %>
 									<h3><strong>
 											<%= user.user_name %>
 										</strong></h3>

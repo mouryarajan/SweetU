@@ -2,6 +2,7 @@ const User = require('../models/m-user.js');
 const editor = require('../models/m-editor');
 const match = require('../models/m-match');
 const subscription = require('../models/m-subscriptionlog');
+const redeemlog = require('../models/m-redeemlog');
 function isEmptyObject(obj) {
     return !Object.keys(obj).length;
 }
@@ -169,12 +170,14 @@ exports.getDashBoard = async (req, res, next) => {
     //console.log(data);
 
     const latestUser = await User.find().sort({ createdAt: 'desc' }).limit(5);
-    const subscribedUser = await subscription.find().populate('userId', 'user_gender user_name user_image createdAt').sort({createdAt:'desc'}).limit(5);
-    
+    const subscribedUser = await subscription.find().populate('userId', 'user_gender user_name user_image createdAt user_about').sort({createdAt:'desc'}).limit(5);
+    const redeemLog = await redeemlog.find().populate('userId','user_image user_about').sort({createdAt:'desc'}).limit(5);
     res.render('dashboard', {
         pageTitle: 'Dashboard',
         data: data,
-        latestUser: latestUser
+        latestUser: latestUser,
+        subscribedUser: subscribedUser,
+        redeemLog:redeemLog
     });
 }
 
